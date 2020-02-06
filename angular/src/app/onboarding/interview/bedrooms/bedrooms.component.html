@@ -1,0 +1,40 @@
+
+<app-showing-defaults [isPreset]="true"></app-showing-defaults>
+
+<mat-card (swipe)="onSwipe($event)">
+    <mat-card-title> </mat-card-title>
+
+  <br><br>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <i class="material-icons" style="font-size: 3em; color: #bf1e2d;">
+     king_bed
+      </i>
+      
+    </div>
+  <section class="example-section" fxLayoutAlign="center center">
+      <mat-selection-list [(ngModel)]="selectedOptions" (ngModelChange) = 'changed()' >
+          <mat-list-option [disabled]="!userService.isAuthenticated()"  *ngFor="let bed of bedroomTypes" [value]="bed.name">
+            {{bed.label}}
+          </mat-list-option>
+        </mat-selection-list>
+
+
+
+
+  </section>
+  <br><br>  
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="column" fxLayoutAlign="space-around center">
+    <button mat-fab (click)="previous()"><mat-icon>navigate_before</mat-icon></button>
+    <small style="color: gray">Property Type</small>
+    </div>  
+
+    <div fxLayout="column" fxLayoutAlign="space-around center">
+    <button mat-fab (click)="next()" [disabled]="nextDisabled"><mat-icon>navigate_next</mat-icon></button>
+    <small style="color: gray">Bathrooms</small>
+    </div>
+
+  </div>
+  <br><br>  
+  
+</mat-card>

@@ -1,0 +1,10 @@
+<app-showing-defaults></app-showing-defaults>
+
+<div style="height:100ch">
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <button [disabled]="!trashbin" color="accent" mat-mini-fab (click)="emptyTrash()"><mat-icon>delete_forever</mat-icon></button>
+    </div>
+  <div *ngFor="let trash of trashbin">
+    <app-property-card [property]="trash"></app-property-card>
+  </div>
+</div>

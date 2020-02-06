@@ -1,0 +1,32 @@
+.mat-column-select {
+    flex: 0 0 10% !important;
+  
+
+}
+.mat-column-date {
+    flex: 0 0 10% !important;
+   
+
+}
+.mat-column-title {
+    flex: 0 0 20% !important;
+   
+
+}
+.mat-column-message {
+    flex: 0 0 50% !important;
+   
+
+}
+.mat-column-outcome {
+    flex: 0 0 10% !important;
+   
+
+}
+
+
+
+
+table {
+    width: 100%;
+}

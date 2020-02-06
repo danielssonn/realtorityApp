@@ -1,0 +1,39 @@
+<app-showing-defaults [isPreset]="true"></app-showing-defaults>
+
+<mat-card (swipe)="onSwipe($event)">
+  <br><br>
+  <div fxLayout="row" fxLayoutAlign="center center">
+  <i class="material-icons" style="font-size: 3em; color: #bf1e2d;">
+    home_work
+    </i>
+    
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <mat-selection-list [(ngModel)]="selectedOptions" (ngModelChange)='changed()'>
+      <mat-list-option *ngFor="let prop of propertyTypes" [disabled]="!userService.isAuthenticated()"
+        [value]="prop.name">
+        {{prop.name|translate}}
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+  <br><br>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="column" fxLayoutAlign="space-around center">
+
+      <button mat-fab (click)="previous()">
+        <mat-icon>navigate_before</mat-icon>
+      </button>
+      <small style="color: gray">Location</small>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="space-around center">
+      <button mat-fab (click)="next()" [disabled]="nextDisabled">
+        <mat-icon>navigate_next</mat-icon>
+      </button>
+      <small style="color: gray">Bedrooms</small>
+    </div>
+
+  </div>
+  <br>
+
+
+</mat-card>

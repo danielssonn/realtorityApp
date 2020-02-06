@@ -1,0 +1,37 @@
+<div id="propertyList">
+    <app-showing-defaults></app-showing-defaults>
+
+  <div fxLayout="row" fxLayoutAlign="center center">
+ 
+    <button mat-button (click)="refresh()" class="date">{{"Last 24 hrs"|translate}}: {{date}}
+      <i class="material-icons iconAlign" style="font-size:14px">refresh</i>
+    </button>
+  </div>
+
+  <div *ngIf="propertiesCount===0 ">
+    <br>
+      <!-- <div fxLayout="row" fxLayoutAlign="center center">
+     <img src="assets/no-results.svg">
+     </div> -->
+     <div fxLayout="row" fxLayoutAlign="center center">
+
+        <button mat-button class="date" (click)="refresh()"> {{"Refresh"|translate}} </button>
+      </div>
+     <div style="padding: 10px; text-align: center">
+        {{"All Caught Up"|translate}}
+       <span>          <br>          <br>
+        <div id="user-toolbar" (click)="startInterview()">
+            <span class="user-avatar">
+              <div class="avatar medium"><img src="assets/filter.svg" /></div>
+            </span>
+            <span id="name"> <span class="user-name">{{"Filters"|translate}}</span></span>
+          </div></span>
+     </div>
+  </div>
+
+  <cdk-virtual-scroll-viewport class="example-viewport" itemSize="90" (scrolledIndexChange)="scrolledTo($event)">
+      <ng-container *cdkVirtualFor="let property of properties" >
+        <app-property-card [property]="property"></app-property-card>
+      </ng-container> 
+    </cdk-virtual-scroll-viewport>
+</div>

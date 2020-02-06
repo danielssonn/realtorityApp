@@ -1,0 +1,42 @@
+<h4>
+  {{data.title}}
+</h4>
+<br>
+<p>
+  {{data.textAbove}}
+</p>
+<br>
+<agm-map [styles]="mapStyle" #gm [latitude]="lat" [longitude]="lon" [zoom]="zoom" [gestureHandling]="'cooperative'"
+  [fullscreenControl]="true" [fullscreenControlOptions]="fullscreenControlOptions" (mapReady)="onMapReady($event)">
+
+  <agm-polygon *ngFor="let polygon of polygons" [(paths)]="polygon.paths" [polyDraggable]="polygon.draggable"
+    [editable]="polygon.editable" [fillColor]="polygon.fill.color" [strokeColor]="polygon.stroke.color"
+    [strokeWeight]="polygon.stroke.weight">
+  </agm-polygon>
+  <agm-marker *ngFor="let marker of markers;  let i = index" [markerDraggable]="false" [latitude]="marker.latitude"
+    [longitude]="marker.longitude">
+  </agm-marker>
+
+</agm-map>
+<br>
+<div class="row">
+  <div *ngIf="data.imgUrl1" class="column">
+    <h5 style="text-align: center">{{data.imgLegend1}}</h5>
+    <img id="image" [src]="data.imgUrl1" width="80%">
+  </div>
+  <div div *ngIf="data.imgUrl2" class="column">
+
+
+    <h5 style="text-align: center">{{data.imgLegend2}}</h5>
+    <img id="image" [src]="data.imgUrl2" width="80%">
+
+
+  </div>
+</div>
+<p>
+  {{data.textBelow}}
+</p>
+<br>
+<h4>
+  {{data.callToAction}}
+</h4>

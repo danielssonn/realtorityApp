@@ -1,0 +1,70 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+   
+    "outDir": "./dist/out-tsc",
+    "baseUrl": "src",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2016",
+      "dom"
+    ],
+    "paths": {
+      "my-lib": [
+        "dist/my-lib"
+      ],
+      "agm-light-fork": [
+        "dist/agm-light-fork"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "../node_modules/@agm/_dev/packages/core/index.ts",
+    "../node_modules/@agm/_dev/packages/core/core.module.ts",
+    "../node_modules/@agm/_dev/packages/js-marker-clusterer/index.ts",
+    "../node_modules/@agm/_dev/packages/core/directives.ts",
+    "../node_modules/@agm/_dev/packages/core/directives/circle.ts",
+    "../node_modules/@agm/_dev/packages/core/directives/data-layer.ts",
+    "../node_modules/@agm/_dev/packages/core/directives/info-window.ts",
+    "../node_modules/@agm/_dev/packages/core/directives/kml-layer.ts",
+    "../node_modules/@agm/_dev/packages/core/directives/map.ts",
+    "../node_modules/@agm/_dev/packages/core/directives/marker.ts",
+    "../node_modules/@agm/_dev/packages/core/directives/polygon.ts",
+    "../node_modules/@agm/_dev/packages/core/directives/polyline-point.ts",
+    "../node_modules/@agm/_dev/packages/core/directives/polyline.ts",
+    "../node_modules/@agm/_dev/packages/core/services.ts",
+    "../node_modules/@agm/_dev/packages/core/services/google-maps-api-wrapper.ts",
+    "../node_modules/@agm/_dev/packages/core/services/managers/circle-manager.ts",
+    "../node_modules/@agm/_dev/packages/core/services/managers/data-layer-manager.ts",
+    "../node_modules/@agm/_dev/packages/core/services/managers/info-window-manager.ts",
+    "../node_modules/@agm/_dev/packages/core/services/managers/kml-layer-manager.ts",
+    "../node_modules/@agm/_dev/packages/core/services/managers/marker-manager.ts",
+    "../node_modules/@agm/_dev/packages/core/services/managers/polygon-manager.ts",
+    "../node_modules/@agm/_dev/packages/core/services/managers/polyline-manager.ts",
+    "../node_modules/@agm/_dev/packages/core/services/maps-api-loader/lazy-maps-api-loader.ts",
+    "../node_modules/@agm/_dev/packages/core/services/maps-api-loader/maps-api-loader.ts",
+    "../node_modules/@agm/_dev/packages/core/utils/browser-globals.ts",
+    "../node_modules/@agm/_dev/packages/js-marker-clusterer/directives.ts",
+    "../node_modules/@agm/_dev/packages/js-marker-clusterer/js-marker-clusterer.module.ts",
+    "../node_modules/@agm/_dev/packages/js-marker-clusterer/services.ts",
+    "../node_modules/@agm/_dev/packages/core/services/maps-api-loader/noop-maps-api-loader.ts",
+    "../node_modules/@agm/_dev/packages/js-marker-clusterer/directives/marker-cluster.ts",
+    "../node_modules/@agm/_dev/packages/js-marker-clusterer/services/managers/cluster-manager.ts",
+    "../node_modules/@agm/_dev/packages/core/directives/fit-bounds.ts",
+    "../node_modules/@agm/_dev/packages/core/directives/rectangle.ts",
+    "../node_modules/@agm/_dev/packages/core/services/fit-bounds.ts",
+    "../node_modules/@agm/_dev/packages/core/services/managers/rectangle-manager.ts",
+    "../node_modules/@agm/_dev/packages/core/map-types.ts"
+  
+  ]
+}

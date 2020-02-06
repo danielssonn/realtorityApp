@@ -1,0 +1,38 @@
+<mat-card>
+  <mat-card-title> Property Size</mat-card-title>
+  <mat-card-content>
+    <div  fxLayoutAlign="center center"  fxLayout="row">
+
+      <div fxLayoutAlign="end center" fxFlex="10" >From:</div><div fxLayoutAlign="end center" >
+        <mat-slider 
+        thumbLabel
+        [max]="max"
+        [min]="min"
+        [step]="step">
+      </mat-slider> </div>
+    </div>
+    <div  fxLayoutAlign="center center"  fxLayout="row">
+      <div fxLayoutAlign="end center" fxFlex="10" >To:</div><div fxLayoutAlign="end center" >
+        <mat-slider  
+        [max]="max"
+        [min]="min"
+        [step]="step">
+        ></mat-slider> </div>
+
+    </div>
+
+        <br><br>  
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+            <button mat-fab (click)="previous()"><mat-icon>navigate_before</mat-icon></button>
+          <button mat-fab (click)="next()"><mat-icon>navigate_next</mat-icon></button>
+      
+        </div>
+         <br><br>
+    <div fxLayout="row" fxLayoutAlign="end center">
+      <mat-slide-toggle>Not Important</mat-slide-toggle>
+    </div>
+
+  </mat-card-content>
+  <mat-card-footer>
+  </mat-card-footer>
+</mat-card>

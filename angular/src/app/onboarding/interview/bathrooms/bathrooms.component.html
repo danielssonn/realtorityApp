@@ -1,0 +1,53 @@
+<app-showing-defaults [isPreset]="true"></app-showing-defaults>
+<div>
+  <mat-card (swipe)="onSwipe($event)">
+    <mat-card-title> </mat-card-title>
+
+    <br><br>
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <i class="material-icons" style="font-size: 3em; color: #bf1e2d;">
+        wc
+      </i>
+
+    </div>
+    <section class="example-section" fxLayoutAlign="space-around center">
+      <mat-selection-list [(ngModel)]="selectedOptions" (ngModelChange)='changed()'>
+        <mat-list-option [disabled]="!userService.isAuthenticated()" *ngFor="let bath of bathroomTypes"
+          [value]="bath.name">
+          {{bath.label}}
+        </mat-list-option>
+      </mat-selection-list>
+
+
+
+
+    </section>
+    <br><br>
+
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+
+      <div fxLayout="column" fxLayoutAlign="space-around center">
+        <button mat-fab (click)="previous()">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+        <small style="color: gray">Bedrooms</small>
+
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="space-around center">
+        <button mat-fab (click)="next()" [disabled]="nextDisabled">
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+
+        <small style="color: gray">Schools</small>
+      </div>
+
+
+    </div>
+
+
+
+    <br><br>
+
+  </mat-card>
+</div>

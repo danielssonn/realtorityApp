@@ -1,0 +1,94 @@
+<button mat-flat-button color="accent" (click)="toggle()" style="text-decoration: underline">{{monthlyPayment|currency:'':'symbol':'1.0-0'}}</button>
+<mat-card *ngIf='show'>
+  <div fxLayout="row">
+    <div fxFlex="55" fxFlexAlign="center">
+      {{"Asking Price"|translate}}:
+    </div>
+    <div fxFlex="35">
+      <mat-form-field class="full-width">
+        <input maxlength="15" matInput name="asking" id="asking" [ngModel]="asking|currency:'':true:'1.0-0'" (ngModelChange)=setAsking($event)>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row">
+    <div fxFlex="55" fxFlexAlign="center">
+      {{"Amortization"|translate}}:
+    </div>
+
+    <div fxFlex="35">
+      <mat-form-field class="full-width"  >
+        <mat-select [(value)]="selected" (selectionChange)=calculate() >
+          <mat-option *ngFor="let year of amortYears" [value]="year.value">
+            {{year.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row">
+    <div fxFlex="55" fxFlexAlign="center">
+      {{"Rate"|translate}} %:
+    </div>
+    <div fxFlex="35">
+      <mat-form-field class="full-width">
+        <input maxlength="10" matInput name="rate" id="rate" [(ngModel)]="rate" type="number" (ngModelChange)=calculate() >
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row">
+    <div fxFlex="55" fxFlexAlign="center">
+      {{"Down Payment"|translate}}:
+    </div>
+    <div fxFlex="35">
+      <mat-form-field class="full-width">
+        <input matInput name="down" id="down" [ngModel]="downpayment|currency:'':true:'1.0-0'" (ngModelChange)=setDownpayment($event)>
+      </mat-form-field>
+    </div>
+  </div>
+  <hr>
+  <br>
+  <div fxLayout="row">
+      <div fxFlexAlign="center">
+        <h4>{{"Total Mortgage"|translate}}</h4>
+      </div>
+    </div>
+  <div fxLayout="row">
+    <div fxFlex="55" fxFlexAlign="center"> {{"Asking Price"|translate}}: </div>
+    <div>{{asking|currency:'':true:'1.0-0'}}</div>
+  </div>
+  <div fxLayout="row">
+    <div fxFlex="55" fxFlexAlign="center"> {{"Down Payment"|translate}}: </div>
+    <div>{{downpayment|currency:'':true:'1.0-0'}}</div>
+  </div>
+  <div fxLayout="row">
+    <div fxFlex="55" fxFlexAlign="center"> {{"Mortgage Insurance"|translate}}: </div>
+    <div>{{insurance|currency}}</div>
+  </div>
+  <div fxLayout="row">
+    <div fxFlex="55" fxFlexAlign="center"> {{"Total Mortgage"|translate}}: </div>
+    <div>{{totalMortgage|currency:'':true:'1.0-0'}}</div>
+  </div><br>
+  <div fxLayout="row">
+    <div fxFlexAlign="center">
+      <h4>{{"Monthly Payments"|translate}}</h4>
+    </div>
+  </div>
+  <div fxLayout="row">
+    <div fxFlex="55" fxFlexAlign="center"> {{"Mortgage Payment"|translate}}: </div>
+    <div>{{mortgagePayment|currency}}</div>
+  </div>
+  <div fxLayout="row">
+      <div fxFlex="55" fxFlexAlign="center"> {{"Property Taxes"|translate}}: </div>
+      <div>{{propertyTaxes|currency}}</div>
+  </div>
+  <div *ngIf="maintenance>-1" fxLayout="row">
+    <div fxFlex="55" fxFlexAlign="center"> {{"Maintenance Fees"|translate}}: </div>
+    <div>{{maintenance|currency}}</div>
+</div>
+      <div fxLayout="row">
+          <div fxFlex="55" fxFlexAlign="center"> {{"Monthly Payments"|translate}}: </div>
+          <div>{{monthlyPayment|currency}}</div>
+        </div>
+  <br>
+  <small>{{"subject to change"|translate}}</small>
+</mat-card>

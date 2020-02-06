@@ -1,0 +1,28 @@
+
+.mat-column-network {
+    flex: 0 0 30% !important;
+   
+
+}
+.mat-column-status{
+    flex: 0 0 20% !important;
+}
+
+
+table {
+    width: 100%;
+}
+
+.social-form {
+    min-width: 450px;
+    width: 100%;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.third {
+    width: 30%;
+    padding: 1%;
+}

@@ -1,0 +1,24 @@
+<app-showing-defaults [isPreset]="true"></app-showing-defaults>
+
+<mat-card >
+    <mat-card-title></mat-card-title>
+    <mat-card-content >
+
+      <div fxLayoutAlign="center center"  fxLayout="row">
+  
+          <mat-slide-toggle [disabled]="!isAuth" (change)="parkingChange($event)" [(ngModel)]="parking">{{"Must Have Parking"|translate}}</mat-slide-toggle>
+
+        
+      </div>
+       <br><br>
+ 
+       <div fxLayout="row" fxLayoutAlign="space-between center">
+           <button mat-fab (click)="previous()"><mat-icon>navigate_before</mat-icon></button>
+         <button mat-fab (click)="next()"><mat-icon>navigate_next</mat-icon></button>
+     
+       </div>
+  
+  
+    </mat-card-content>
+  
+  </mat-card>

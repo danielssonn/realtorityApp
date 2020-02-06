@@ -1,0 +1,13 @@
+<agm-map [styles]="mapStyle" #gm [latitude]="lat" [longitude]="lon" [zoom]="zoom"
+[gestureHandling]="'cooperative'" [fullscreenControl]="true"
+[fullscreenControlOptions]="fullscreenControlOptions" (mapReady)="onMapReady($event)">
+<agm-marker *ngFor="let property of properties"  [latitude]="property.latitude" [longitude]="property.longitude"  (markerClick)="showDetail(property)" [iconUrl] ="property.icon"></agm-marker>
+<!-- <agm-marker *ngFor="let permit of permits" [latitude]="permit.latitude" [longitude]="permit.longitude" [openInfoWindow]="true" > <agm-info-window>Go!</agm-info-window></agm-marker> -->
+<!-- <agm-marker-cluster [minimumClusterSize]=2></agm-marker-cluster> -->
+
+<agm-polygon *ngFor="let polygon of polygons" [(paths)]="polygon.paths" [polyDraggable]="polygon.draggable" [editable]="polygon.editable" [fillColor]="polygon.fill.color" [strokeColor]="polygon.stroke.color" [strokeWeight]="polygon.stroke.weight">
+</agm-polygon>
+<agm-marker *ngFor="let polygon of polygons;  let i = index" [markerDraggable]="true" [latitude]="getCenter(polygon.paths).latitude" [longitude]="getCenter(polygon.paths).longitude" iconUrl="https://hmhpics.s3.amazonaws.com/blueSquare.png" [label]="{color: 'white', fontWeight: 'bold', fontSize: '18px', text: polygon.show+''}">
+</agm-marker>
+
+</agm-map>

@@ -1,0 +1,316 @@
+<a *ngIf="device!=='browser'" (click)="getMessagePhoneNumberAndSend(property)" class="float">
+  <i class="fa fa-plus my-float"><i class="material-icons"
+      style="padding-top: 18px; font-size:38px; color: white;">
+      chat
+    </i></i>
+</a>
+<a *ngIf="device==='browser'" href={{emailSubjectRegular}} class="float" target="_blank">
+  <i class="fa fa-plus my-float">
+    <i class="material-icons" style="PADDING-TOP: 18px; font-size:38px; color:white;">
+      email
+    </i>
+
+  </i>
+</a>
+<div class="scrollPane"  (swipe)="onSwipe($event)">
+<app-showing-defaults></app-showing-defaults>
+
+<mat-card *ngIf="property.marketingMessage"  class="news">
+ 
+
+<app-marketing [marketingItem]="property.longMessage"></app-marketing>
+
+</mat-card>
+
+<div *ngIf="(property) && !property.marketingMessage" id="propertyDetails">
+  <mat-card class="scrollable-content" >
+    <mat-card-header >
+
+
+      <div class="avatar xlarge">
+        <i *ngIf="property.star==='Y' && !property.recommendedBySalesPersonName" class="material-icons innerDiv" style="color:#bf1e2d">
+          favorite
+        </i>
+        <i *ngIf="property.star==='Y' && property.recommendedBySalesPersonName" class="material-icons innerDiv" style="color:gold">
+          star
+        </i>
+        <img [src]="getPropertyIcon(property)" (error)="imageError($event)"
+          style="position:absolute;right: 10px; top:40px" />
+      </div>
+      <mat-card-title>
+        <b> 
+
+          <span *ngIf="property.lsc1=='Sld'||property.lsc2=='Sld'"> {{"Sold for"|translate}}
+            {{property.sp_dol1|currency:'':'symbol':'1.0-0'}}{{property.sp_dol2|currency:'':'symbol':'1.0-0'}} 
+            
+           {{"Sold
+            On"|translate}}
+            {{property.cd1|date}}{{property.cd2|date}}</span>
+          <span *ngIf="property.lsc1=='Sus'||property.lsc2=='Sus'"> {{"Listing suspended on"|translate}}:
+            {{property.dt_sus1|date}}{{property.dt_sus2|date}}</span>
+          <span *ngIf="property.lsc1=='Exp'||property.lsc2=='Exp'"> {{"Listing expired on"|translate}}
+            {{property.xd1|date}}{{property.xd2|date}}</span>
+          <span *ngIf="property.lsc1=='Ter'||property.lsc2=='Ter'"> {{"Listing terminated on"|translate}}
+            {{property.dt_ter1|date}}{{property.dt_ter2|date}}<br>
+            <small style="font-weight: 400">{{"May have been re-listed"|translate}}.</small>
+          </span>
+          <span *ngIf="property.lsc1=='Lsd'||property.lsc2=='Lsd'"> {{"Listing leased"|translate}} </span>
+          <span *ngIf="property.lsc1=='Ext'||property.lsc2=='Ext'"> {{"Listing extended"|translate}} </span>
+          <span *ngIf="property.lsc1=='Pc'||property.lsc2=='Pc'"> {{"Listing price change"|translate}} </span>
+          <span *ngIf="property.lsc1=='Sc'||property.lsc2=='Sc'"> {{"Sold on condition for"|translate}}
+            {{property.sc_dol1|currency:'':'symbol':'1.0-0'}}{{property.sc_dol2|currency:'':'symbol':'1.0-0'}}
+            {{property.cd1|date}}{{property.cd2|date}}
+          </span>
+          <span *ngIf="property.lsc1=='Lc'||property.lsc2=='Lc'"> {{"Leased on condition"|translate}} </span>
+        </b>
+      </mat-card-title>
+      
+      <mat-card-title *ngIf="property.star==='Y' && property.recommendedBySalesPersonName">Recommended by: {{property.recommendedBySalesPersonName}}</mat-card-title>
+      <mat-card-title>{{property.addr}}</mat-card-title>
+      <mat-card-title *ngIf='property.apt_num'>{{"Unit #"|translate}}: {{property.apt_num}}</mat-card-title>
+
+      <mat-card-title>{{property.cross_st}}</mat-card-title>
+      <mat-card-title>{{"Listing Price"|translate}}: {{property.lp_dol|currency:'':'symbol':'4.0-0'}}</mat-card-title>
+
+      <mat-card-title>{{property.type_own1_out|translate}}</mat-card-title>
+
+
+
+      <mat-card-title><i class="material-icons iconAlign" style="font-size:18px">hotel</i> {{property.br}} &nbsp;
+        &nbsp; &nbsp; <img src="assets/shower.png" height="18px"> {{property.bath_tot}}</mat-card-title>
+      <mat-card-title *ngIf="property.taxes>0">{{"Taxes"|translate}}: {{property.taxes|currency:'':'symbol':'1.0-0'}}
+      </mat-card-title>
+
+      <mat-card-title *ngIf="property.front_ft">{{"Lot (ft.)"|translate}}: {{property.front_ft}} x {{property.depth}}
+      </mat-card-title>
+      <mat-card-title *ngIf="property.sqft">{{"Interior Size"|translate}}: {{property.sqft}} sqft.</mat-card-title>
+
+      <mat-card-title *ngIf='property.maint'>{{"Maintenance"|translate}}:
+        {{property.maint|currency:'':'symbol':'3.0-0'}} </mat-card-title>
+      <mat-card-title><span>
+          <span *ngIf='property.hydro_inc'> {{"Hydro Incl."|translate}}: <span
+              *ngIf="property.hydro_inc==='Y'">&#10004;</span>
+            <span *ngIf="property.hydro_inc==='N'">&#10008;</span>
+          </span>
+          <span *ngIf='property.heat_inc'> {{"Heat Incl."|translate}}: <span
+              *ngIf="property.heat_inc==='Y'">&#10004;</span>
+            <span *ngIf="property.heat_inc==='N'">&#10008;</span></span>
+          <span *ngIf='property.prkg_inc'> {{"Parking Incl."|translate}}: <span
+              *ngIf="property.prkg_inc==='Y'">&#10004;</span>
+            <span *ngIf="property.prkg_inc==='N'">&#10008;</span> </span>
+        </span>
+
+      </mat-card-title>
+
+
+      <mat-card-title *ngIf="property.condo_exp">{{"Exposure"|translate}}: {{property.condo_exp}}</mat-card-title>
+      <mat-card-title *ngIf="preferences.goodSchools && property.school_1 && property.school_1!=='null'">
+        <i class="material-icons" style="color:grey; font-size: 18px;">
+          school
+        </i>
+        {{property.school_1.substring(0,property.school_1.indexOf('[') )}} <span style="font-size: 0.7em">
+          ({{getSchoolLabel(property.school_1_type)|translate}})</span>
+
+
+      </mat-card-title>
+      <mat-card-title *ngIf="preferences.goodSchools &&property.school_2 && property.school_2!=='null'">
+        <i class="material-icons" style="color:grey; font-size: 18px;">
+          school
+        </i>
+        {{property.school_2.substring(0,property.school_2.indexOf('[') )}} <span style="font-size: 0.7em">
+          ({{getSchoolLabel(property.school_2_type)|translate}})</span>
+
+      </mat-card-title>
+      <mat-card-title *ngIf="preferences.goodCatholicSchools && property.school_1_c && property.school_1_c!=='null'">
+        <i class="material-icons" style="color:grey; font-size: 18px;">
+          school
+        </i>
+        {{property.school_1_c.substring(0,property.school_1_c.indexOf('[') )}} <span style="font-size: 0.7em">
+          ({{getSchoolLabel(property.school_1_c_type)|translate}})</span>
+
+      </mat-card-title>
+      <mat-card-title *ngIf="preferences.goodCatholicSchools && property.school_2_c && property.school_2_c!=='null'">
+        <i class="material-icons" style="color:grey; font-size: 18px;">
+          school
+        </i>
+        {{property.school_2_c.substring(0,property.school_2_c.indexOf('[') )}} <span style="font-size: 0.7em">
+          ({{getSchoolLabel(property.school_2_c_type)|translate}})</span>
+
+      </mat-card-title>
+      <mat-card-title *ngIf="preferences.goodCatholicSchools && property.school_3_c && property.school_3_c!=='null'">
+        <i class="material-icons" style="color:grey; font-size: 18px;">
+          school
+        </i>
+        {{property.school_3_c.substring(0,property.school_3_c.indexOf('[') )}} <span style="font-size: 0.7em">
+          ({{getSchoolLabel(property.school_3_c_type)|translate}})</span>
+
+      </mat-card-title>
+      <mat-card-title *ngIf="preferences.goodCatholicSchools && property.school_3_c && property.school_4_c!=='null'">
+        <i class="material-icons" style="color:grey; font-size: 18px;">
+          school
+        </i>
+        {{property.school_4_c.substring(0,property.school_4_c.indexOf('[') )}} <span style="font-size: 0.7em">
+          ({{getSchoolLabel(property.school_4_c_type)|translate}})</span>
+
+      </mat-card-title>
+
+      <mat-card-title *ngIf="!preferences.goodSchools && !preferences.goodCatholicSchools">
+
+
+        <div *ngIf="property.school_1 && property.school_1 !=='null'">
+          <i class="material-icons" style="color:grey; font-size: 18px;">
+            school
+          </i>
+          {{property.school_1.substring(0,property.school_1.indexOf('[') )}}
+
+        </div>
+        <div *ngIf="property.school_2 && property.school_2 !=='null'">
+          <i class="material-icons" style="color:grey; font-size: 18px;">
+            school
+          </i>
+          {{property.school_2.substring(0,property.school_2.indexOf('[') )}}
+        </div>
+        <div *ngIf="property.school_1_c && property.school_1_c !=='null'">
+          <i class="material-icons" style="color:grey; font-size: 18px;">
+            school
+          </i>
+          {{property.school_1_c.substring(0,property.school_1_c.indexOf('[') )}}
+
+        </div>
+        <div *ngIf="property.school_2_c && property.school_2_c !=='null'">
+
+          <i class="material-icons" style="color:grey; font-size: 18px;">
+            school
+          </i>
+          {{property.school_2_c.substring(0,property.school_2_c.indexOf('[') )}}
+
+        </div>
+        <div *ngIf="property.school_3_c  && property.school_3_c !=='null'">
+          <i class="material-icons" style="color:grey; font-size: 18px;">
+            school
+          </i>
+          {{property.school_3_c.substring(0,property.school_3_c.indexOf('[') )}}
+
+        </div>
+        <div *ngIf="property.school_4_c && property.school_4_c !=='null'">
+          <i class="material-icons" style="color:grey; font-size: 18px;">
+            school
+          </i>
+          {{property.school_4_c.substring(0,property.school_4_c.indexOf('[') )}}
+
+        </div>
+
+
+      </mat-card-title>
+
+      <!-- <mat-card-title>{{"Posted"|translate}}: {{since}}</mat-card-title> -->
+
+      <!-- <a href={{emailSubjectRegular}} class="float" >
+          <i class="fa fa-plus my-float"><i class="material-icons" style="padding-top: 15px">
+            message
+            </i></i>
+          </a> -->
+      
+
+
+
+    </mat-card-header>
+
+    <div fxLayout="row" fxLayoutAlign="center center" class="avatar medium">
+
+      <div>{{"Est. Monthly Payment"|translate}}: <app-mortgage-calculator [maintenance]="property.maint||-1"
+          [asking]="property.lp_dol" [downpayment]="property.lp_dol*0.2" [propertyTaxes]="property.taxes/12">
+        </app-mortgage-calculator>
+      </div>
+
+      <br><br><br>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="avatar medium">
+
+      <button *ngIf="property.star!='Y' && userService.isAuthenticated()" color="accent" mat-raised-button
+        (click)="like(property)" style="width: 90%">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <mat-icon>thumb_up</mat-icon>
+          {{getTracked}}
+          <mat-icon>thumb_up</mat-icon>
+        </div>
+      </button>
+      <!-- Disabling the dislike functionality <button  [disabled]="property.star=='N' || !userService.isAuthenticated()" color="accent" mat-mini-fab (click)="remove(property)"><mat-icon>thumb_down</mat-icon>
+          </button> -->
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="avatar medium">
+
+      <button *ngIf="property.star=='Y' && userService.isAuthenticated()" color="accent" mat-raised-button
+        (click)="remove(property)" style="width: 90%">
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <mat-icon>thumb_down</mat-icon>
+          {{"Remove from Favourites"|translate}}
+          <mat-icon>thumb_down</mat-icon>
+        </div>
+      </button>
+      <!-- Disabling the dislike functionality <button  [disabled]="property.star=='N' || !userService.isAuthenticated()" color="accent" mat-mini-fab (click)="remove(property)"><mat-icon>thumb_down</mat-icon>
+            </button> -->
+    </div>
+
+    <br>
+    <mat-card-content>
+      <p>
+        {{property.ad_text}}
+        <mat-card-subtitle>MLS: {{property.ml_num}}</mat-card-subtitle>
+
+      </p>
+      <br>
+      <div fxLayout="row">
+        <mat-form-field class="userComment">
+          <input (input)='commentEdit()' matInput [maxLength]="80" [(ngModel)]="userComment"
+            [placeholder]="'Your Comment' | translate">
+        </mat-form-field>
+
+        <button [disabled]='!shallComment || !userService.isAuthenticated() ' mat-mini-fab
+          (click)="addComment(property, userComment)"><i class="material-icons">save</i></button>
+      </div>
+
+
+    </mat-card-content>
+
+
+    <br>
+
+    <div class="carousel">
+
+      <ul>
+        <!-- <li>
+            <img class='myimage' src='https://maps.googleapis.com/maps/api/staticmap?center={{lat}},{{lon}}&zoom={{zoom}}&size=540x440&maptype=roadmap&markers=color:red%7Clabel:*%7C{{lat}},{{lon}}&key=AIzaSyCUe2SAS8JSXz3k9JLXcnbip4aeXgZcVTA'>
+          </li> -->
+        <li>
+
+          <agm-map [styles]="mapStyle" #gm [latitude]="lat" [longitude]="lon" [zoom]="zoom"
+            [gestureHandling]="'cooperative'" [fullscreenControl]="true"
+            [fullscreenControlOptions]="fullscreenControlOptions" (mapReady)="onMapReady($event)">
+            <agm-marker [latitude]="lat" [longitude]="lon"></agm-marker>
+            <!-- <agm-marker *ngFor="let development of developments" [latitude]="development.latitude" [longitude]="development.longitude" [openInfoWindow]="true" ><agm-info-window>{{development.label}}</agm-info-window></agm-marker> -->
+            <!-- <agm-marker *ngFor="let permit of permits" [latitude]="permit.latitude" [longitude]="permit.longitude" [openInfoWindow]="true" > <agm-info-window>Go!</agm-info-window></agm-marker> -->
+            <!-- <agm-marker-cluster [minimumClusterSize]=2></agm-marker-cluster> -->
+
+            <!-- <agm-polygon *ngFor="let polygon of polygons" [(paths)]="polygon.paths" [polyDraggable]="polygon.draggable" [editable]="polygon.editable" [fillColor]="polygon.fill.color" [strokeColor]="polygon.stroke.color" [strokeWeight]="polygon.stroke.weight"></agm-polygon> -->
+          </agm-map>
+
+
+        </li>
+
+
+        <li *ngFor="let image of images">
+          <img src="{{image.url}}" (error)="imageError($event)" alt="" >
+        </li>
+
+
+      </ul>
+
+    </div>
+
+
+
+
+  </mat-card>
+</div>
+</div>

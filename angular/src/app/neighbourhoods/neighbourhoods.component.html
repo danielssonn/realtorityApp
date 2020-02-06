@@ -1,0 +1,32 @@
+<div class="camera">
+    <div fxLayout="row">
+        <div class="viewfinder" fxFlex=68>
+            <div>
+                <agm-map [gestureHandling]="'greedy'" [disableDefaultUI]="true" [zoomControl]="false" [streetViewControl]="false" [minZoom]="minZoom" [maxZoom]="maxZoom" [(zoom)]="zoom" [latitude]="lat" [longitude]="lon">
+                </agm-map>
+
+            </div>
+        </div>
+        <div class="controls" fxFlex=32 >
+           
+                <div fxLayout="column" fxLayoutAlign="space-between center" style="padding-top: 60%; padding-left: 10%"> 
+                        <button  style="background: blueviolet; color: white;" mat-mini-fab><mat-icon>camera_alt</mat-icon></button>
+                        <div fxLayout="row">
+                            <button mat-icon-button	><i class="material-icons" style="color: white; background:#333333">
+                                zoom_in
+                                </i>
+                            </button>
+                            <button mat-icon-button	><i class="material-icons" style="color: white;  background:#333333">
+                                zoom_out
+                                </i></button>
+                        </div>
+
+                        <!-- <mat-slide-toggle></mat-slide-toggle> -->
+                        <!-- Advanced -->
+     
+
+                </div>
+        </div>
+
+    </div>
+</div>

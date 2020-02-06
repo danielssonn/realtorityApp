@@ -1,0 +1,67 @@
+<div *ngIf="salesPersonId && salesPersonId!=='null'">
+
+  <br>
+
+<div *ngIf="true">
+
+  <div *ngIf="selectedClientId && selectedClientId.userId!=-1" fxLayout="row" fxLayoutAlign="space-around center" >
+    <button color="warn" (click)='release()' mat-raised-button>{{"Reset Client"|translate}}</button>
+  </div>
+<br>
+  <div fxLayout="row" fxLayoutAlign="center center">
+      <mat-form-field>
+          <input matInput [(ngModel)]="clientName"  placeholder="Your Clients" #clientSearchInput>
+      </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center">
+      <mat-button-toggle-group #sortByGroup = "matButtonToggleGroup" (change)="sortChange()" value='recent'>
+          <mat-button-toggle  color="primary" value="active">{{"Most Active"|translate}}
+              <i class="material-icons">
+                trending_up
+                </i></mat-button-toggle>
+          <mat-button-toggle  color="primary" value="recent">{{"Most Recent"|translate}}
+              <i class="material-icons">
+                date_range
+                </i></mat-button-toggle>
+       </mat-button-toggle-group>
+</div>
+  <div fxLayout="row" fxLayoutAlign="center center">
+
+      <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+          <mat-spinner></mat-spinner>
+      </div>
+  </div>
+  <table mat-table class="client-table mat-elevation-z8" [dataSource]="dataSource" matSort matSortActive="seqNo"
+      matSortDirection="asc" matSortDisableClear>
+      
+      <ng-container matColumnDef="select">
+          <mat-header-cell *matHeaderCellDef>
+           Select
+          </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()"
+                          (change)="toggle(row, $event)"
+                          [checked]="row.userId==selectedClientId.userId">
+            </mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
+
+      <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+          <mat-cell (click)='openDetails(client)' class="description-cell" *matCellDef="let client">{{client.name|shortText:40}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+          <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+          <mat-cell (click)='openOverview(client)' class="duration-cell" *matCellDef="let client">{{client.email|shortText:40}}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+  </table>
+  <mat-paginator [length]="dataSource.clientCount" [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" #clientSearchPaginator ></mat-paginator>
+</div>
+</div>

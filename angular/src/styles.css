@@ -1,0 +1,116 @@
+@import "../../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+@import "../../node_modules/nouislider/distribute/nouislider.min.css";
+body {
+    min-width:360px;
+}
+.noUi-connect {
+    background: #ffd740;
+}
+.noUi-handle {
+    border: 1px solid #D9D9D9;
+    border-radius: 3px;
+    background: #FFF;
+    cursor: default;
+    box-shadow: inset 0 0 1px #FFF, inset 0 1px 7px #EBEBEB, 0 3px 6px -3px #BBB;
+  }
+
+ * {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    -webkit-user-select: auto; 
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto;
+    -webkit-overflow-scrolling: touch;
+    -moz-user-select: auto;
+    -ms-touch-action: none; 
+    text-rendering: optimizeLegibility;
+    
+    
+} 
+body {
+    font-family: "Lato","Geneva CY","Lucida Grande","Arial Unicode MS","Helvetica Neue","Helvetica","Arial",sans-serif;
+    -webkit-font-smoothing: antialiased;
+    max-width: 1080px;
+    margin: 0 auto !important;
+    float: none !important;
+
+}
+
+#app-base.app-base-class{
+ /*overflow: hidden;*/
+}
+
+#app-base:before {
+    /* content: '';
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top; 
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -100;
+    background-image: url(http://travelhdwallpapers.com/wp-content/uploads/2014/02/CN-Tower10.jpg);
+   background-image: url("//static.wunderlist.com/e1a9ddc47beb988e8bc86d09a7d2780a9868097d/images/backgrounds/2048/06.jpg") !important;
+    background-attachment: fixed; */
+
+}
+
+.scrollPane{
+    height:100vh; 
+    display: block;
+    position: relative;
+    overflow: auto;
+    contain: strict;
+    /* transform: translateZ(0); */
+    /* will-change: scroll-position; */
+    -webkit-overflow-scrolling: touch;
+
+ }
+ 
+.propertyList {
+  
+
+}
+.mat-menu-panel {
+    position: fixed;
+    overflow: initial;
+    overflow: auto;
+  
+}
+
+.propertyCard{
+    /* margin: 5px; */
+
+    height:55px;
+    
+}
+.avatar.medium img {
+    height: 52px !important;
+    width: 52px !important;
+}
+.avatar.large img {
+    height: 52px !important;
+    width: 52px !important;
+}
+.avatar.xlarge img {
+    height: 120px !important;
+    width: 120px !important;
+}
+.centerIMG {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* for extension dialog resize issue*/
+.cdk-global-scrollblock {
+    position: relative !important;
+}
+

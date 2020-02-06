@@ -1,0 +1,81 @@
+<div class="camera">
+
+    <div fxLayout="row" fxLayoutAlign="space-between center">    
+            <mat-form-field class="mat-block" >
+                <input matInput matInput placeholder={{searchforlocation}} autocorrect="off" autocapitalize="off"
+                    spellcheck="off" type="text" #search [formControl]="searchControl">
+            </mat-form-field>
+      
+        <button [disabled]="!isAuth" style="color:grey" mat-button (click)="removeMap()">
+            <mat-icon>delete</mat-icon>
+        </button>
+
+    </div>
+    <agm-map [styles]="mapStyle" [gestureHandling]="'cooperative'" [zoomControl]="true" [streetViewControl]="false"
+        [hidden]="!showMap" [minZoom]="minZoom" [maxZoom]="maxZoom" [(zoom)]="zoom" [latitude]="lat" [longitude]="lon"
+        (mapReady)="mapReady($event)" (mapClick)="mapClicked($event)" [scrollwheel]="null"
+        (boundsChange)="boundsChange($event)">
+        <agm-polygon *ngIf="polygon" [(paths)]="polygon.paths"
+            [polyDraggable]="polygon.draggable" [zIndex]="999" [editable]="polygon.editable" (polyDragStart)="polyDragStart($event)"
+            [strokeColor]="polygon.strokeColor" [strokeWeight]="6" (pathChanged)="polyDragEnd($event)"></agm-polygon>
+        <!-- <agm-marker *ngFor="let property of properties" [latitude]="property.latitude" [longitude]="property.longitude"
+            (markerClick)="showDetail(property)" [iconUrl]="property.icon"></agm-marker> -->
+
+        <agm-data-layer [geoJson]="geoJson" [style]="styleFunc">
+        </agm-data-layer>
+
+        <!-- <agm-polygon *ngFor="let heatPolygon of heatPolygons" [(paths)]="heatPolygon.paths" [polyDraggable]="false" [editable]="false" [fillColor]="heatPolygon.fill.color" [fillOpacity]="heatPolygon.fill.opacity" [strokeColor]="heatPolygon.stroke.color" [strokeWeight]="heatPolygon.stroke.weight">
+        </agm-polygon> -->
+
+    </agm-map>
+
+
+    <BR>
+    <div fxLayout="row" fxLayoutAlign="space-around  center">
+
+
+        <button mat-raised-button color="primary" (click)="capturePolygon()"
+            *ngIf="!hasPolygon() && isAuth">{{"and click"|translate}}</button>
+     
+
+        <button mat-raised-button color="primary"
+            (click)="editChangeFromButton()" *ngIf="hasPolygon() && isAuth">{{"Edit Shape"|translate}}<mat-icon>edit
+            </mat-icon></button>
+        <button mat-raised-button matTooltip="Create a heatmap based on your search criteria." color="primary"
+            (click)="analyzeFit()" *ngIf="hasPolygon() && isAuth">{{"Analyze"|translate}}<mat-icon>blur_on</mat-icon>
+            </button>
+    </div>
+    <br>
+    <div fxLayout="row" fxLayoutAlign="center center">
+
+        <!-- <button *ngIf="!polygon || polygon.paths.length<=0" mat-raised-button (click)="zoomIn()" color="accent"	><i class="material-icons" >
+            zoom_in
+            </i>
+        </button> -->
+
+        <button *ngIf="!polygon || polygon.paths.length<=0" style="background: orangered; color: white;" mat-mini-fab
+            (click)="capturePolygon()">
+            <mat-icon style="font-size:50px; width:50px; height:50px">touch_app</mat-icon>
+        </button>
+        <button *ngIf="polygon && polygon.paths.length>0" matTooltip="Remove search area and start over."
+            [disabled]="!userService.isAuthenticated()" color="accent" mat-mini-fab class="mat-large"
+            (click)="startOver()">
+            <mat-icon style="font-size:50px; width:50px; height:50px">delete_outline</mat-icon>
+        </button>
+
+        <!-- <button *ngIf="!polygon || polygon.paths.length<=0" mat-raised-button (click)="zoomOut()" color="accent"><i class="material-icons" >
+            zoom_out
+        </i></button>&nbsp; -->
+
+        <br>
+
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-around  center">
+
+
+    </div>
+
+
+</div>
+
+<div id="scrollBottom"></div>

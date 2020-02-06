@@ -1,0 +1,14 @@
+.mat-column-select {
+    flex: 0 0 10% !important;
+  
+
+}
+.mat-column-name {
+    flex: 0 0 35% !important;
+   
+
+}
+
+table {
+    width: 100%;
+}

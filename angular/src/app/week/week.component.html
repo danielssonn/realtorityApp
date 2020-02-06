@@ -1,0 +1,47 @@
+<div id="propertyList">
+
+  <app-showing-defaults></app-showing-defaults>
+  <div style="padding:2px"></div>
+  <div *ngIf="propertiesCount===0 ">
+  <br>
+    <div fxLayout="row" fxLayoutAlign="center center">
+
+      <button mat-button class="date" (click)="refresh()"> {{"Refresh"|translate}} </button>
+    </div>
+    <!-- <div fxLayout="row" fxLayoutAlign="center center">
+      <img src="assets/no-results.svg">
+    </div> -->
+    <div style="padding: 10px; text-align: center">
+      {{"All Caught Up"|translate}}
+      <span> <br> <br>
+        <div id="user-toolbar" (click)="startInterview()">
+          <span class="user-avatar">
+            <div class="avatar medium"><img src="assets/filter.svg" /></div>
+          </span>
+          <br>
+          <span id="name"> <span class="user-name">{{"Filters"|translate}}</span></span>
+        </div>
+      </span>
+    </div>
+  </div>
+    <br>
+    <cdk-virtual-scroll-viewport class="example-viewport" itemSize="90" 
+      (scrolledIndexChange)="scrolledTo($event)">
+      <ng-container *cdkVirtualFor="let property of properties">
+        <app-property-card [property]="property" [dayOfWeek]="displayDate(property)"></app-property-card>
+      </ng-container>
+    </cdk-virtual-scroll-viewport>
+
+
+ 
+
+
+
+
+
+
+
+</div>
+<div fxLayout="row" fxLayoutAlign="center center">
+  <button [disabled]="!isAuth" mat-button class="date" (click)="addWeek()"> {{"Previous Week"|translate}} -> </button>
+</div>

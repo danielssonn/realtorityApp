@@ -1,0 +1,22 @@
+.date{
+    color:white;
+    /* background: #5b7a59; */
+    background: #bf1e2d;
+    font-weight: bold;
+
+}
+.avatar img {
+    height: 25px;
+    width: 25px;
+    position: relative;
+}
+
+.avatar img {
+
+    overflow: hidden;
+    z-index: 1;
+}
+.example-viewport{
+    height: 85vh;
+   
+}

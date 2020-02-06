@@ -1,0 +1,41 @@
+<mat-card>
+ 
+<mat-card-title>
+Create Engagement
+</mat-card-title>
+<br>
+<mat-card-content>	
+
+<form (ngSubmit)='create()' class="engagement-form" [formGroup]="engagementForm">
+
+  <mat-form-field>
+    <input placeholder="date"  matInput [matDatepicker]="myDatepicker">
+    <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+    <mat-datepicker #myDatepicker></mat-datepicker>
+    <mat-hint align="end">Schedule the engagement ^</mat-hint>
+ 
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="title" name='title' formControlName='title'>
+  </mat-form-field>
+
+  <angular-editor formControlName="message" [config]="editorConfig"></angular-editor>
+  <br>
+  Channels:
+  <br>
+  
+  
+  <mat-checkbox>Push Notification </mat-checkbox><br>
+  <mat-checkbox>Add to listing feed </mat-checkbox><br>
+  <mat-checkbox>Post on Facebook </mat-checkbox><br>
+  <mat-checkbox>Email</mat-checkbox><br>
+  
+  <br>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <button mat-raised-button color="primary" type="submit"
+      [disabled]="!engagementForm.valid">{{"Create"|translate}}</button>
+  </div>
+
+</form>
+</mat-card-content>	
+</mat-card>

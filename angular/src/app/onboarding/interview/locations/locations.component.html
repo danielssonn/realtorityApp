@@ -1,0 +1,61 @@
+<div [ngClass]="{'scrollPane':shouldScroll}">
+  <app-showing-defaults [isPreset]="true"></app-showing-defaults>
+
+    <div *ngIf="locations.length==0" (click)="addLocation()">
+      <br><br>
+      <div fxLayout="column" fxLayoutAlign="center center" style="text-align: center;">
+
+        <div style="font-size: 1.1em;"> Let's setup all your search criteria.</div>   
+        <br>
+        <div> From location through price range, bedrooms and even school district. Setup you search preferences and we'll constantly deliver matching new listings as soon as they hit the market.</div>   
+      </div>
+      <br>
+      <div fxLayout="row" fxLayoutAlign="center center">
+        Tap below to set the search location(s):
+      </div>
+      <br>
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <i class="material-icons" style="color:#bf1e2d; font-size: 6em;">
+          my_location
+        </i>
+      </div>
+    </div>
+    
+    <app-search-preference-overview *ngIf="locations.length>0 && isAuth" (click)="next()"></app-search-preference-overview>
+
+    <app-location id="maps" #myMap *ngFor="let location of locations;  let i = index" (saveMaps)="handleSaveMaps($event, i)"
+      (polyMoved)="handlePolyMoved($event, i)"  (locationAdded)="handleLocationAdded($event, i)"
+      (polyRemoved)="handlePolyRemoved($event, i)" (mapRemoved)="handleMapRemoved($event, i)" [zoom]="location.zoom"
+      [lat]="location.lat" [lon]="location.lon" [poly]="location.polygon">
+    </app-location>
+    <div (swipe)="onSwipe($event)">
+
+
+      <!-- <div fxLayout="row" fxLayoutAlign="center center">
+  <br><br>
+  <button *ngIf="locations.length>0" color="accent" mat-fab (click)="removeMap()"><mat-icon>delete</mat-icon></button>
+</div> -->
+
+
+
+
+      <div fxLayout="row" fxLayoutAlign="end center">
+        <br>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="column" fxLayoutAlign="space-around center">
+          <button [disabled]="!isAuth" color="link" mat-mini-fab (click)="addLocation()">
+            <mat-icon>add</mat-icon>
+          </button>
+          <small style="color: gray">{{"Add Location"|translate}}</small>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="space-around center">
+          <button mat-fab (click)="next()" [disabled]="nextDisabled">
+            <mat-icon>navigate_next</mat-icon>
+          </button>
+          <small style="color: gray">Property Type</small>
+        </div>
+      </div>
+    </div>
+    <br>
+</div>

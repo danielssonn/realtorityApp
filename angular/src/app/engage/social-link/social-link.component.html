@@ -1,0 +1,86 @@
+<mat-card>
+  <mat-card-title>
+    Manage Social/Ad Networks
+ </mat-card-title> 
+  
+
+<br>
+
+<table mat-table class="social-table mat-elevation-z8" [dataSource]="dataSource" matSort matSortActive="seqNo"
+  matSortDirection="asc" matSortDisableClear>
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Network</mat-header-cell>
+    <mat-cell class="description-cell" *matCellDef="let network">
+      {{network.name|shortText:40}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+    <mat-cell  class="duration-cell" *matCellDef="let network">
+      {{network.status|shortText:40}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="comment">
+    <mat-header-cell *matHeaderCellDef>Comment</mat-header-cell>
+    <mat-cell  class="duration-cell"></mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="remove">
+    <mat-header-cell *matHeaderCellDef>Remove</mat-header-cell>
+    <mat-cell  class="duration-cell"></mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+</table>
+</mat-card>
+
+<br><br>
+<mat-card>
+ <mat-card-title>
+New Social/Ad Network
+</mat-card-title> 
+<br>
+<mat-card-content>
+
+<div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="start center">
+
+  <form (ngSubmit)='connect()' class="social-form" [formGroup]="connectSocialForm">
+
+ 
+  <mat-form-field class="third">
+    <mat-label>Social Network</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let network of networks" [value]="network.value">
+        {{network.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="third">
+    <input matInput placeholder="user name" name='user' formControlName='user'>
+    <mat-hint align="end">Your social account user name ^</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field class="third">
+    <input type='password' matInput placeholder="password" name='password' formControlName='password'>
+    <mat-hint align="end">Your social account password^</mat-hint>
+
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <input matInput placeholder="comment" name='comment' formControlName='comment'>
+    <mat-hint align="end">Any comment^</mat-hint>
+
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit"
+      [disabled]="!connectSocialForm.valid">{{"Connect"|translate}}</button>
+
+  </form>
+</div>
+</mat-card-content>
+</mat-card>

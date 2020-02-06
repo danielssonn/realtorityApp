@@ -1,0 +1,29 @@
+
+img {
+    width: 30%;
+    padding-left: 5px;
+    
+
+}
+
+.innerDiv{
+
+    position: relative;
+    top: 0;
+    left: 0;
+    color:#bf1e2d;
+}
+.example-viewport{
+
+    margin-left: 50px;
+  
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+    height: 100vh;
+}
+
+.card{
+    width: 30%;
+}

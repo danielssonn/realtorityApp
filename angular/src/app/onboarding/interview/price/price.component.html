@@ -1,0 +1,55 @@
+<app-showing-defaults [isPreset]="true"></app-showing-defaults>
+
+<mat-card >
+  <mat-card-title></mat-card-title>
+  <mat-card-content>
+
+      
+       <br>
+     
+       <div fxLayout="row" fxLayoutAlign="center center">
+        <i class="material-icons" style="font-size: 3em; color: #bf1e2d;">
+          monetization_on
+        </i>
+  
+      </div>
+      <br>
+       <br><br>
+
+ 
+       <nouislider [disabled]="!userServices.isAuthenticated()" [config]="rangeSliderConfig" [(ngModel)]="priceRange" (change)="changed()" style="margin-bottom: 5rem"></nouislider>
+
+
+       <!-- <div fxLayout="row" fxLayoutAlign="center center">
+
+       <button mat-raised-button  matTooltip="Analyze the mean budget" color="primary" >{{"Analyze"|translate}}<mat-icon>blur_on</mat-icon></button>
+       </div> -->
+
+       <!-- <div fxLayout="" fxLayoutAlign="center center">
+         <br>
+         Out of 500 properties matching your search:<br>
+         min price $100 - good fit - green light <br>
+         max price $1,000 - good fit - green light <br>
+         median price $800- good fit - green light <br>
+       </div> -->
+
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxLayout="column" fxLayoutAlign="space-around center">
+      <button mat-fab (click)="previous()"><mat-icon>navigate_before</mat-icon></button>
+      <small style="color: gray">Schools</small>
+
+      </div>
+      <div fxLayout="column" fxLayoutAlign="space-around center">
+
+      <button mat-fab (click)="next()"><mat-icon>navigate_next</mat-icon></button>
+      <small style="color: gray">Finish</small>
+
+      </div> 
+    </div>
+    <br><br>
+    <br><br>
+
+
+  </mat-card-content>
+
+</mat-card>

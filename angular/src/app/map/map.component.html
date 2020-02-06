@@ -1,0 +1,554 @@
+<div>
+  <mat-card>
+    <mat-card-header>
+
+      <mat-card-subtitle>
+
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <mat-form-field class="mat-block">
+            <input matInput matInput placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text"
+              #search [formControl]="searchControl">
+          </mat-form-field>
+        </div>
+        <br>
+       
+        <mat-slide-toggle   [disabled]="map.zoom>=switchZoom" (change)="heatChange($event)"> Statistics</mat-slide-toggle>
+        <mat-slide-toggle  (change)="zonesChange($event)"> Zoning </mat-slide-toggle>
+        
+        <mat-slide-toggle [disabled]="map.zoom<switchZoom"  (change)="buildChange($event)"> Proposals</mat-slide-toggle>
+
+
+        <mat-slide-toggle [disabled]="map.zoom<switchZoom"  (change)="permitsChange($event)"> Active Permits</mat-slide-toggle>
+
+        <mat-slide-toggle [disabled]="map.zoom<switchZoom"  (change)="propertiesChange($event)"> MLS Listings </mat-slide-toggle>
+
+        
+
+
+
+      </mat-card-subtitle>
+
+
+    </mat-card-header>
+
+ 
+
+    <mat-card-content>
+      
+      <div *ngIf="map.zoom<switchZoom"  style="color:gray">
+        <i class="material-icons">zoom_in</i>  Zoom In or Search for Proposals, Active Permits and MLS listings
+      </div>
+      <div *ngIf="map.zoom>=switchZoom" style="color:gray">
+        <i class="material-icons">zoom_out</i> Zoom out for Statistics
+      </div>
+
+
+
+      <div class="carousel">
+
+        <div *ngIf="showHeat && map.zoom<switchZoom">
+          <mat-radio-group class="example-radio-group" [(ngModel)]="selectedHeat">
+            <mat-radio-button class="example-radio-button" *ngFor="let houseType of houseTypesHeat" [value]="houseType.type" (change)="heatSelectionChange(houseType.type,$event)">
+              {{houseType.name}} &nbsp;&nbsp;&nbsp;&nbsp;
+            </mat-radio-button>
+
+          </mat-radio-group>
+        </div>
+
+        <div *ngIf="showBuild && map.zoom>=switchZoom">Developments: Category | Status ~{{allProposals.length}} </div>
+        <div *ngIf="showPermits  && map.zoom>=switchZoom">Permits: Structure | Type | Work ~{{allPermits.length}} </div>
+
+
+
+        <agm-map #map [latitude]="lat" [longitude]="lon" [zoom]="zoom" (idle)="mapIdle($event)" [styles]="mapStyle">
+
+          <app-content (onMapReady)="mapReady($event)"></app-content>
+
+
+          <agm-marker [latitude]="lat" [longitude]="lon"></agm-marker>
+
+
+          <agm-marker-cluster [gridSize]="100" [maxZoom]='17' [minimumClusterSize]=5 [imagePath]="'/assets/clusters/'" [styles]="clusterStyles">
+            <agm-marker *ngFor="let development of proposals" [latitude]="development.latitude" [longitude]="development.longitude" [openInfoWindow]="true"
+              [iconUrl]="development.iconUrl">
+              <agm-info-window>{{development.label}}
+                <br> Category: {{development.category}}
+                <br> Status: {{development.status}}
+                <br> {{development.units}} units</agm-info-window>
+            </agm-marker>
+
+            <agm-marker *ngFor="let permit of permits" [latitude]="permit.latitude" [longitude]="permit.longitude" [openInfoWindow]="true"
+              [iconUrl]="permit.iconUrl">
+              <agm-info-window>{{permit.street_number}} {{permit.street}} {{permit.street_type}}
+                <br> Permit Description: {{permit.description}}
+                <br> Structure: {{permit.structure}}
+                <br> Work: {{permit.work}}
+                <br> Permit Type:{{permit.type}}
+                <br>
+              </agm-info-window>
+            </agm-marker>
+
+            <agm-marker *ngFor="let property of properties" [latitude]="property.latitude" [longitude]="property.longitude" [openInfoWindow]="true"
+              [iconUrl]="property.options.icon">
+              <agm-info-window>{{property.mlnum}}
+                <br>{{property.addr}}
+                <br>{{property.type}}
+                <br>{{property.price | shortCurrency}}
+                <br> {{property.bedrooms}}+{{property.bathrooms}}
+
+              </agm-info-window>
+            </agm-marker>
+          </agm-marker-cluster>
+
+          <agm-polygon *ngFor="let polygon of heat" [(paths)]="polygon.paths" [polyDraggable]="polygon.draggable" [editable]="polygon.editable"
+            [fillColor]="polygon.fill.color" [strokeColor]="polygon.stroke.color" [strokeWeight]="polygon.stroke.weight" (polyClick)="heatPolyClick(polygon.id, $event)">
+          </agm-polygon>
+
+          <agm-polygon *ngFor="let zone of zones" [(paths)]="zone.paths" [fillColor]="zone.fill.color" [strokeColor]="zone.stroke.color"
+            [strokeWeight]="zone.stroke.weight">
+
+
+          </agm-polygon>
+        </agm-map>
+        <div *ngIf="showPermits">
+          <b>
+            <u>PERMITS</u>
+            <br> STRUCTURE_TYPES:
+          </b>
+          STRUCTURE_TYPE	count(*)
+          <br>		19
+          <br>	 Mixed Comm/Inst./Res	3
+          <br>	 Mixed Comm/Inst/Ind/Res	4
+          <br>	 Mixed Comm/Res 	236
+          <br>	 Mixed Ind/Comm/Res	1
+          <br>	 Mixed Inst/Res	1
+          <br>	2 Unit - Detached	3
+          <br>	2 Unit - Semi-detached	1
+          <br>	Air Supported Stuctures	1
+          <br>	Amusement Park Structure	7
+          <br>	Apartment Building	3105
+          <br>	Apartment Hotel	14
+          <br>	Arena	58
+          <br>	Art Gallery	31
+          <br>	Auditorium	4
+          <br>	Balcony Repairs	8
+          <br>	Bank	220
+          <br>	Basements - Finishing - in Dwellings/TH	4
+          <br>	Boarding/Lodging House	37
+          <br>	Canopy w/o enclosure	1
+          <br>	Car Dealership	22
+          <br>	Child Care Facility/DayCare Centre	80
+          <br>	Club	117
+          <br>	College/Trade/Tech School/Training Cent.	311
+          <br>	College/University	2
+          <br>	Commercial	45
+          <br>	Commercial/Industrial Use	22
+          <br>	Commercial/Institutional Use	3
+          <br>	Communication Tower	8
+          <br>	Community Hall	141
+          <br>	Convent/Monastery	8
+          <br>	Converted House	1176
+          <br>	Courtroom	35
+          <br>	Crematorium/Cemetary Structure	22
+          <br>	Dance Hall	3
+          <br>	Distillery	11
+          <br>	Dry Cleaning Depot	13
+          <br>	Dry Cleaning/Laundry Plant	16
+          <br>	Duplex 	116
+          <br>	Duplex/Semi-Detached	89
+          <br>	Electromagnetic Locks	34
+          <br>	Elementary School	461
+          <br>	Exhibition Hall(With Sales)	11
+          <br>	Exhibition Hall(Without Sales)	36
+          <br>	Exterior Storage Tank	4
+          <br>	Farm Building	26
+          <br>	Fire Alarms	36
+          <br>	Fire Doors Retrofit	1
+          <br>	Fireplaces	3
+          <br>	First Party	3
+          <br>	Fitness Centre	57
+          <br>	Gas Station/Car Wash/Repair Garage	159
+          <br>	Grandstand	15
+          <br>	Group A & B	19
+          <br>	Group D & E	17
+          <br>	Group F (< 230 m2)	14
+          <br>	Group F (> 230m2)	25
+          <br>	Group Home	59
+          <br>	Gymnasium	8
+          <br>	Hair, Barber and Other Salon	91
+          <br>	Home for the Aged	65
+          <br>	Home Office	3
+          <br>	Hospital	764
+          <br>	Hostel/Shelter	48
+          <br>	House	26
+          <br>	HVAC Alt. add on Sys. or Ductwork Alt.	26
+          <br>	HVAC Alt. Boiler/Furn Rplmt. or A/C	2
+          <br>	HVAC: Special Ventilation System	6
+          <br>	Indoor Swimming Pool	4
+          <br>	Industrial	1025
+          <br>	Industrial - Shell	40
+          <br>	Industrial Chemical Plant	11
+          <br>	Industrial Manufacturing Plant	313
+          <br>	Industrial Processing Plant	160
+          <br>	Industrial Warehouse/Hazardous Building	156
+          <br>	Industrial/Institutional Use	4
+          <br>	Institutional	11
+          <br>	Jails/Detention Facility	3
+          <br>	Laboratory	89
+          <br>	Laundromat	27
+          <br>	Lecture Hall	2
+          <br>	Library	65
+          <br>	Live/Work Unit	11
+          <br>	Long Term Care Facility	66
+          <br>	Mall/Plaza	11
+          <br>	Medical/Dental Office	365
+          <br>	Mixed Assembly Use	1
+          <br>	Mixed Industrial Use	21
+          <br>	Mixed Institutional	1
+          <br>	Mixed Use/Res w Non Res	516
+          <br>	Motel/Hotel	104
+          <br>	Motion Picture Theatre	12
+          <br>	Multiple Unit Building	1250
+          <br>	Multiple Use/Non Residential	1462
+          <br>	Multiple-Use Building	8
+          <br>	Municipal Shelter	8
+          <br>	Museum	52
+          <br>	Non-Residential Building	6
+          <br>	Nursing Home Facility	59
+          <br>	Office	5379
+          <br>	Open Public Swimming Pool	43
+          <br>	Other	984
+          <br>	Other (New Housing)	18
+          <br>	Other School	5
+          <br>	P/D/F/E/R Drains: all other buildings	22
+          <br>	Park	15
+          <br>	Parking Garage	137
+          <br>	Parking Garage Repairs (all other)	8
+          <br>	Parking Garage Repairs (slab)	3
+          <br>	Penthouse/Mechanical Room	4
+          <br>	Performing Arts Centre	17
+          <br>	Personal Service Shop	126
+          <br>	Piping(all other bldgs):Inside San/Storm	1
+          <br>	Piping(all other bldgs):Outside Water..	3
+          <br>	Piping(SF):Repair/Rplmt/Add. Pool Drain	10
+          <br>	Place of Worship	469
+          <br>	Police Station with Detention	10
+          <br>	Police Station with No Detention	22
+          <br>	Portable Classroom	5
+          <br>	Power Plant	10
+          <br>	Printing Plant	7
+          <br>	Radio Station	2
+          <br>	Re-roofing with structural work	2
+          <br>	Recreational	132
+          <br>	Rental and Service Establishment	6
+          <br>	Repair Garage	82
+          <br>	Repairs/Re-cladding Walls, Re-roofing 	5
+          <br>	Residential	19
+          <br>	Residential Carports	6
+          <br>	Residential Decks	20
+          <br>	Residential Porches	35
+          <br>	Restaurant 30 Seats or Less	764
+          <br>	Restaurant Greater Than 30 Seats	611
+          <br>	Retail Mall/Plaza	53
+          <br>	Retail Store	2610
+          <br>	Retaining Wall	1
+          <br>	Sales Pavilions	8
+          <br>	Secondary School	293
+          <br>	Self-Service Storage Building	23
+          <br>	SFD - Detached	27147
+          <br>	SFD - Semi-Detached	5833
+          <br>	SFD - Townhouse	5093
+          <br>	SFD Access. Structures	6
+          <br>	SFD Garages	118
+          <br>	SFD: P/D/F/E/R Drains	19
+          <br>	SFD/Detached	4
+          <br>	SFD/Semi-Detached	51
+          <br>	SFD/TH A/C Unit Addition	1
+          <br>	SFD/TH Boiler/Furn. Replac.	1
+          <br>	SFD/TH Heat. Vent. only	1
+          <br>	SFD/TH HVAC	56
+          <br>	SFD/Townhouses	2
+          <br>	Spray Painting Operation	5
+          <br>	Sprinklers	10
+          <br>	Stacked Townhouses	109
+          <br>	Stadium	19
+          <br>	Storage Room	16
+          <br>	Student Residence	23
+          <br>	Television Studio(no audience)	6
+          <br>	Temporary Buildings	6
+          <br>	Tent	4
+          <br>	Tent (permits for certified)	1
+          <br>	Trailers	1
+          <br>	Transit Station,Subway, Bus Terminal	192
+          <br>	Triplex	58
+          <br>	Triplex/Semi-Detached	7
+          <br>	Underpinning	18
+          <br>	Undertaking Premises	11
+          <br>	University	314
+          <br>	Vacant Land	7
+          <br>	Warehouse	245
+          <br>	Water and Sewage Pumping Stations	54
+          <br>	Window Replacements (except SFD)	6
+          <BR>
+
+          <br>
+          <b>PERMIT WORK:</b>
+         
+          <br>	 " "	18
+          <br>	 Backflow Prevention Devices (Water only)	908
+          <br>	 Fixtures/Roof Drains: Other 	248
+          <br>	 Fixtures/Roof Drains: SFD	424
+          <br>	Accessory Building(s)	244
+          <br>	Accessory Structure	2
+          <br>	Addition	13
+          <br>	Addition to Existing Building	468
+          <br>	Addition(s) 	4517
+          <br>	Addition/Alteration to Existing Building	327
+          <br>	Air Conditioning: SFD/Semi/TH	5
+          <br>	Alter:  Add on /Ductwork	65
+          <br>	Alter: Boiler/Furnace/AC Replacement	111
+          <br>	Alteration to Existing Building	1111
+          <br>	Alternative Solution	1
+          <br>	Balcony/Guard Repairs	281
+          <br>	Boiler/Furnace: SFD/Semi/TH	48
+          <br>	Building Permit Related (DR)	1520
+          <br>	Building Permit Related(FS)	271
+          <br>	Building Permit Related(MS)	10957
+          <br>	Building Permit Related(PS)	11500
+          <br>	Canopy	90
+          <br>	Canopy w/o Enclosure	71
+          <br>	Carport	128
+          <br>	Certified Portables	12
+          <br>	Certified Tents	57
+          <br>	Change of Use	55
+          <br>	Communication Tower	75
+          <br>	Crane Runway	1
+          <br>	Deck	710
+          <br>	Demolition	376
+          <br>	Electromagnetic Locks	446
+          <br>	Emergency Lighting	12
+          <br>	Exterior Tank & Support	35
+          <br>	Finishing Basements	127
+          <br>	Fire Alarm	303
+          <br>	Fire Damage	253
+          <br>	Fire Doors Retrofit	8
+          <br>	Fireplace/Wood Stoves	22
+          <br>	Garage	1495
+          <br>	Garage Repair/Reconstruction	348
+          <br>	Heat/Ventilation: SFD/Semi/TH	73
+          <br>	Holding Tank: Sewage System	1
+          <br>	HVAC	1
+          <br>	HVAC: Group F > 230 Sq M	6
+          <br>	HVAC: Group F up to 230 Sq M	3
+          <br>	HVAC: Groups  D & E	58
+          <br>	HVAC: Groups A & B	28
+          <br>	HVAC: Laboratories	1
+          <br>	HVAC: Other Group C Buildings	24
+          <br>	HVAC: Parking Garages	2
+          <br>	HVAC: SFD/Semi/TH	59
+          <br>	Inside and Outside Drains	299
+          <br>	Install/Alter HVAC - only	441
+          <br>	Install/Alter Plumbing - only	513
+          <br>	Install/Alter Plumbing & HVAC only	2
+          <br>	Interior Alterations	7792
+          <br>	Interior Demolition	92
+          <br>	Manholes/Catch Basins/Sumps/Interceptors	54
+          <br>	MGO Remediation	12
+          <br>	Multiple Projects	5520
+          <br>	New Building	6292
+          <br>	New Building - Lead	82
+          <br>	New Building Certified - Lead	2
+          <br>	New Building-Certified	29
+          <br>	Non-Certified Portables	144
+          <br>	Other Proposal	1
+          <br>	Other Temporary Tents	17
+          <br>	Other(BA)	906
+          <br>	Other(DS)	40
+          <br>	Other(FS)	74
+          <br>	Other(MS)	119
+          <br>	Other(PS)	284
+          <br>	Other(SR)	1055
+          <br>	Other(TS)	5
+          <br>	Partial Demolition	2
+          <br>	Partial Permit - Foundation	141
+          <br>	Partial Permit - Other	15
+          <br>	Partial Permit - Shoring	62
+          <br>	Partial Permit - Structural Framing	40
+          <br>	Pedestrian Bridge	4
+          <br>	Piping: Other Buildings	88
+          <br>	Piping: SFD/Semi	171
+          <br>	Pool Fence Enclosure	14
+          <br>	Porch	932
+          <br>	Re-Roofing/Re-Cladding	136
+          <br>	Retaining Wall	27
+          <br>	Sales Pavilions	23
+          <br>	Satellite Dish	7
+          <br>	Second Suite (New)	96
+          <br>	Septic System:  Sewage System	1
+          <br>	Shoring	24
+          <br>	Sign Building Permit Related	4
+          <br>	Site Service	207
+          <br>	Solar Collector	8
+          <br>	Solar Domestic Hot Water (Res)	25
+          <br>	Special Ventilation System	276
+          <br>	Sprinklers	394
+          <br>	Standpipes	9
+          <br>	Temporary Structures	20
+          <br>	Trailers	5
+          <br>	Underpinning	590
+          <br>	Walk-Out Stair	248
+          <br>	Window Replacement	31
+          <BR>
+
+          <BR>
+          <b>PERMIT_TYPES</b>
+          <br>	AS Alternative Solution	1
+          <br>	Building Additions/Alterations	9046
+          <br>	Change of Use Permit	1
+          <br>	Conditional Permit	61
+          <br>	Demolition Folder (DM)	285
+          <br>	Designated Structures	201
+          <br>	Drain and Site Service	2029
+          <br>	Fire/Security Upgrade	1535
+          <br>	Mechanical(MS)	12238
+          <br>	Multiple Use Permit	184
+          <br>	New Building	518
+          <br>	New Houses	3488
+          <br>	Non-Residential Building Permit	875
+          <br>	Partial Permit	71
+          <br>	Plumbing(PS)	14161
+          <br>	Portable Classrooms	156
+          <br>	Residential Building Permit	3535
+          <br>	Site Inspection(Scarborough)	19
+          <br>	Small Residential Projects	16763
+          <br>	Temporary Structures	127
+          <BR>
+
+        </div>
+        <div *ngIf="showBuild">
+          <b>
+            <u>PROPOSED</u>
+            <br>CATEGORY</b>
+          <br> Residential, Retail, Townhouse
+          <br> Condo
+          <br> Condo, Hotel, Retail
+          <br> Condo, Hotel, Office, Retail
+          <br> Condo, Office, Retail
+          <br> Office, Residential
+          <br> Rental, Retail
+          <br> Condo, Retail
+          <br> Office, Residential, Retail
+          <br> Residential, Retail
+          <br> Condo, Rental
+          <br> Office, Retail
+          <br> Office
+          <br> Residential
+          <br> Institutional, Retail
+          <br> Residential, Townhouse
+          <br> Industrial, Office, Retail
+          <br> Condo, Office
+          <br> Condo, Residential, Townhouse
+          <br> Condo, Retail, Townhouse
+          <br> Condo, Office, Residential, Retail
+          <br> Office, Rental, Retail
+          <br> Rental
+          <br> Condo, Hotel
+          <br> Co-op
+          <br> Condo, Townhouse
+          <br> Institutional, Public Space, Rental
+          <br> Institutional, Office, Retail
+          <br> Condo, Rental, Retail
+          <br> Rental, Residential
+          <br> Condo, Public Space
+          <br> Co-op, Retail
+          <br> Condo, Public Space, Rental, Retail
+          <br> Public Space, Residential, Retail, Townhouse
+          <br> Townhouse
+          <br> Condo, Office, Public Space, Retail
+          <br> Condo, Public Space, Retail
+          <br> Condo, Residential, Retail
+          <br> Condo, Hotel, Public Space, Residential, Retail
+          <br> Retail
+          <br> Rental, Townhouse
+          <br> Hotel
+          <br> Condo, Institutional, Public Space, Residential, Retail
+          <br> Office, Rental, Residential, Retail
+          <br> Public Space, Rental, Retail
+          <br> Office, Public Space, Residential, Retail
+          <br> Condo, Residential
+          <br> Rental, Residential, Townhouse
+          <br> Condo, Institutional
+          <br> Public Space, Residential, Retail
+          <br> Condo, Hotel, Public Space, Retail
+          <br> Institutional, Public Space, Retail
+          <br> Condo, Office, Public Space, Residential, Townhouse
+          <br> Office, Rental
+          <br> Institutional
+          <br> Co-op, Condo, Institutional, Public Space, Rental, Retail, Townhouse
+          <br> Condo, Hotel, Institutional, Public Space, Retail
+          <br> Institutional, Office
+          <br> Condo, Rental, Townhouse
+          <br> Condo, Public Space, Retail, Townhouse
+          <br> Public Space, Rental
+          <br> Public Space
+          <br> Condo, Public Space, Rental, Townhouse
+          <br> Institutional, Public Space, Residential, Retail
+          <br> Hotel, Retail
+          <br> Public Space, Rental, Residential, Retail
+          <br> Office, Public Space, Retail
+          <br> Institutional, Public Space
+          <br> Transit
+          <br> House
+          <br> Public Space, Transit
+          <br> Co-op, Condo, Office, Retail
+          <br> Condo, Institutional, Office, Public Space, Rental, Retail
+          <br> Hotel, Residential
+          <br> Industrial
+          <br> Condo, Hotel, Institutional, Office, Public Space, Retail, Townhouse
+          <br> Industrial, Office
+          <br> Office, Public Space, Retail, Transit
+          <br> Condo, Institutional, Retail
+          <br> Condo, Office, Rental, Retail
+          <br> Public Space, Residential
+          <br> Condo
+          <br> Co-op, Office, Retail
+          <br> Condo, Hotel, Institutional, Retail
+          <br> Institutional, Rental
+          <br> Condo, Hotel, Office, Public Space, Retail
+          <br> Hotel, Public Space
+          <br> Office, Public Space, Residential, Retail, Transit
+          <br> Co-op, Condo
+          <br> Hotel, Rental, Retail
+          <br> Condo, Rental, Residential
+          <br> Institutional, Transit
+          <br> Institutional, Residential
+          <br> Hotel, Office, Retail
+          <br> Institutional, Office, Public Space, Retail
+          <br> Hotel, Office, Public Space, Retail
+          <br> Office, Residential, Retail, Townhouse
+          <br> Condo, Office, Public Space, Rental, Retail, Townhouse
+          <br> Condo, Institutional, Office, Retail
+          <br> Institutional, Office, Public Space, Residential
+          <br> Condo, Institutional, Office, Public Space, Rental, Residential, Retail, Townhouse
+          <br> Condo, Office, Rental, Residential, Retail
+          <br>
+          <br>
+          <b>STATUS</b>
+          <br> Pre-Construction
+          <br> Complete
+          <br> Under Construction
+          <br> On-Hold
+
+
+        </div>
+
+
+
+      </div>
+    </mat-card-content>
+
+
+    <mat-card-actions>
+    </mat-card-actions>
+  </mat-card>
+</div>

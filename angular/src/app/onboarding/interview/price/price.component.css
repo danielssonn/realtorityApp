@@ -1,0 +1,7 @@
+.mat-slider-horizontal {
+  width: 75vw;
+}
+
+.mat-card:not([class*=mat-elevation-z]){
+  box-shadow: 0ch
+}

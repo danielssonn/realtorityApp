@@ -1,0 +1,16 @@
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+  }
+  .mat-card.scrollable-content {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  
+    > .mat-card-title-group {
+      display: block;
+    }
+  
+    > .mat-card-content {
+      overflow-y: auto;
+    }
+}

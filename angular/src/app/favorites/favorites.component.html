@@ -1,0 +1,24 @@
+
+<div id="propertyList">
+  
+    <app-showing-defaults></app-showing-defaults>
+    <div style="padding:2px"></div>
+    
+    <br>
+      <cdk-virtual-scroll-viewport class="example-viewport" itemSize="90" autosize (scrolledIndexChange)="scrolledTo($event)" >
+        <ng-container *cdkVirtualFor="let property of favorites" >
+        <app-property-card [property]="property" [favs]="true"></app-property-card>
+        </ng-container>
+      </cdk-virtual-scroll-viewport>
+    
+    
+      </div>
+    
+    
+    
+    
+
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <button mat-button class="date"> </button>
+    </div>
+    

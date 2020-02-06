@@ -1,0 +1,70 @@
+<div class="scrollPane">
+<app-showing-defaults [isPreset]="true"></app-showing-defaults>
+
+<mat-card (swipe)="onSwipe($event)" class="scrollable-content">
+  <mat-card-title > </mat-card-title>
+
+  <p>
+    <mat-slide-toggle [disabled]="!isAuth" (change)="schoolsChange($event)" [(ngModel)]="goodSchools">{{"Top Schools Only"|translate}} <i
+        class="material-icons" style="color: pink">
+        school
+      </i>
+      <i class="material-icons" style="color: cornflowerblue">
+        school
+      </i>
+
+    </mat-slide-toggle><br>
+    <br><br>
+    <mat-radio-group (change)="schoolsChange($event)" [(ngModel)]="selectedSchools" [disabled]="!goodSchools">
+      <mat-radio-button [checked]="true" value="goodPublicSchools">Public </mat-radio-button>
+      <mat-radio-button value="goodCatholicSchools">Catholic </mat-radio-button>
+    </mat-radio-group>
+
+  </p>
+  <br>
+  <p>{{"Sometimes one side"|translate}}<br><br>
+
+    {{"You have already"|translate}}</p>
+  <br>
+
+  <br><br>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+
+    <div fxLayout="column" fxLayoutAlign="space-around center">
+
+      <button mat-fab (click)="previous()">
+        <mat-icon>navigate_before</mat-icon>
+      </button>
+      <small style="color: gray">Bathrooms</small>
+
+    </div>
+    <div fxLayout="column" fxLayoutAlign="space-around center">
+      <button mat-fab (click)="next()">
+        <mat-icon>navigate_next</mat-icon>
+      </button>
+      <small style="color: gray">Price</small>
+    </div>
+
+  </div>
+  <br><br>
+
+  <div style="text-align: center">
+    <a href="mailto:sayhi@hellomyhouse.com?subject=Top Schools">{{"School missing"|translate}}</a>
+    <br>
+
+    <div *ngFor="let district of districts">
+      <button style="margin: 5px; width: 300px; text-align: center" mat-raised-button color="primary"
+        (click)="toggle(district)">{{district.name}}</button><br>
+      <div *ngIf="district.show">
+        <div *ngFor="let school of getSchools(district)">
+          {{school}}
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+  </div>
+
+</mat-card>
+</div>

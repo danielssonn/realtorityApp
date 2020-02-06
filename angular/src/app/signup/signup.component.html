@@ -1,0 +1,57 @@
+<mat-card>
+  <div fxLayout="row" fxLayoutAlign="space-around center" class="avatar medium"></div>
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title></mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+
+    <form (ngSubmit)="signup()" [formGroup]="registerForm">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="First Name" name="firstName" id="firstName"  formControlName = "firstName">
+        <div *ngIf="f.firstName.invalid && f.firstName.touched">
+        <mat-error *ngIf="f.firstName.errors.required">
+          {{"Please enter your"|translate}}
+          <strong> {{"first name"|translate}}</strong>
+        </mat-error>
+      </div>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+          <input matInput placeholder="Last Name" name="lastName" id="lastName"  formControlName = "lastName">
+          <div *ngIf="f.lastName.invalid && f.lastName.touched">
+          <mat-error *ngIf="f.lastName.errors.required">
+            {{"Please enter your"|translate}}
+            <strong> {{"last name"|translate}}</strong>
+          </mat-error>
+        </div>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Email" name="email" id="email"  formControlName = "email">
+            <div *ngIf="f.email.invalid && f.email.touched">
+            <mat-error *ngIf="f.email.errors.required">
+              {{"Please enter your"|translate}}
+              <strong> {{"email"|translate}}</strong>
+            </mat-error>
+          </div>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+              <input matInput placeholder="Password" name="password" id="password" type="password" formControlName = "password">
+              <div *ngIf="f.password.invalid && f.password.touched">
+              <mat-error *ngIf="f.password.errors.required">
+                {{"Please enter your"|translate}}
+                <strong>{{"password"|translate}}</strong>
+              </mat-error>
+            </div>
+            </mat-form-field>
+            
+      <button mat-button type="submit" [disabled]="!registerForm.valid">{{"SIGN UP"|translate}}</button>
+    </form>
+
+
+
+
+  </mat-card-content>
+
+</mat-card>

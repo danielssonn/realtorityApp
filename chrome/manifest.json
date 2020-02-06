@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "Realy Extension",
+  "short_name": "Realy Extension",
+  "version": "1.0.0",
+  "description": "Realy Extension",
+  "permissions": ["declarativeContent",  "https://*.googleapis.com/*", "https://*.exeyo.com/*"],
+
+  "browser_action": {
+    "default_icon": "assets/T.png",
+    "default_popup": "index.html",
+    "default_title": "Realy Extension"
+  },
+
+  "content_scripts": [
+    {
+      "js": ["contentPage.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "background": {
+    "scripts": ["backgroundPage.js"],
+    "persistent": false
+  },
+  "content_security_policy": "script-src 'self' 'sha256-mrfdOuOSnccjecGhLahM3MUsJOj6aX1ymRSwOaERYj4=' https://apis.google.com/ https://maps.googleapis.com https://maps.gstatic.com https://www.exeyo.com 'unsafe-eval'; object-src 'self';"
+
+}

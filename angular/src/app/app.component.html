@@ -1,0 +1,66 @@
+<div class="right" (swipe)="onSwipe($event)">
+  <div [ngClass]="{'left-header':onBehalf.userId=='-1','left-header-b':onBehalf.userId!='-1'}">
+    <div>
+
+      <button mat-icon-button (click)="clack()" [matMenuTriggerFor]="menu" aria-label="icon-button with a menu">
+        <mat-icon style="color: white; "><img src="assets/reorder.svg" /></mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <ng-template matMenuContent>
+          <button mat-menu-item (click)="showToday()">
+            <mat-icon><img src="assets/day.svg" /></mat-icon>
+            <span class='menuItem'>{{"Today"|translate}}</span>
+          </button>
+          <button mat-menu-item (click)="showWeek()">
+            <mat-icon><img src="assets/calendar.svg" /></mat-icon>
+            <span class='menuItem'>{{"Week"|translate}}</span>
+          </button>
+          <button mat-menu-item (click)="showFavorites()">
+            <mat-icon> <img src="assets/favourite.svg"></mat-icon>
+            <span class='menuItem'>{{"Favorites"|translate}}</span>
+          </button>
+          <button mat-menu-item (click)="startInterview()">
+            <mat-icon> <img src="assets/filter.svg" /></mat-icon>
+            <span class='menuItem'>{{"Filters"|translate}}</span>
+          </button>
+          <br><br>
+
+          <button mat-menu-item (click)="account()">
+            <mat-icon> <img src="assets/account.svg" /></mat-icon>
+            <span class='menuItem'>{{"Account"|translate}}</span>
+          </button>
+        </ng-template>
+      </mat-menu>
+
+      <span [matMenuTriggerFor]="menu"
+        style="color:white; font-size: 1.2em; padding-left:10px; vertical-align: middle; font-weight: 500">{{title|translate}}</span>
+
+      <mat-icon (click)="openDialog()"><img src="assets/call.svg" style="position: absolute;
+        right: 0px;
+        width: 20px;
+        padding: 10px;
+        " />
+
+      </mat-icon>
+
+    </div>
+    <div *ngIf="networkFail" style="background-color: rgb(23, 85, 155); color:white; text-align: center">
+      {{"networkStatus"|translate}}
+    </div>
+
+
+    <div matRipple>
+
+      <div (click)="manage()" *ngIf="onBehalf.userId && onBehalf.userId !=='-1'"
+        style="background-color: #3e3c3c; color:white;text-align: center; height:25px; line-height: 22px;">
+        Client: {{onBehalf.name}} {{onBehalf.email}}
+      </div>
+    </div>
+
+
+    <router-outlet></router-outlet>
+
+  </div>
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" loadingText="Loading..." type="ball-atom"
+    type="ball-fussion">
+  </ngx-spinner>

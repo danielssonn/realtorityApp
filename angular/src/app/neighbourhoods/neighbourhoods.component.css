@@ -1,0 +1,40 @@
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+}
+
+/* Add rounded corners to the top left and the top right corner of the image */
+img {
+    border-radius: 5px 5px 0 0;
+}
+agm-map {
+    position: absolute;
+    width: 100%;
+    height: 79%;
+   
+}
+.camera{
+    background-image: url('/assets/Snapit-02.png'); 
+    background-size: 100%;
+    background-repeat: no-repeat;
+    /* height: 110%; */
+    position: relative;
+
+}
+.viewfinder{
+    position: relative;
+    padding-bottom: 40%;
+    padding-top: 15%;
+    padding-left: 6%;
+    padding-right: 6%;
+    /* background: blue; opacity: 0.5; */
+}
+.controls{
+    position: relative;
+    /* background-color: red; */
+    padding-bottom: 10%;
+}
+.mat-button.mat-small {
+    min-width: 1%;
+}

@@ -1,0 +1,50 @@
+<div [hidden]="selectedClientId.userId=='-1'">
+<br>
+
+<div fxLayout="row" fxLayoutAlign="center center">
+ 
+
+  <!-- <button  *ngIf="getMLSVisible" color="warn" (click)='getMLSNumber()' mat-raised-button>{{"Get MLS"|translate}}</button> -->
+  <mat-form-field  *ngIf="selectedClientId && selectedClientId.userId!='-1'"  style="text-align: center; color: brown; font-weight: bold; font-size:1.2em">
+      <input matInput placeholder="" #reco [(ngModel)]="recommendMLSNum">
+    </mat-form-field>
+    
+    <button *ngIf="selectedClientId && selectedClientId.userId!='-1'" color="primary" (click)='recommend()' mat-raised-button>{{"Recommend MLS#"|translate}}</button>
+
+</div>
+
+
+<div  fxLayout="row" fxLayoutAlign="center center">
+  <mat-form-field style="text-align: center"> 
+    <input matInput placeholder="{{favsLis}}" #listingSearchInput>
+  </mat-form-field>
+  <div class="spinner-container" *ngIf="recoDataSource.loading$ | async">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>
+
+<table  mat-table class="reco-table mat-elevation-z8" [dataSource]="recoDataSource" matSort matSortActive="seqNo"
+  matSortDirection="asc" matSortDisableClear>
+
+
+  <ng-container matColumnDef="addr">
+    <mat-header-cell *matHeaderCellDef>Address</mat-header-cell>
+    <mat-cell (click)="showDetail(listing)" class="description-cell" *matCellDef="let listing">{{listing.addr|shortText:40}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="ml_num">
+    <mat-header-cell *matHeaderCellDef>MLS#</mat-header-cell>
+    <mat-cell (click)="showDetail(listing)" class="description-cell" *matCellDef="let listing">{{listing.ml_num}}</mat-cell>
+  </ng-container>
+
+
+  <mat-header-row *matHeaderRowDef="displayedRecoColumns"></mat-header-row>
+
+  <mat-row *matRowDef="let row; columns: displayedRecoColumns"></mat-row>
+
+
+</table>
+
+<mat-paginator class="marginless-paginator-range-label" [length]="recoDataSource.listingCount" [pageSize]="3" [pageSizeOptions]="[3, 5, 10]" #listingPaginator></mat-paginator>
+
+</div>

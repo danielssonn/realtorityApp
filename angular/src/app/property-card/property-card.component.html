@@ -1,0 +1,160 @@
+<!-- <mat-card *ngIf="property.star!='N'" [ngClass]="{'fresh':!property.star,'read':property.star=='R', 'expired': property.expired, 'liked': property.star=='Y', 'disliked': property.star=='N'}"  class="propertyCard" (click)="showDetail(property)"> -->
+<div style="background-color: white; padding: 2px;">
+
+
+
+  <div>
+    
+    <mat-card *ngIf="property.internet1!='N'&&property.internet2!='N'"
+      [ngClass]="{'propertyCard':!property.star,'read':property.star}" (click)="showDetail(property)"
+      (click)="showDetail(property)" (swipe)="onSwipe($event)">
+
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <!-- <button color="accent" mat-mini-fab (click)="remove($event,property)"><mat-icon>close</mat-icon>
+    </button>  -->
+
+
+        <div class="avatar medium">
+
+          <i *ngIf="property.star==='Y' && !property.recommendedBySalesPersonName" class="material-icons innerDiv">
+            favorite
+          </i>
+          <i *ngIf="property.star==='Y' && property.recommendedBySalesPersonName" class="material-icons innerDiv"
+            style="color:gold">
+            star
+          </i>
+          <div *ngIf="true">
+
+            <div *ngIf="showTwo()">
+              <!-- got two-->
+              <i class="material-icons innerDiv"
+                style="padding-top: 15px;color:pink; font-size: 18px; text-align: right ">
+                school
+              </i>
+
+              <i class="material-icons innerDiv" style="color: cornflowerblue;  font-size: 18px;text-align: end">
+                school
+              </i>
+            </div>
+
+            <div *ngIf="showSingle()">
+              <!-- got one-->
+              <i *ngIf="preferences.goodSchools && property.school_1_type==='E'|| property.school_2_type==='E'||property.school_1_c_type==='E'||property.school_2_c_type==='E'||property.school_3_c_type==='E'||property.school_4_c_type==='E'"
+                class="material-icons innerDiv" style="color:pink; font-size: 18px; text-align: end">
+                school
+              </i>
+
+              <i *ngIf="preferences.goodSchools && property.school_1_type==='S'|| property.school_2_type==='S'|| property.school_1_c_type==='S'|| property.school_2_c_type==='S'|| property.school_3_c_type==='S'|| property.school_4_c_type==='S'"
+                class="material-icons innerDiv" style=" color: cornflowerblue;  font-size: 18px; text-align: end">
+                school
+              </i>
+            </div>
+
+            <div *ngIf="showGreySchool()">
+
+              <i *ngIf="property.school_1 !=='null'||property.school_2 !=='null' || property.school_1_c!=='null' || property.school_2_c!=='null' || property.school_3_c!=='null' || property.school_4_c!=='null'"
+                class="material-icons innerDiv" style="color:grey; font-size: 16px; text-align: end">
+                school
+              </i>
+
+            </div>
+
+
+          </div>
+          <!-- <div *ngIf="property.schools && property.schools.length===1&&property.star!=='Y'" >
+                <i *ngIf="property.school_1_type==='E'" class="material-icons innerDiv" style="color:pink">
+                school
+                </i>
+                <i *ngIf="property.school_1_type==='S'" class="material-icons innerDiv" style="color: cornflowerblue" >
+                    school
+                    </i>
+       
+              </div> -->
+          <img [src]="getPropertyIcon(property)" (error)="imageError($event)" />
+        </div>
+
+
+        <div *ngIf="property.marketingMessage" style="width:95%; padding-left: 10px " class="news">
+          <div fxLayout="column" fxLayoutAlign="end left">
+            <div>{{property.marketingMessage|shortText:80}}</div>
+          </div>
+        </div>
+        <div *ngIf="!property.marketingMessage" style="width:55%; ">
+          <div fxLayout="column" fxLayoutAlign="end left">
+            <div>{{(property.addr)?property.addr:"Coming soon ..."}}</div>
+            <div><small>{{(property.cross_st)?property.cross_st.substring(0,20):"Coming soon ..."}}</small></div>
+          </div>
+        </div>
+
+        <div *ngIf="property.br"><i class="material-icons iconAlign" style="font-size:12px">hotel</i> <small>
+            <br>{{property.br}}</small></div>
+        <div *ngIf="property.bath_tot"> <img src="assets/shower.png" height="18px" class="iconAlign"><small> <br>
+            &nbsp;&nbsp;{{property.bath_tot}}</small></div>
+
+        <div> {{property.lp_dol | shortCurrency}} </div>
+
+
+        <div *ngIf="favs">
+          <div *ngIf='!property.expired && getTrend()===1'>
+            <i style="left:1.7em;" class="material-icons">trending_down</i><br>
+            {{property.lp_dol - property.new_price|shortCurrency }}
+          </div>
+          <div *ngIf='!property.expired && getTrend()===2'>
+            <i style="left:1.7em;" class="material-icons">trending_up</i><br>
+            {{ property.new_price - property.lp_dol|shortCurrency }}
+          </div>
+          <div *ngIf='!property.expired && getTrend()===3'>
+            <i style="left:1.7em;" class="material-icons">trending_flat</i>
+          </div>
+
+          <div *ngIf="property.lsc1==='Sld'||property.lsc2==='Sld'" class="smallImg" style="color:white">
+            Sold: {{property.sp_dol1|shortCurrency}}{{property.sp_dol2|shortCurrency}}
+          </div>
+          <div *ngIf="property.lsc1==='Sus'||property.lsc2==='Sus'" class="smallImg" style="color:white">
+            Suspended
+          </div>
+          <div *ngIf="property.lsc1==='Ter'||property.lsc2==='Ter'" class="smallImg" style="color:white">
+            Terminated
+          </div>
+          <div *ngIf="property.lsc1==='Exp'||property.lsc2==='Exp'" class="smallImg" style="color:white">
+            Expired
+          </div>
+
+          <!-- <div *ngIf="property.lsc1==='Pc'||property.lsc2==='Pc'" style="color:red">
+            <i class="material-icons">
+                    block</i><br><small>{{property.lsc1}}</small><small>{{property.lsc2}}</small>
+        </div> -->
+          <div *ngIf="property.lsc1==='Sc'||property.lsc2==='Sc'" class="smallImg" style="color:white">
+            Sold on Condition
+          </div>
+          <div *ngIf="property.lsc1==='Lc'||property.lsc2==='Lc'" style="color:red">
+            <i class="material-icons">
+              block</i><br><small>{{property.lsc1}}</small><small>{{property.lsc2}}</small>
+          </div>
+        </div>
+
+        <!-- <div fxLayout="column" fxLayoutAlign="end center"> <i class="material-icons">hotel</i> {{property.br}}
+    </div>
+
+    <div fxLayout="column" fxLayoutAlign="end center"><i class="material-icons">wc</i> {{property.bath_tot}}
+    </div>
+
+
+
+    <div fxLayout="column" fxLayoutAlign="end center"> <i class="material-icons">attach_money</i> {{property.lp_dol | shortCurrency}}
+    </div>  -->
+
+        <!-- <button color="accent" mat-mini-fab (click)="remove($event,property)"><mat-icon>check</mat-icon>
+    </button>  -->
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between end">
+        <div [ngClass]="{'sunday':dayOfWeek&&dayOfWeek.startsWith('Sun'),'monday':dayOfWeek&&dayOfWeek.startsWith('Mon'),'tuesday':dayOfWeek&&dayOfWeek.startsWith('Tue'),'wednesday':dayOfWeek&&dayOfWeek.startsWith('Wed'), 'thursday':dayOfWeek&&dayOfWeek.startsWith('Thu'), 'friday':dayOfWeek&&dayOfWeek.startsWith('Fri'),'saturday':dayOfWeek&&dayOfWeek.startsWith('Sat')}"> {{dayOfWeek}}<span>{{"weird kr stuff"|translate}}</span></div>
+        <div style="text-align:center; font-size: 0.8em" *ngIf="property.userComment" class="customMessage">
+          {{property.userComment|shortText:40}}
+        </div>
+      </div>
+
+      
+    </mat-card>
+  </div>
+</div>

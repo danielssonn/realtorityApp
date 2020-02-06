@@ -1,0 +1,45 @@
+<br><br>
+
+<div fxLayout="row" fxLayoutAlign="space-around center" style="background-color: #bf1e2d; color:white">
+ Past Engagements
+</div>
+
+<table mat-table class="client-table mat-elevation-z8" [dataSource]="dataSource" matSort matSortActive="seqNo"
+matSortDirection="asc" matSortDisableClear>
+
+
+<ng-container matColumnDef="date">
+    <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+    <mat-cell (click)='openDetails(client)' class="description-cell" *matCellDef="let client">{{client.name|shortText:40}}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+    <mat-cell (click)='openOverview(client)' class="duration-cell" *matCellDef="let client">{{client.email|shortText:40}}</mat-cell>
+</ng-container>
+
+<ng-container matColumnDef="message">
+  <mat-header-cell *matHeaderCellDef>Message</mat-header-cell>
+  <mat-cell (click)='openOverview(client)' class="duration-cell" *matCellDef="let client">{{client.email|shortText:40}}</mat-cell>
+</ng-container>
+<ng-container matColumnDef="outcome">
+  <mat-header-cell *matHeaderCellDef>Outcome</mat-header-cell>
+  <mat-cell (click)='openOverview(client)' class="duration-cell" *matCellDef="let client">{{client.email|shortText:40}}</mat-cell>
+</ng-container>
+
+<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+</table>
+<!-- <mat-paginator [length]="dataSource.engagementCount" [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" #clientSearchPaginator ></mat-paginator> -->
+
+<div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="end center">
+
+<button color="warn" (click)='emailList()' mat-raised-button>{{"Manage Email Lists"|translate}}</button>
+
+<button color="warn" (click)='socialLink()' mat-raised-button>{{"Manage Social/Ad Networls"|translate}}</button>
+</div>
+<br><br>
+
+<button color="primary" (click)='addEngagement()' mat-raised-button>{{"Create"|translate}}</button>

@@ -1,0 +1,9 @@
+<div *ngIf="!isAuth" style="padding-top: 10px;padding-bottom: 10px; padding-left:5px;padding-right: 5px">
+    <a routerLink="/account">
+        <div style="font-size:0.95em;padding-top:5px;background-color: lightgrey;text-align: center; height: 50px; border-radius: 5px">
+            <span *ngIf="results"> {{"This is default"|translate}}</span><span *ngIf="preset"> {{"This is default
+                presets"|translate}}</span> <br> {{"Login to customize"|translate}} <a routerLink="/account">{{"Log in from defaults"|translate}}</a>
+        </div>
+    </a>
+
+</div>

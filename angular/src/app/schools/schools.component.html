@@ -1,0 +1,9 @@
+<agm-map #myMap [styles]="mapStyle" [gestureHandling]="'greedy'" [zoomControl]="false" [streetViewControl]="false"
+    [minZoom]="minZoom" [maxZoom]="maxZoom" [(zoom)]="zoom" [latitude]="lat" [longitude]="lon" [scrollwheel]="null"
+    (mapClick)="mapClick($event)">
+
+    <agm-polygon *ngFor="let school of schools" (polyClick)="polyClicked(school.school, school)" (polyDblClick)="polyClicked(school.school, school)"
+        [(paths)]="school.paths" [polyDraggable]="true" [editable]="school.isEditable" [fillColor]="school.fill.color"
+        [strokeColor]="school.stroke.color" [strokeWeight]="school.stroke.weight" (polyDragEnd)="polyDragEnd($event)"></agm-polygon>
+
+</agm-map>
