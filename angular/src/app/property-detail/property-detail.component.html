@@ -71,6 +71,7 @@
 
       <mat-card-title>{{property.cross_st}}</mat-card-title>
       <mat-card-title>{{"Listing Price"|translate}}: {{property.lp_dol|currency:'':'symbol':'4.0-0'}}</mat-card-title>
+      <mat-card-title *ngIf="property.added">Since:  {{property.added|date}}</mat-card-title>
 
       <mat-card-title>{{property.type_own1_out|translate}}</mat-card-title>
 
@@ -284,7 +285,7 @@
           </li> -->
         <li>
 
-          <agm-map [styles]="mapStyle" #gm [latitude]="lat" [longitude]="lon" [zoom]="zoom"
+          <agm-map  [styles]="mapStyle" #gm [latitude]="lat" [longitude]="lon" [zoom]="zoom"
             [gestureHandling]="'cooperative'" [fullscreenControl]="true"
             [fullscreenControlOptions]="fullscreenControlOptions" (mapReady)="onMapReady($event)">
             <agm-marker [latitude]="lat" [longitude]="lon"></agm-marker>

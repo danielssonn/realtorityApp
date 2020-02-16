@@ -1,12 +1,104 @@
 <br>
+
+
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <mat-form-field><input matInput placeholder="price from" [(ngModel)]="priceFrom"></mat-form-field>
+  <mat-form-field><input matInput placeholder="price to" [(ngModel)]="priceTo"></mat-form-field>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <mat-form-field><input matInput placeholder="MLS #" [(ngModel)]="mlsNum"></mat-form-field>
+  <mat-form-field><input matInput placeholder="max DOM" [(ngModel)]="maxDom"></mat-form-field>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <mat-form-field><input matInput matTooltip="Use + to include more than" placeholder="Beds" [(ngModel)]="minBeds">
+  </mat-form-field>
+  <mat-form-field><input matInput matTooltip="Use + to include more than" placeholder="Baths" [(ngModel)]="minBaths">
+  </mat-form-field>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <mat-form-field><input matInput matTooltip="1 Main st" placeholder="Address" [(ngModel)]="address"></mat-form-field>
+  <mat-form-field><input matInput matTooltip="detached, duplex ..." placeholder="Property Type" [(ngModel)]="propType">
+  </mat-form-field>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <mat-form-field><input matInput placeholder="Municipality" [(ngModel)]="municipality"></mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input type="text"
+           placeholder="Community"
+           aria-label="Number"
+           matInput
+           [formControl]="communityControl"
+           [matAutocomplete]="auto"
+           [(ngModel)]="community">
+    <mat-autocomplete #auto="matAutocomplete" >
+      <mat-option *ngFor="let community of filteredCommunities | async" [value]="community">
+        {{community}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <mat-form-field><input matInput placeholder="min Lot Width" [(ngModel)]="minLotW"></mat-form-field>
+  <mat-form-field><input matInput placeholder="min Lot Depth" [(ngModel)]="minLotD"></mat-form-field>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <mat-form-field><input matInput placeholder="Keywords" [(ngModel)]="keywords"></mat-form-field>
+  <mat-checkbox [(ngModel)]="fresh">fresh</mat-checkbox>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="space-evenly center">
+
+  <mat-checkbox [(ngModel)]="multiplex">plex</mat-checkbox>
+  <mat-checkbox [(ngModel)]="schools">schools</mat-checkbox>
+  <mat-checkbox [(ngModel)]="newOnly">0-5y</mat-checkbox>
+  <mat-checkbox [(ngModel)]="condos">condos</mat-checkbox>
+
+</div>
+<br>
+<div fxLayout="row" fxLayoutAlign="space-evenly center">
+
+  <button mat-raised-button color="primary" (click)="go()">Go</button>
+
+
+</div>
+<br>
+<div fxLayout="row" fxLayoutAlign="space-evenly center">
+  <span *ngIf="average" [ngClass]="{'belowAverage': average>averageSold, 'aboveAverage': average<averageSold}"> L: {{average|currency:'':'':'1.0-0'}} | {{count}}</span>
+  <span *ngIf="average"> S: {{averageSold|currency:'':'':'1.0-0'}} | {{countSold}}</span>
+  <span *ngIf="average">{{averageGain}}%</span>
+</div>
+
+<div *ngIf="average" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+  <br>  <br>
+  <button mat-raised-button color="warn" (click)="priceSort()">by price</button>
+  <button mat-raised-button color="warn" (click)="dateSort()">by date</button>
+  <i *ngIf="!sortOrderUp" class="material-icons">
+    arrow_upward
+    </i>
+    <i *ngIf="sortOrderUp" class="material-icons">
+      arrow_downward
+      </i>
+</div>
+<div *ngIf="noResultsWithoutSold" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
+ Such void ... for so very long ...
+</div>
+<div *ngIf="noResultsWithSold" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
+  We are out, right now! Last year sales: {{countSold}}
+ </div>
+<br>
+
 <cdk-virtual-scroll-viewport class="example-viewport" itemSize="10">
   <ng-container *cdkVirtualFor="let property of properties" class="card">
 
 
-
-    <img [src]="getPropertyIcon(property)" (error)="imageError($event)"  *ngIf="property.star!='N'&&property.star!=='Y'" width="100%" (click)="showDetail(property)"
+    <img [src]="getPropertyIcon(property)" (error)="imageError($event)"
+      [ngClass]="{'centered-and-cropped':property.star!='Y','centered-and-cropped-liked':property.star=='Y','centered-and-cropped-disliked':property.star=='D'}"
+      width="110" height="110" *ngIf="show(property)" (click)="showDetail(property)"
       (swipe)="onSwipe($event, property)">
-  
+
+ 
 
   </ng-container>
 </cdk-virtual-scroll-viewport>

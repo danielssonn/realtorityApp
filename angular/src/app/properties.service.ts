@@ -372,19 +372,39 @@ export class PropertiesService {
   }
 
   propertiesRadar(params): Observable<any> {
-    if (this.propertiesOnRadar) {
+    if (false) {
       return observableOf(this.propertiesOnRadar);
     } else {
 
       this.options.params = { beds: 3, lotWidth: 20, schools: 1, maxPrice: 1700000, municipality: 'toronto', type: 'detached' };
       this.options.params = params;
+      let pSign;
+      if (params.beds) {
+        pSign = params.beds.indexOf('+');
+        if (pSign > 0) {
+          params.beds = params.beds.substring(0, pSign) + 'a'
+        }
+      }
+      if(params.baths){
+        pSign = params.baths.indexOf('+');
+        if (pSign > 0) {
+          params.baths = params.baths.substring(0, pSign) + 'a'
+        } 
+        
+      }
+
 
       return this.http.get(this.propertiesRadarUrl, this.options).pipe(
         map(response => {
+          let rr: any = response[1];
+          let soldProps: any = response[0]
           // make markers from development properties
-          this.propertiesOnRadar = [];
-          console.log('radar', response)
-          response[1].json().forEach(
+          this.propertiesOnRadar = [[], []];
+
+          let sumListed = 0;
+          let sumSold = 0;
+
+          rr.forEach(
             prop => {
               const geo = prop.geo.split(',');
               let lat = geo[0];
@@ -401,13 +421,21 @@ export class PropertiesService {
               } else {
                 prop.icon = "/assets/oldPlace.svg"
 
-
               }
+              sumListed = sumListed + prop.lp_dol;
+              this.propertiesOnRadar[1].push(prop)
 
-              this.propertiesOnRadar.push(prop)
 
             }
           )
+          soldProps.forEach(sold => {
+            sumSold = sumSold + sold.sp_dol
+          })
+
+          let averageListed = sumListed / rr.length;
+          let averageSold = sumSold / soldProps.length;
+
+          this.propertiesOnRadar[0].push({ averageList: averageListed, listed: rr.length, sold: soldProps.length, averageSold: averageSold })
           return this.propertiesOnRadar;
 
         }));
@@ -730,433 +758,433 @@ export class PropertiesService {
     this.colorGeoJSON(geoJSON, min, max);
     return geoJSON;
 
-  
 
 
 
-}
 
-
-
-
-
-colorGeoJSON(communities, min, max) {
-
-  // console.log('min/max/total', min, max, this.weeklyProperties.length)
-  // console.log('band 1',max-(max/6), max)
-  // console.log('band 2',max-(2*max/6), max-(max/6 ))
-  // console.log('band 3',max-(3*max/6), max-(2*max/6 ))
-  // console.log('band 3',max-(4*max/6), max-(3*max/6 ))
-  // console.log('band 4',max-(5*max/6), max-(4*max/6 ))
-  // console.log('band 5',max-(5*max/6), max-(6*max/6 ))
-
-
-
-
-
-  communities.features.forEach(
-
-
-
-    community => {
-
-      //close 'er if needed
-      if (community.geometry.coordinates[0][0][0] != community.geometry.coordinates[0][community.geometry.coordinates[0].length - 1][0]) {
-
-        community.geometry.coordinates[0].push(community.geometry.coordinates[0][0]);
-      }
-
-      // console.log(community.idKey, community.heat )
-
-      if (community.properties.heat >= max - (max / 6)) {
-        community.properties.color = '#a50f15'
-      }
-      if (community.properties.heat > max - (2 * max / 6) && community.properties.heat <= max - (max / 6)) {
-        community.properties.color = '#de2d26'
-      }
-      if (community.properties.heat > max - (3 * max / 6) && community.properties.heat <= max - (2 * max / 6)) {
-        community.properties.color = '#fb6a4a'
-      }
-      if (community.properties.heat > max - (4 * max / 6) && community.properties.heat <= max - (3 * max / 6)) {
-        community.properties.color = '#fc9272'
-      }
-      if (community.properties.heat > max - (5 * max / 6) && community.properties.heat <= max - (4 * max / 6)) {
-        community.properties.color = '#fcbba1'
-      }
-      if (community.properties.heat > max - (6 * max / 6) && community.properties.heat <= max - (5 * max / 6)) {
-        community.properties.color = '#fee5d9'
-      }
-    }
-
-
-  )
-
-}
-
-
-
-colorHeatMap(communities, min, max) {
-
-  // console.log('min/max/total', min, max, this.weeklyProperties.length)
-  // console.log('band 1',max-(max/6), max)
-  // console.log('band 2',max-(2*max/6), max-(max/6 ))
-  // console.log('band 3',max-(3*max/6), max-(2*max/6 ))
-  // console.log('band 3',max-(4*max/6), max-(3*max/6 ))
-  // console.log('band 4',max-(5*max/6), max-(4*max/6 ))
-  // console.log('band 5',max-(5*max/6), max-(6*max/6 ))
-
-
-
-
-
-  communities.forEach(
-
-    community => {
-      // console.log(community.idKey, community.heat )
-
-      if (community.heat >= max - (max / 6)) {
-        community.fill.color = '#a50f15'
-      }
-      if (community.heat > max - (2 * max / 6) && community.heat <= max - (max / 6)) {
-        community.fill.color = '#de2d26'
-      }
-      if (community.heat > max - (3 * max / 6) && community.heat <= max - (2 * max / 6)) {
-        community.fill.color = '#fb6a4a'
-      }
-      if (community.heat > max - (4 * max / 6) && community.heat <= max - (3 * max / 6)) {
-        community.fill.color = '#fc9272'
-      }
-      if (community.heat > max - (5 * max / 6) && community.heat <= max - (4 * max / 6)) {
-        community.fill.color = '#fcbba1'
-      }
-      if (community.heat > max - (6 * max / 6) && community.heat <= max - (5 * max / 6)) {
-        community.fill.color = '#fee5d9'
-      }
-    }
-
-
-  )
-
-}
-
-setHeat(heatType) {
-  this.communitiesList.forEach(polygon => {
-
-    if (heatType === 'rateAll') {
-      polygon.fill.color = this.getHeatColor(polygon.rateAll)
-
-    }
-    if (heatType === 'rateCondo') {
-      polygon.fill.color = this.getHeatColor(polygon.rateCondo)
-    }
-    if (heatType === 'rateSemi') {
-      polygon.fill.color = this.getHeatColor(polygon.rateSemi)
-    }
-    if (heatType === 'rateRowhouse') {
-      polygon.fill.color = this.getHeatColor(polygon.rateRowhouse)
-    }
-    if (heatType === 'rateDetached') {
-      polygon.fill.color = this.getHeatColor(polygon.rateDetached)
-    }
-  })
-
-}
-
-
-
-getHeatColor(rate) {
-
-
-  return 'red';
-  var h = (rate) * 240
-  return "hsl(" + Math.round(h).toFixed(1) + ", 100%, 50%)";
-
-
-  if (rate === 1) {
-
-    return '#a50026';
-
-  }
-  if (rate === 2) {
-
-    return '#d73027';
-
-  }
-  if (rate === 3) {
-
-    return '#f46d43';
-
-  }
-  if (rate === 4) {
-
-    return '#fdae61';
-
-  }
-  if (rate === 5) {
-
-    return '#fee090';
-
-  }
-  if (rate === 6) {
-
-    return '#e0f3f8';
-
-  }
-  if (rate === 7) {
-
-    return '#abd9e9';
-
-  }
-  if (rate === 8) {
-
-    return '#74add1';
-
-  }
-  if (rate === 9) {
-
-    return '#4575b4';
-
-  }
-  if (rate === 10) {
-
-    return '#313695';
-
-  }
-  return 'pink';
-}
-
-getCustomPropertyLabel(property) {
-
-
-
-  if (property.type_own1_out === 'Detached') {
-    return 'assets/D.png';
-  } else if (property.type_own1_out === 'Condo Apt' || property.type_own1_out === 'Leasehold Condo'
-    || property.type_own1_out === 'Co-Op Apt' || property.type_own1_out === 'Comm Element Condo') {
-    return 'assets/C.png';
-  } else if (property.type_own1_out === 'Att/Row/Twnhouse' || property.type_own1_out === 'Condo Townhouse'
-    || property.type_own1_out === 'Fourplex' || property.type_own1_out === 'Triplex' ||
-    property.type_own1_out === 'Multiplex' || property.type_own1_out === 'Semi-Detached') {
-    return 'assets/S.png';
-  } else {
-    return 'assets/D.png';
   }
 
 
-}
-getZoneDetail(zone) {
-  if (zone === 'R') { return { name: 'Residential', background: 'yellow' } };
-  if (zone === 'RD') { return { name: 'Residential Detached', background: 'yellow' } };
-  if (zone === 'RS') { return { name: 'Residential Semi Detached', background: 'yellow' } };
-  if (zone === 'RT') { return { name: 'Residential Towhouse', background: 'yellow' } };
-  if (zone === 'RM') { return { name: 'Residential Multiple Dwelling', background: 'yellow' } };
-
-  if (zone === 'RA') { return { name: 'Residential Appartment', background: 'orange' } };
-  if (zone === 'RAC') { return { name: 'Residential Appartment Commercial', background: 'orange' } };
-
-  if (zone === 'O') { return { name: 'Open Space', background: 'lightgreen' } };
-  if (zone === 'ON') { return { name: 'Open Space Natural', background: 'lightgreen' } };
-  if (zone === 'OR') { return { name: 'Open Space Recreation', background: 'lightgreen' } };
-  if (zone === 'OG') { return { name: 'Open Space Golf Course', background: 'lightgreen' } };
-  if (zone === 'OM') { return { name: 'Open Space Marina', background: 'lightgreen' } };
-  if (zone === 'OC') { return { name: 'Open Space Cemetery', background: 'lightgreen' } };
-
-  if (zone === 'UT') { return { name: 'Utility and Transportation', background: 'grey' } };
-
-  if (zone === 'CL') { return { name: 'Commercial Local', background: 'pink' } };
-  if (zone === 'CR') { return { name: 'Commercial Residential', background: 'coral' } };
-
-  if (zone === 'CRE') { return { name: 'Commercial Residential Employment', background: 'brown' } };
-
-  if (zone === 'CR') { return { name: 'Commercial Residential', background: 'coral' } };
-
-  if (zone === 'EL') { return { name: 'Employment Light Industrial', background: 'violet' } };
-  if (zone === 'E') { return { name: 'Employment Industrial', background: 'violet' } };
-  if (zone === 'EL') { return { name: 'Employment Light Industrial', background: 'violet' } };
-  if (zone === 'EH') { return { name: 'Employment Heavy Industrial', background: 'violet' } };
-  if (zone === 'EL') { return { name: 'Employment Light Industrial', background: 'violet' } };
-  if (zone === 'EO') { return { name: 'Employment Industrial Office', background: 'violet' } };
-
-  if (zone === 'I') { return { name: 'Institutional General', background: 'aqua' } };
-  if (zone === 'IH') { return { name: 'Institutional Hospital', background: 'aqua' } };
-  if (zone === 'IE') { return { name: 'Institutional Education', background: 'aqua' } };
-  if (zone === 'IS') { return { name: 'Institutional School', background: 'aqua' } };
-  if (zone === 'IPW') { return { name: 'Institutional Place of Worship', background: 'aqua' } };
-
-  return { name: '', background: 'white' };
 
 
-}
 
-favorites(): Promise < any[] > {
+  colorGeoJSON(communities, min, max) {
 
-  if(this.favoriteProperties) {
-  return observableOf(this.favoriteProperties).toPromise();
-} else {
-  return this.http.get(this.propertiesUrlFavorite, this.options).pipe(
-    map(response => {
-      this.favoriteProperties = response;
-      return this.favoriteProperties;
-
-    })).toPromise();
-}
-  }
-trashbin(): Observable < any[] > {
-
-  return this.http.get(this.propertiesUrlTrashbin, this.options).pipe(
-    map(response => {
-      if (response[1].json().length === 0) {
-        this.trashbinProperties = null;
-      } else {
-        this.trashbinProperties = response[1].json();
-
-      }
-      return this.trashbinProperties;
-
-    }));
-
-}
-emptyTrash(){
+    // console.log('min/max/total', min, max, this.weeklyProperties.length)
+    // console.log('band 1',max-(max/6), max)
+    // console.log('band 2',max-(2*max/6), max-(max/6 ))
+    // console.log('band 3',max-(3*max/6), max-(2*max/6 ))
+    // console.log('band 3',max-(4*max/6), max-(3*max/6 ))
+    // console.log('band 4',max-(5*max/6), max-(4*max/6 ))
+    // console.log('band 5',max-(5*max/6), max-(6*max/6 ))
 
 
-}
-like(property, reco) {
 
-  if (reco) {
-    // this will be overwritten with actual name on the server
-    property.recommendedBySalesPersonName = 'You';
-  }
 
-  if (this.favoriteProperties) {
-    this.favoriteProperties.unshift(property);
-  }
-  if (this.dailyProperties) {
-    this.dailyProperties.forEach(element => {
-      if (element.ml_num === property.ml_num) {
-        element.star = 'Y'
-      }
-    });
-  }
-  if (this.weeklyProperties) {
-    this.weeklyProperties.forEach(element => {
-      if (element.ml_num === property.ml_num) {
-        element.star = 'Y'
-      }
-    });
-  }
-  property.star = 'Y';
-  return this.http.post(this.manageUrl, property, this.options).pipe(map(response => {
-  })).subscribe();
 
-}
-allProperties(): Observable < any[] > {
+    communities.features.forEach(
 
-  if(this.properties) {
-  return observableOf(this.properties);
-} else {
-  return this.http.get(this.propertiesUrl, this.options).pipe(
-    map(response => {
-      this.properties = [];
-      response[1].json().forEach(
-        property => {
-          const geo = property.geo.split(',');
-          let lat = geo[0];
-          let lng = geo[1];
-          this.properties.push({
 
-            latitude: lat++,
-            longitude: lng++,
-            markerClickable: true,
-            markerDraggable: false,
-            title: property.addr,
-            visible: true,
-            addr: property.addr,
-            price: property.lp_dol,
-            type: property.type_own1_out,
-            bedrooms: property.br,
-            bathrooms: property.bath_tot,
-            mlnum: property.ml_num,
-            options: {
-              icon: { url: this.getPropertyMarker(property) }
-            },
-          })
+
+      community => {
+
+        //close 'er if needed
+        if (community.geometry.coordinates[0][0][0] != community.geometry.coordinates[0][community.geometry.coordinates[0].length - 1][0]) {
+
+          community.geometry.coordinates[0].push(community.geometry.coordinates[0][0]);
         }
-      )
 
-      return this.properties;
+        // console.log(community.idKey, community.heat )
+
+        if (community.properties.heat >= max - (max / 6)) {
+          community.properties.color = '#a50f15'
+        }
+        if (community.properties.heat > max - (2 * max / 6) && community.properties.heat <= max - (max / 6)) {
+          community.properties.color = '#de2d26'
+        }
+        if (community.properties.heat > max - (3 * max / 6) && community.properties.heat <= max - (2 * max / 6)) {
+          community.properties.color = '#fb6a4a'
+        }
+        if (community.properties.heat > max - (4 * max / 6) && community.properties.heat <= max - (3 * max / 6)) {
+          community.properties.color = '#fc9272'
+        }
+        if (community.properties.heat > max - (5 * max / 6) && community.properties.heat <= max - (4 * max / 6)) {
+          community.properties.color = '#fcbba1'
+        }
+        if (community.properties.heat > max - (6 * max / 6) && community.properties.heat <= max - (5 * max / 6)) {
+          community.properties.color = '#fee5d9'
+        }
+      }
+
+
+    )
+
+  }
+
+
+
+  colorHeatMap(communities, min, max) {
+
+    // console.log('min/max/total', min, max, this.weeklyProperties.length)
+    // console.log('band 1',max-(max/6), max)
+    // console.log('band 2',max-(2*max/6), max-(max/6 ))
+    // console.log('band 3',max-(3*max/6), max-(2*max/6 ))
+    // console.log('band 3',max-(4*max/6), max-(3*max/6 ))
+    // console.log('band 4',max-(5*max/6), max-(4*max/6 ))
+    // console.log('band 5',max-(5*max/6), max-(6*max/6 ))
+
+
+
+
+
+    communities.forEach(
+
+      community => {
+        // console.log(community.idKey, community.heat )
+
+        if (community.heat >= max - (max / 6)) {
+          community.fill.color = '#a50f15'
+        }
+        if (community.heat > max - (2 * max / 6) && community.heat <= max - (max / 6)) {
+          community.fill.color = '#de2d26'
+        }
+        if (community.heat > max - (3 * max / 6) && community.heat <= max - (2 * max / 6)) {
+          community.fill.color = '#fb6a4a'
+        }
+        if (community.heat > max - (4 * max / 6) && community.heat <= max - (3 * max / 6)) {
+          community.fill.color = '#fc9272'
+        }
+        if (community.heat > max - (5 * max / 6) && community.heat <= max - (4 * max / 6)) {
+          community.fill.color = '#fcbba1'
+        }
+        if (community.heat > max - (6 * max / 6) && community.heat <= max - (5 * max / 6)) {
+          community.fill.color = '#fee5d9'
+        }
+      }
+
+
+    )
+
+  }
+
+  setHeat(heatType) {
+    this.communitiesList.forEach(polygon => {
+
+      if (heatType === 'rateAll') {
+        polygon.fill.color = this.getHeatColor(polygon.rateAll)
+
+      }
+      if (heatType === 'rateCondo') {
+        polygon.fill.color = this.getHeatColor(polygon.rateCondo)
+      }
+      if (heatType === 'rateSemi') {
+        polygon.fill.color = this.getHeatColor(polygon.rateSemi)
+      }
+      if (heatType === 'rateRowhouse') {
+        polygon.fill.color = this.getHeatColor(polygon.rateRowhouse)
+      }
+      if (heatType === 'rateDetached') {
+        polygon.fill.color = this.getHeatColor(polygon.rateDetached)
+      }
+    })
+
+  }
+
+
+
+  getHeatColor(rate) {
+
+
+    return 'red';
+    var h = (rate) * 240
+    return "hsl(" + Math.round(h).toFixed(1) + ", 100%, 50%)";
+
+
+    if (rate === 1) {
+
+      return '#a50026';
+
+    }
+    if (rate === 2) {
+
+      return '#d73027';
+
+    }
+    if (rate === 3) {
+
+      return '#f46d43';
+
+    }
+    if (rate === 4) {
+
+      return '#fdae61';
+
+    }
+    if (rate === 5) {
+
+      return '#fee090';
+
+    }
+    if (rate === 6) {
+
+      return '#e0f3f8';
+
+    }
+    if (rate === 7) {
+
+      return '#abd9e9';
+
+    }
+    if (rate === 8) {
+
+      return '#74add1';
+
+    }
+    if (rate === 9) {
+
+      return '#4575b4';
+
+    }
+    if (rate === 10) {
+
+      return '#313695';
+
+    }
+    return 'pink';
+  }
+
+  getCustomPropertyLabel(property) {
+
+
+
+    if (property.type_own1_out === 'Detached') {
+      return 'assets/D.png';
+    } else if (property.type_own1_out === 'Condo Apt' || property.type_own1_out === 'Leasehold Condo'
+      || property.type_own1_out === 'Co-Op Apt' || property.type_own1_out === 'Comm Element Condo') {
+      return 'assets/C.png';
+    } else if (property.type_own1_out === 'Att/Row/Twnhouse' || property.type_own1_out === 'Condo Townhouse'
+      || property.type_own1_out === 'Fourplex' || property.type_own1_out === 'Triplex' ||
+      property.type_own1_out === 'Multiplex' || property.type_own1_out === 'Semi-Detached') {
+      return 'assets/S.png';
+    } else {
+      return 'assets/D.png';
+    }
+
+
+  }
+  getZoneDetail(zone) {
+    if (zone === 'R') { return { name: 'Residential', background: 'yellow' } };
+    if (zone === 'RD') { return { name: 'Residential Detached', background: 'yellow' } };
+    if (zone === 'RS') { return { name: 'Residential Semi Detached', background: 'yellow' } };
+    if (zone === 'RT') { return { name: 'Residential Towhouse', background: 'yellow' } };
+    if (zone === 'RM') { return { name: 'Residential Multiple Dwelling', background: 'yellow' } };
+
+    if (zone === 'RA') { return { name: 'Residential Appartment', background: 'orange' } };
+    if (zone === 'RAC') { return { name: 'Residential Appartment Commercial', background: 'orange' } };
+
+    if (zone === 'O') { return { name: 'Open Space', background: 'lightgreen' } };
+    if (zone === 'ON') { return { name: 'Open Space Natural', background: 'lightgreen' } };
+    if (zone === 'OR') { return { name: 'Open Space Recreation', background: 'lightgreen' } };
+    if (zone === 'OG') { return { name: 'Open Space Golf Course', background: 'lightgreen' } };
+    if (zone === 'OM') { return { name: 'Open Space Marina', background: 'lightgreen' } };
+    if (zone === 'OC') { return { name: 'Open Space Cemetery', background: 'lightgreen' } };
+
+    if (zone === 'UT') { return { name: 'Utility and Transportation', background: 'grey' } };
+
+    if (zone === 'CL') { return { name: 'Commercial Local', background: 'pink' } };
+    if (zone === 'CR') { return { name: 'Commercial Residential', background: 'coral' } };
+
+    if (zone === 'CRE') { return { name: 'Commercial Residential Employment', background: 'brown' } };
+
+    if (zone === 'CR') { return { name: 'Commercial Residential', background: 'coral' } };
+
+    if (zone === 'EL') { return { name: 'Employment Light Industrial', background: 'violet' } };
+    if (zone === 'E') { return { name: 'Employment Industrial', background: 'violet' } };
+    if (zone === 'EL') { return { name: 'Employment Light Industrial', background: 'violet' } };
+    if (zone === 'EH') { return { name: 'Employment Heavy Industrial', background: 'violet' } };
+    if (zone === 'EL') { return { name: 'Employment Light Industrial', background: 'violet' } };
+    if (zone === 'EO') { return { name: 'Employment Industrial Office', background: 'violet' } };
+
+    if (zone === 'I') { return { name: 'Institutional General', background: 'aqua' } };
+    if (zone === 'IH') { return { name: 'Institutional Hospital', background: 'aqua' } };
+    if (zone === 'IE') { return { name: 'Institutional Education', background: 'aqua' } };
+    if (zone === 'IS') { return { name: 'Institutional School', background: 'aqua' } };
+    if (zone === 'IPW') { return { name: 'Institutional Place of Worship', background: 'aqua' } };
+
+    return { name: '', background: 'white' };
+
+
+  }
+
+  favorites(): Promise<any[]> {
+
+    if (this.favoriteProperties) {
+      return observableOf(this.favoriteProperties).toPromise();
+    } else {
+      return this.http.get(this.propertiesUrlFavorite, this.options).pipe(
+        map(response => {
+          this.favoriteProperties = response;
+          return this.favoriteProperties;
+
+        })).toPromise();
+    }
+  }
+  trashbin(): Observable<any[]> {
+
+    return this.http.get(this.propertiesUrlTrashbin, this.options).pipe(
+      map(response => {
+        if (response[1].json().length === 0) {
+          this.trashbinProperties = null;
+        } else {
+          this.trashbinProperties = response[1].json();
+
+        }
+        return this.trashbinProperties;
+
+      }));
+
+  }
+  emptyTrash() {
+
+
+  }
+  like(property, reco) {
+
+    if (reco) {
+      // this will be overwritten with actual name on the server
+      property.recommendedBySalesPersonName = 'You';
+    }
+
+    if (this.favoriteProperties) {
+      this.favoriteProperties.unshift(property);
+    }
+    if (this.dailyProperties) {
+      this.dailyProperties.forEach(element => {
+        if (element.ml_num === property.ml_num) {
+          element.star = 'Y'
+        }
+      });
+    }
+    if (this.weeklyProperties) {
+      this.weeklyProperties.forEach(element => {
+        if (element.ml_num === property.ml_num) {
+          element.star = 'Y'
+        }
+      });
+    }
+    property.star = 'Y';
+    return this.http.post(this.manageUrl, property, this.options).pipe(map(response => {
+    })).subscribe();
+
+  }
+  allProperties(): Observable<any[]> {
+
+    if (this.properties) {
+      return observableOf(this.properties);
+    } else {
+      return this.http.get(this.propertiesUrl, this.options).pipe(
+        map(response => {
+          this.properties = [];
+          response[1].json().forEach(
+            property => {
+              const geo = property.geo.split(',');
+              let lat = geo[0];
+              let lng = geo[1];
+              this.properties.push({
+
+                latitude: lat++,
+                longitude: lng++,
+                markerClickable: true,
+                markerDraggable: false,
+                title: property.addr,
+                visible: true,
+                addr: property.addr,
+                price: property.lp_dol,
+                type: property.type_own1_out,
+                bedrooms: property.br,
+                bathrooms: property.bath_tot,
+                mlnum: property.ml_num,
+                options: {
+                  icon: { url: this.getPropertyMarker(property) }
+                },
+              })
+            }
+          )
+
+          return this.properties;
+        }));
+    }
+  }
+
+  read(property) {
+    if (property.star && property.star === 'Y') {
+      return;
+    }
+    if (property.star && property.star === 'N') {
+      return;
+    }
+
+    if (this.dailyProperties) {
+      this.dailyProperties.forEach(element => {
+        if (element.ml_num === property.ml_num) {
+          element.star = 'R'
+        }
+      });
+    }
+    if (this.weeklyProperties) {
+      this.weeklyProperties.forEach(element => {
+        if (element.ml_num === property.ml_num) {
+          element.star = 'R'
+        }
+      });
+    }
+
+    property.star = 'R';
+    return this.http.post(this.manageUrl, property, this.options).pipe(map(response => {
+
+    })).subscribe();
+
+  }
+
+  remove(property) {
+    property.star = 'D';
+
+
+    if (this.dailyProperties) {
+      this.dailyProperties.forEach(element => {
+        if (element.ml_num === property.ml_num) {
+          element.star = 'D'
+        }
+      });
+    }
+    if (this.favoriteProperties) {
+      this.favoriteProperties.forEach(element => {
+        if (element.ml_num === property.ml_num) {
+          this.favoriteProperties.splice(this.favoriteProperties.indexOf(element), 1)
+        }
+      });
+    }
+    if (this.weeklyProperties) {
+      this.weeklyProperties.forEach(element => {
+        if (element.ml_num === property.ml_num) {
+          element.star = 'D'
+        }
+      });
+    }
+
+    this.http.post(this.manageUrl, property, this.options).pipe(map(response => {
+
+    })).subscribe()
+
+  }
+
+  addComment(property, comment): Observable<any> {
+    property.userComment = comment;
+    return this.http.post(this.addCommentUrl, property, this.options).pipe(map(response => {
+
     }));
-}
+
   }
-
-read(property) {
-  if (property.star && property.star === 'Y') {
-    return;
-  }
-  if (property.star && property.star === 'N') {
-    return;
-  }
-
-  if (this.dailyProperties) {
-    this.dailyProperties.forEach(element => {
-      if (element.ml_num === property.ml_num) {
-        element.star = 'R'
-      }
-    });
-  }
-  if (this.weeklyProperties) {
-    this.weeklyProperties.forEach(element => {
-      if (element.ml_num === property.ml_num) {
-        element.star = 'R'
-      }
-    });
-  }
-
-  property.star = 'R';
-  return this.http.post(this.manageUrl, property, this.options).pipe(map(response => {
-
-  })).subscribe();
-
-}
-
-remove(property) {
-  property.star = 'N';
-
-
-  if (this.dailyProperties) {
-    this.dailyProperties.forEach(element => {
-      if (element.ml_num === property.ml_num) {
-        element.star = 'N'
-      }
-    });
-  }
-  if (this.favoriteProperties) {
-    this.favoriteProperties.forEach(element => {
-      if (element.ml_num === property.ml_num) {
-        this.favoriteProperties.splice(this.favoriteProperties.indexOf(element), 1)
-      }
-    });
-  }
-  if (this.weeklyProperties) {
-    this.weeklyProperties.forEach(element => {
-      if (element.ml_num === property.ml_num) {
-        element.star = 'N'
-      }
-    });
-  }
-
-  this.http.post(this.manageUrl, property, this.options).pipe(map(response => {
-
-  })).subscribe()
-
-}
-
-addComment(property, comment): Observable < any > {
-  property.userComment = comment;
-  return this.http.post(this.addCommentUrl, property, this.options).pipe(map(response => {
-
-  }));
-
-}
 
 
 }
