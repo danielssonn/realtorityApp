@@ -447,6 +447,7 @@ export class GalleryComponent implements OnInit {
     this.service.propertiesRadar(params).subscribe(
       response => {
         this.properties = response[1];
+       
 
         this.average = response[0][0].averageList;
         this.averageSold = response[0][0].averageSold;
@@ -455,15 +456,15 @@ export class GalleryComponent implements OnInit {
         this.averageGain = Math.round(this.average / this.averageSold * 10) / 10;
 
         //nothing found, nothing sold
-        if(!this.properties[1] && !this.properties[2]){
+        if(this.properties.length==0 && this.countSold==0){
           this.noResultsWithoutSold = true;
         } else {
           this.noResultsWithoutSold = false;
         }
         //nothing found right now, but there were sales in last year
-        if(!this.properties[1] && this.properties[2]){
+        if(this.properties.length==0 &&  this.countSold>0){
           this.noResultsWithSold = true;
-        } else {
+        } else { 
           this.noResultsWithSold = false;
 
         }

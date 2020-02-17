@@ -25,14 +25,9 @@
 <div fxLayout="row" fxLayoutAlign="space-around center">
   <mat-form-field><input matInput placeholder="Municipality" [(ngModel)]="municipality"></mat-form-field>
   <mat-form-field class="example-full-width">
-    <input type="text"
-           placeholder="Community"
-           aria-label="Number"
-           matInput
-           [formControl]="communityControl"
-           [matAutocomplete]="auto"
-           [(ngModel)]="community">
-    <mat-autocomplete #auto="matAutocomplete" >
+    <input type="text" placeholder="Community" aria-label="Number" matInput [formControl]="communityControl"
+      [matAutocomplete]="auto" [(ngModel)]="community">
+    <mat-autocomplete #auto="matAutocomplete">
       <mat-option *ngFor="let community of filteredCommunities | async" [value]="community">
         {{community}}
       </mat-option>
@@ -59,46 +54,69 @@
 <br>
 <div fxLayout="row" fxLayoutAlign="space-evenly center">
 
-  <button mat-raised-button color="primary" (click)="go()">Go</button>
+  <button mat-raised-button color="primary" (click)="go()"><i class="material-icons">
+    image_search
+    </i> Search</button>
 
 
 </div>
 <br>
 <div fxLayout="row" fxLayoutAlign="space-evenly center">
-  <span *ngIf="average" [ngClass]="{'belowAverage': average>averageSold, 'aboveAverage': average<averageSold}"> L: {{average|currency:'':'':'1.0-0'}} | {{count}}</span>
-  <span *ngIf="average"> S: {{averageSold|currency:'':'':'1.0-0'}} | {{countSold}}</span>
+  <span *ngIf="average" [ngClass]="{'belowAverage': average>averageSold, 'aboveAverage': average<averageSold}"> Listed:
+    {{average|currency:'':'':'1.0-0'}} | {{count}}</span>
+  <span *ngIf="average"> Sold: {{averageSold|currency:'':'':'1.0-0'}} | {{countSold}}</span>
   <span *ngIf="average">{{averageGain}}%</span>
 </div>
-
+<br>
 <div *ngIf="average" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
-  <br>  <br>
-  <button mat-raised-button color="warn" (click)="priceSort()">by price</button>
-  <button mat-raised-button color="warn" (click)="dateSort()">by date</button>
+  <br> <br>
+  <button mat-raised-button color="warn" (click)="priceSort()"><i class="material-icons">
+    sort
+    </i>by price</button>
+  <button mat-raised-button color="warn" (click)="dateSort()"><i class="material-icons">
+    sort
+    </i>by date</button>
   <i *ngIf="!sortOrderUp" class="material-icons">
     arrow_upward
-    </i>
-    <i *ngIf="sortOrderUp" class="material-icons">
-      arrow_downward
-      </i>
+  </i>
+  <i *ngIf="sortOrderUp" class="material-icons">
+    arrow_downward
+  </i>
 </div>
-<div *ngIf="noResultsWithoutSold" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
- Such void ... for so very long ...
+<div *ngIf="noResultsWithoutSold" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px" style="text-align: center;">
+  Such void ... for so very long ...
+
+  <br>
+  <br>
+  There are no listings on the market like this. We even looked into the past year of sales and haven't found any, either.
+
 </div>
-<div *ngIf="noResultsWithSold" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
-  We are out, right now! Last year sales: {{countSold}}
- </div>
+<div *ngIf="noResultsWithSold" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px"  style="text-align: center;">
+  We are all out, right now!
+
+  <br>  <br>
+
+  There are no listings on the market like this.
+  <br>  <br>
+
+  There has been {{countSold}} sales like these, in the last year.
+</div>
 <br>
 
 <cdk-virtual-scroll-viewport class="example-viewport" itemSize="10">
   <ng-container *cdkVirtualFor="let property of properties" class="card">
 
+    <div class="inlineDiv" *ngIf="show(property)">
 
-    <img [src]="getPropertyIcon(property)" (error)="imageError($event)"
-      [ngClass]="{'centered-and-cropped':property.star!='Y','centered-and-cropped-liked':property.star=='Y','centered-and-cropped-disliked':property.star=='D'}"
-      width="110" height="110" *ngIf="show(property)" (click)="showDetail(property)"
-      (swipe)="onSwipe($event, property)">
+      <img [src]="getPropertyIcon(property)" (error)="imageError($event)"
+        [ngClass]="{'centered-and-cropped':property.star!='Y','centered-and-cropped-liked':property.star=='Y','centered-and-cropped-disliked':property.star=='D'}"
+        width="110" height="110" (click)="showDetail(property)" (swipe)="onSwipe($event, property)">
+      <h6 style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">{{property.lp_dol|shortCurrency}}
+        {{property.st|shortText:10}}
+      </h6>
 
- 
+    </div>
+
 
   </ng-container>
 </cdk-virtual-scroll-viewport>
