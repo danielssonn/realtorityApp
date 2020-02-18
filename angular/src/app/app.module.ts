@@ -27,7 +27,7 @@ import { RouterModule, Routes, ActivatedRouteSnapshot, RouterStateSnapshot } fro
 import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import * as Hammer from 'hammerjs';
 
-import { MatButtonModule, MatDialogModule, MatSelectModule, MatTableModule, MatPaginatorModule, MatSortModule, MatProgressSpinnerModule } from '@angular/material';
+import { MatButtonModule, MatDialogModule, MatSelectModule, MatTableModule, MatPaginatorModule, MatSortModule, MatProgressSpinnerModule, MatExpansionModule,} from '@angular/material';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/_dev/packages/core';
 // import {AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/dummy/packages/core';
 import { AgmJsMarkerClustererModule } from '@agm/_dev/packages/js-marker-clusterer';
@@ -409,7 +409,8 @@ export function createTranslateLoader(http: HttpClient) {
     MatSortModule,
     MatProgressSpinnerModule, 
     ScrollingModule,
-    AngularEditorModule
+    AngularEditorModule,
+    MatExpansionModule
 
   ],
   providers: [

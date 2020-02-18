@@ -1,80 +1,115 @@
+<mat-accordion>
+  <mat-expansion-panel [expanded]="expanded" style="border-style: none;">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Property Search
+      </mat-panel-title>
+      <mat-panel-description>
+        Set your search here
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <mat-form-field><input matInput placeholder="price from" [(ngModel)]="priceFrom"></mat-form-field>
+      <mat-form-field><input matInput placeholder="price to" [(ngModel)]="priceTo"></mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <mat-form-field><input matInput placeholder="MLS #" [(ngModel)]="mlsNum"></mat-form-field>
+      <mat-form-field><input matInput placeholder="max DOM" [(ngModel)]="maxDom"></mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <mat-form-field><input matInput matTooltip="Use + to include more than" placeholder="Beds" [(ngModel)]="minBeds">
+      </mat-form-field>
+      <mat-form-field><input matInput matTooltip="Use + to include more than" placeholder="Baths"
+          [(ngModel)]="minBaths">
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <mat-form-field><input matInput matTooltip="1 Main st" placeholder="Address" [(ngModel)]="address">
+      </mat-form-field>
+      <mat-form-field><input matInput matTooltip="detached, duplex ..." placeholder="Property Type"
+          [(ngModel)]="propType">
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <mat-form-field><input matInput placeholder="Municipality" [(ngModel)]="municipality"></mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input type="text" placeholder="Community" aria-label="Number" matInput [formControl]="communityControl"
+          [matAutocomplete]="auto" [(ngModel)]="community">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let community of filteredCommunities | async" [value]="community">
+            {{community}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <mat-form-field><input matInput placeholder="min Lot Width" [(ngModel)]="minLotW"></mat-form-field>
+      <mat-form-field><input matInput placeholder="min Lot Depth" [(ngModel)]="minLotD"></mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <mat-form-field><input matInput placeholder="Keywords" [(ngModel)]="keywords"></mat-form-field>
+      <mat-checkbox [(ngModel)]="fresh">fresh</mat-checkbox>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px">
+
+      <mat-checkbox [(ngModel)]="multiplex">plex</mat-checkbox>
+      <mat-checkbox [(ngModel)]="schools">schools</mat-checkbox>
+      <mat-checkbox [(ngModel)]="newOnly">0-5y</mat-checkbox>
+      <mat-radio-group [(ngModel)]="selectHouseCondo">
+        <mat-radio-button class="condoHouseRadio" *ngFor="let houseCondo of houseCondos" [value]="houseCondo">
+          {{houseCondo}}
+        </mat-radio-button>
+      </mat-radio-group>
+      <!-- <mat-checkbox [(ngModel)]="condos">condos</mat-checkbox> -->
+
+    </div>
+    <br>
+    <div fxLayout="row" fxLayoutAlign="space-evenly center">
+
+      <button mat-raised-button color="primary" (click)="go()"><i class="material-icons">
+          image_search
+        </i> Search</button>
+
+
+    </div>
+
+  </mat-expansion-panel>
+</mat-accordion>
 <br>
 
-
-<div fxLayout="row" fxLayoutAlign="space-around center">
-  <mat-form-field><input matInput placeholder="price from" [(ngModel)]="priceFrom"></mat-form-field>
-  <mat-form-field><input matInput placeholder="price to" [(ngModel)]="priceTo"></mat-form-field>
+<div *ngIf="averageSold" fxLayout="row" fxLayoutAlign="space-between center">
+  <span>
+    Listed Avg: {{average|currency:'':'':'1.0-0'}} </span> <span>Listed Count: {{count|currency:'':'':'1.0-0'}}</span>
 </div>
-
-<div fxLayout="row" fxLayoutAlign="space-around center">
-  <mat-form-field><input matInput placeholder="MLS #" [(ngModel)]="mlsNum"></mat-form-field>
-  <mat-form-field><input matInput placeholder="max DOM" [(ngModel)]="maxDom"></mat-form-field>
-</div>
-
-<div fxLayout="row" fxLayoutAlign="space-around center">
-  <mat-form-field><input matInput matTooltip="Use + to include more than" placeholder="Beds" [(ngModel)]="minBeds">
-  </mat-form-field>
-  <mat-form-field><input matInput matTooltip="Use + to include more than" placeholder="Baths" [(ngModel)]="minBaths">
-  </mat-form-field>
-</div>
-<div fxLayout="row" fxLayoutAlign="space-around center">
-  <mat-form-field><input matInput matTooltip="1 Main st" placeholder="Address" [(ngModel)]="address"></mat-form-field>
-  <mat-form-field><input matInput matTooltip="detached, duplex ..." placeholder="Property Type" [(ngModel)]="propType">
-  </mat-form-field>
-</div>
-<div fxLayout="row" fxLayoutAlign="space-around center">
-  <mat-form-field><input matInput placeholder="Municipality" [(ngModel)]="municipality"></mat-form-field>
-  <mat-form-field class="example-full-width">
-    <input type="text" placeholder="Community" aria-label="Number" matInput [formControl]="communityControl"
-      [matAutocomplete]="auto" [(ngModel)]="community">
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let community of filteredCommunities | async" [value]="community">
-        {{community}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-</div>
-<div fxLayout="row" fxLayoutAlign="space-around center">
-  <mat-form-field><input matInput placeholder="min Lot Width" [(ngModel)]="minLotW"></mat-form-field>
-  <mat-form-field><input matInput placeholder="min Lot Depth" [(ngModel)]="minLotD"></mat-form-field>
-</div>
-<div fxLayout="row" fxLayoutAlign="space-around center">
-  <mat-form-field><input matInput placeholder="Keywords" [(ngModel)]="keywords"></mat-form-field>
-  <mat-checkbox [(ngModel)]="fresh">fresh</mat-checkbox>
-</div>
-
-<div fxLayout="row" fxLayoutAlign="space-evenly center">
-
-  <mat-checkbox [(ngModel)]="multiplex">plex</mat-checkbox>
-  <mat-checkbox [(ngModel)]="schools">schools</mat-checkbox>
-  <mat-checkbox [(ngModel)]="newOnly">0-5y</mat-checkbox>
-  <mat-checkbox [(ngModel)]="condos">condos</mat-checkbox>
-
-</div>
-<br>
-<div fxLayout="row" fxLayoutAlign="space-evenly center">
-
-  <button mat-raised-button color="primary" (click)="go()"><i class="material-icons">
-    image_search
-    </i> Search</button>
+<div *ngIf="averageSold" fxLayout="row" fxLayoutAlign="space-between center">
+  <span> Sold Avg: {{averageSold|currency:'':'':'1.0-0'}} (yr) </span><span>Sold Count:
+    {{countSold|currency:'':'':'1.0-0'}} (yr) </span>
 
 
 </div>
-<br>
-<div fxLayout="row" fxLayoutAlign="space-evenly center">
-  <span *ngIf="average" [ngClass]="{'belowAverage': average>averageSold, 'aboveAverage': average<averageSold}"> Listed:
-    {{average|currency:'':'':'1.0-0'}} | {{count}}</span>
-  <span *ngIf="average"> Sold: {{averageSold|currency:'':'':'1.0-0'}} | {{countSold}}</span>
-  <span *ngIf="average">{{averageGain}}%</span>
+<div *ngIf="averageSold" fxLayout="row" fxLayoutAlign="space-between center">
+  <span>Unsold Count: {{unsoldCount|currency:'':'':'1.0-0'}} (yr)</span>
+  <span>List to Sale: {{listToSale}}x </span>
 </div>
+
+<div *ngIf="averageSold" fxLayout="row" fxLayoutAlign="space-between center">
+
+  <span>DOM Avg: {{averageDOM}} </span>
+
+</div>
+
 <br>
 <div *ngIf="average" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
-  <br> <br>
+
   <button mat-raised-button color="warn" (click)="priceSort()"><i class="material-icons">
-    sort
+      sort
     </i>by price</button>
   <button mat-raised-button color="warn" (click)="dateSort()"><i class="material-icons">
-    sort
+      sort
     </i>by date</button>
   <i *ngIf="!sortOrderUp" class="material-icons">
     arrow_upward
@@ -83,27 +118,41 @@
     arrow_downward
   </i>
 </div>
-<div *ngIf="noResultsWithoutSold" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px" style="text-align: center;">
-  Such void ... for so very long ...
+<div *ngIf="noResultsWithoutSold" fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap="5px"
+  style="text-align: center;">
+
+  <div>Such void ... for so very long ...</div>
+
 
   <br>
-  <br>
-  There are no listings on the market like this. We even looked into the past year of sales and haven't found any, either.
-
+  <div>There are no listings on the market like this. </div><br>
+  <div> We looked into the past year of sales and haven't found any,
+    either.
+  </div> <br>
+  <div *ngIf="unsoldCount>0">
+    There has been {{unsoldCount}} unsold listing(s), in the last year.
+  </div>
 </div>
-<div *ngIf="noResultsWithSold" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px"  style="text-align: center;">
-  We are all out, right now!
 
-  <br>  <br>
+<div *ngIf="noResultsWithSold" fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap="5px"
+  style="text-align: center;">
+  <div> We are all out, right now!</div>
 
-  There are no listings on the market like this.
-  <br>  <br>
+  <br>
+  <div>
+    There are no listings on the market like this.
+  </div> <br>
 
-  There has been {{countSold}} sales like these, in the last year.
+  <div>There has been {{countSold}} sales, in the last year.</div> <br>
+
+  <div *ngIf="unsoldCount>0">
+    There has been {{unsoldCount}} unsold listing(s), in the last year.
+  </div>
+
 </div>
 <br>
 
-<cdk-virtual-scroll-viewport class="example-viewport" itemSize="10">
+<cdk-virtual-scroll-viewport class="example-viewport" itemSize="40">
   <ng-container *cdkVirtualFor="let property of properties" class="card">
 
     <div class="inlineDiv" *ngIf="show(property)">
@@ -111,7 +160,9 @@
       <img [src]="getPropertyIcon(property)" (error)="imageError($event)"
         [ngClass]="{'centered-and-cropped':property.star!='Y','centered-and-cropped-liked':property.star=='Y','centered-and-cropped-disliked':property.star=='D'}"
         width="110" height="110" (click)="showDetail(property)" (swipe)="onSwipe($event, property)">
-      <h6 style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">{{property.lp_dol|shortCurrency}}
+      <h6
+        style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+        {{property.lp_dol|shortCurrency}}
         {{property.st|shortText:10}}
       </h6>
 

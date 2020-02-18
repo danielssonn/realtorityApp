@@ -403,6 +403,9 @@ export class PropertiesService {
 
           let sumListed = 0;
           let sumSold = 0;
+          let countSold = 0;
+          let countUnSold = 0;
+          let sumDOM = 0;
 
           rr.forEach(
             prop => {
@@ -424,18 +427,26 @@ export class PropertiesService {
               }
               sumListed = sumListed + prop.lp_dol;
               this.propertiesOnRadar[1].push(prop)
-
+              sumDOM = sumDOM+ prop.dom;
 
             }
           )
           soldProps.forEach(sold => {
-            sumSold = sumSold + sold.sp_dol
+            sumDOM = sumDOM + sold.dom;
+            if(sold.lsc === 'Sld'){
+              sumSold = sumSold + sold.sp_dol
+              countSold++;
+            }
+            if(sold.lsc !== 'Sld'){
+              countUnSold++;
+            }
           })
 
           let averageListed = sumListed / rr.length;
-          let averageSold = sumSold / soldProps.length;
+          let averageSold = sumSold / countSold;
+          let averageDOM = sumDOM/(rr.length+countSold);
 
-          this.propertiesOnRadar[0].push({ averageList: averageListed, listed: rr.length, sold: soldProps.length, averageSold: averageSold })
+          this.propertiesOnRadar[0].push({ averageDOM:averageDOM, unsoldCount: countUnSold, averageList: averageListed, listed: rr.length, sold: countSold, averageSold: averageSold })
           return this.propertiesOnRadar;
 
         }));

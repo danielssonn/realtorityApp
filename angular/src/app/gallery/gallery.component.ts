@@ -54,13 +54,20 @@ export class GalleryComponent implements OnInit {
   sortOrderUp:boolean;
   noResultsWithSold:boolean;
   noResultsWithoutSold:boolean;
+  expanded:boolean;
+  unsoldCount: number;
+  listToSale:number;
+  averageDOM: string;
+  houseCondos: string[] = ['house', 'condo'];
+  selectHouseCondo: string;
 
   constructor(private service: PropertiesService, private dialog: MatDialog, private spinner: NgxSpinnerService,
     private router: Router, private route: ActivatedRoute) { }
   ngOnInit() {
     this.priceFrom = 90000;
     this.fresh = true;
-    // this.sortOrderUp = true;
+    this.expanded = true;
+    this.selectHouseCondo = this.houseCondos[0];
     this.municipality = 'Toronto'
     this.communities = [
       "Dufferin Grove"
@@ -422,6 +429,10 @@ export class GalleryComponent implements OnInit {
   }
 
   go() {
+
+    this.expanded = false;
+    this.average = null;
+    this.averageSold = null;
     this.properties = [];
     let params = {
       maxPrice: this.priceTo,
@@ -436,25 +447,27 @@ export class GalleryComponent implements OnInit {
       mls: this.mlsNum,
       plex: this.multiplex,
       schools: this.schools,
-      condos: this.condos,
+      condoOrHouse: this.selectHouseCondo,
       beds: this.minBeds,
       type: this.propType,
       baths: this.minBaths,
       newOnly: this.newOnly,
-
     }
+
     this.spinner.show();
     this.service.propertiesRadar(params).subscribe(
       response => {
         this.properties = response[1];
        
-
         this.average = response[0][0].averageList;
+        this.unsoldCount = response[0][0].unsoldCount;
         this.averageSold = response[0][0].averageSold;
         this.count = response[0][0].listed
         this.countSold = response[0][0].sold
-        this.averageGain = Math.round(this.average / this.averageSold * 10) / 10;
-
+        this.averageDOM = response[0][0].averageDOM.toFixed(0);
+        if(this.average>0)
+        this.averageGain = Math.round(this.averageSold / this.average * 10) / 10;
+        this.listToSale =  Math.round( (this.unsoldCount)/this.countSold  * 100) / 100;
         //nothing found, nothing sold
         if(this.properties.length==0 && this.countSold==0){
           this.noResultsWithoutSold = true;
@@ -462,7 +475,7 @@ export class GalleryComponent implements OnInit {
           this.noResultsWithoutSold = false;
         }
         //nothing found right now, but there were sales in last year
-        if(this.properties.length==0 &&  this.countSold>0){
+        if(this.properties.length == 0 &&  this.countSold>0){
           this.noResultsWithSold = true;
         } else { 
           this.noResultsWithSold = false;

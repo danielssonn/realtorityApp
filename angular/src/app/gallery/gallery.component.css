@@ -27,6 +27,10 @@ img {
  width: 33%;
 
 }
+.condoHouseRadio{
+    margin: 2px;
+    width: 65px;
+}
 
 .centered-and-cropped { object-fit: cover }
 .centered-and-cropped-liked {
