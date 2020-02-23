@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { MatDialog, MatDialogConfig, TooltipPosition, throwMatDialogContentAlreadyAttachedError } from '@angular/material';
+import { MatDialog, MatDialogConfig, TooltipPosition, throwMatDialogContentAlreadyAttachedError, ThemePalette } from '@angular/material';
 import { PropertiesService } from 'app/properties.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -19,8 +19,7 @@ import { startWith, map } from 'rxjs/operators';
 
 })
 export class GalleryComponent implements OnInit {
-
-  fresh: boolean;
+  color: ThemePalette = 'accent';
   properties: any;
   position: TooltipPosition = 'below';
 
@@ -51,24 +50,30 @@ export class GalleryComponent implements OnInit {
   communityControl = new FormControl();
   filteredCommunities: Observable<string[]>;
   averageGain: any;
-  sortOrderUp:boolean;
-  noResultsWithSold:boolean;
-  noResultsWithoutSold:boolean;
-  expanded:boolean;
+  sortOrderUp: boolean;
+  noResultsWithSold: boolean;
+  noResultsWithoutSold: boolean;
+  expanded: boolean;
   unsoldCount: number;
-  listToSale:number;
+  listToSale: number;
   averageDOM: string;
   houseCondos: string[] = ['house', 'condo'];
   selectHouseCondo: string;
+  itemsSize: number;
+  propertiesPriorChunk: any;
+  checkedAll = false;
+  disabled = false;
 
   constructor(private service: PropertiesService, private dialog: MatDialog, private spinner: NgxSpinnerService,
     private router: Router, private route: ActivatedRoute) { }
   ngOnInit() {
+
     this.priceFrom = 90000;
-    this.fresh = true;
     this.expanded = true;
     this.selectHouseCondo = this.houseCondos[0];
-    this.municipality = 'Toronto'
+    this.municipality = 'Toronto';
+    this.itemsSize = 80;
+
     this.communities = [
       "Dufferin Grove"
       ,
@@ -371,34 +376,60 @@ export class GalleryComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.communities.filter(option => option.toLowerCase().includes(filterValue));
   }
-  
+
+  getAddress() {
+    this.address = "";
+    this.spinner.show();
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        console.log(position.coords);
+        this.service.getAddress(position.coords.latitude, position.coords.longitude).subscribe(val => {
+          this.address = val.shortAddress;
+          this.spinner.hide();
+        });
+
+      });
+    }
+  }
   priceSort() {
     this.sortOrderUp = !this.sortOrderUp;
-
-
-    var byPrice = this.properties.slice(0);
-    if(this.sortOrderUp){
+    var byPrice;
+    if (!this.checkedAll) { 
+      byPrice = this.propertiesPriorChunk.filter(prop => prop.star != "D" && prop.star != "Y");
+    } else {
+      byPrice = this.propertiesPriorChunk.slice(0);
+    }
+   
+    console.log('bps', byPrice);
+    if (this.sortOrderUp) {
       byPrice.sort(function (a, b) {
         return a.lp_dol - b.lp_dol;
       });
-    } else{
+    } else {
       byPrice.sort(function (a, b) {
         return b.lp_dol - a.lp_dol;
       });
     }
-    
-    this.properties = byPrice;
+    console.log('aps', byPrice);
+    this.properties = this.chunkArrayInGroups(byPrice, 3);
+
   }
 
   dateSort() {
-    var byDate = this.properties.slice(0);
-    if(this.sortOrderUp){
+    var byDate;
+    if (!this.checkedAll) { 
+      byDate = this.propertiesPriorChunk.filter(prop => prop.star != "D" && prop.star != "Y");
+    } else {
+       byDate = this.propertiesPriorChunk.slice(0);
+    }
+
+    if (this.sortOrderUp) {
       byDate.sort(function (a, b) {
         let d1 = new Date(a.added).getTime();
         let d2 = new Date(b.added).getTime();
         return d2 - d1;
       });
-    } else{
+    } else {
       byDate.sort(function (a, b) {
         let d1 = new Date(a.added).getTime();
         let d2 = new Date(b.added).getTime();
@@ -406,13 +437,32 @@ export class GalleryComponent implements OnInit {
       });
     }
     this.sortOrderUp = !this.sortOrderUp;
-    this.properties = byDate;
-  
+    if (!this.checkedAll) { }
+    this.properties = this.chunkArrayInGroups(byDate, 3);
+
+  }
+
+  freshChange() {
+    this.checkedAll = !this.checkedAll;
+    let props;
+
+    this.setProperties();
+
+  }
+
+  setProperties() {
+    this.spinner.show();
+    if (!this.checkedAll) {
+      this.properties = this.chunkArrayInGroups(this.propertiesPriorChunk.filter(prop => prop.star != "D" && prop.star != "Y"), 3)
+    } else {
+      this.properties = this.chunkArrayInGroups(this.propertiesPriorChunk, 3);
+    }
+    this.spinner.hide();
   }
 
   show(property) {
     // fresh will only show the fresh listings on the market. user (dis)liked a listing, it won't show
-    if (this.fresh) {
+    if (!this.checkedAll) {
       if (property.star == "Y" || property.star == "D") {
         return false;
       } else {
@@ -457,27 +507,28 @@ export class GalleryComponent implements OnInit {
     this.spinner.show();
     this.service.propertiesRadar(params).subscribe(
       response => {
-        this.properties = response[1];
-       
+        let props;
+        this.propertiesPriorChunk = response[1];
+        this.setProperties();
         this.average = response[0][0].averageList;
         this.unsoldCount = response[0][0].unsoldCount;
         this.averageSold = response[0][0].averageSold;
         this.count = response[0][0].listed
         this.countSold = response[0][0].sold
         this.averageDOM = response[0][0].averageDOM.toFixed(0);
-        if(this.average>0)
-        this.averageGain = Math.round(this.averageSold / this.average * 10) / 10;
-        this.listToSale =  Math.round( (this.unsoldCount)/this.countSold  * 100) / 100;
+        if (this.average > 0)
+          this.averageGain = Math.round(this.averageSold / this.average * 10) / 10;
+        this.listToSale = Math.round((this.unsoldCount) / this.countSold * 100) / 100;
         //nothing found, nothing sold
-        if(this.properties.length==0 && this.countSold==0){
+        if (response[1].length == 0 && this.countSold == 0) {
           this.noResultsWithoutSold = true;
         } else {
           this.noResultsWithoutSold = false;
         }
         //nothing found right now, but there were sales in last year
-        if(this.properties.length == 0 &&  this.countSold>0){
+        if (response[1].length == 0 && this.countSold > 0) {
           this.noResultsWithSold = true;
-        } else { 
+        } else {
           this.noResultsWithSold = false;
 
         }
@@ -488,6 +539,15 @@ export class GalleryComponent implements OnInit {
     )
 
   }
+
+  chunkArrayInGroups(arr, size) {
+    var myArray = [];
+    for (var i = 0; i < arr.length; i += size) {
+      myArray.push(arr.slice(i, i + size));
+    }
+    return myArray;
+  }
+
   getPropertyIcon(property) {
     if (property.marketingMessage) {
       return 'assets/info.svg'
@@ -517,6 +577,7 @@ export class GalleryComponent implements OnInit {
     const x = Math.abs(evt.deltaX) > 40 ? (evt.deltaX > 0 ? 'right' : 'left') : '';
     const y = Math.abs(evt.deltaY) > 40 ? (evt.deltaY > 0 ? 'down' : 'up') : '';
     if (x === 'left') {
+      console.log('remove', property.addr)
       this.service.remove(property);
     }
     if (x === 'right') {

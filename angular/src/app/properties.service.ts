@@ -33,6 +33,7 @@ export class PropertiesService {
   private developmentsUrl;
   private propertiesRadarUrl;
 
+  private geocodeURL;
   private permitsUrl;
   private propertiesUrlDay;
   private propertiesUrl;
@@ -112,7 +113,9 @@ export class PropertiesService {
     this.schoolsUrl = environment.serverURL + '/schools'
     this.schoolsDistricts = environment.serverURL + '/schoolsDistricts'
     this.propertiesRadarUrl = environment.serverURL + '/propertiesRadar'
-
+     
+    this.geocodeURL = environment.serverURL + '/address';
+     
 
     this.zonesUrl = '/assets/ZoningTO_simplified.json';
 
@@ -426,7 +429,9 @@ export class PropertiesService {
 
               }
               sumListed = sumListed + prop.lp_dol;
+             
               this.propertiesOnRadar[1].push(prop)
+              
               sumDOM = sumDOM+ prop.dom;
 
             }
@@ -437,7 +442,7 @@ export class PropertiesService {
               sumSold = sumSold + sold.sp_dol
               countSold++;
             }
-            if(sold.lsc !== 'Sld'){
+            if(sold.lsc !== 'Sld' && sold.lsc !== 'New'  && sold.lsc !== 'Sc'){
               countUnSold++;
             }
           })
@@ -452,6 +457,25 @@ export class PropertiesService {
         }));
     }
   }
+
+  getAddress(lat, lon): Observable<any>{
+    console.log('getting address')
+  
+    
+     let params = {
+        lat:lat,
+        lon:lon,
+      } 
+     this.options.params = params; 
+   
+    return this.http.get(this.geocodeURL,  this.options).pipe(map(
+      response => {
+        return response;
+
+      }))
+
+  }
+
   permits(): Observable<any> {
     if (this.permitsList) {
       return observableOf(this.permitsList);

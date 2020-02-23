@@ -27,12 +27,10 @@
       </mat-form-field>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-around center">
-      <mat-form-field><input matInput matTooltip="1 Main st" placeholder="Address" [(ngModel)]="address">
-      </mat-form-field>
-      <mat-form-field><input matInput matTooltip="detached, duplex ..." placeholder="Property Type"
-          [(ngModel)]="propType">
-      </mat-form-field>
+      <mat-form-field><input matInput placeholder="min Lot Width" [(ngModel)]="minLotW"></mat-form-field>
+      <mat-form-field><input matInput placeholder="min Lot Depth" [(ngModel)]="minLotD"></mat-form-field>
     </div>
+
     <div fxLayout="row" fxLayoutAlign="space-around center">
       <mat-form-field><input matInput placeholder="Municipality" [(ngModel)]="municipality"></mat-form-field>
       <mat-form-field class="example-full-width">
@@ -45,15 +43,27 @@
         </mat-autocomplete>
       </mat-form-field>
     </div>
-    <div fxLayout="row" fxLayoutAlign="space-around center">
-      <mat-form-field><input matInput placeholder="min Lot Width" [(ngModel)]="minLotW"></mat-form-field>
-      <mat-form-field><input matInput placeholder="min Lot Depth" [(ngModel)]="minLotD"></mat-form-field>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="space-around center">
+    
+    
+   
+    <div fxLayout="row" fxLayoutAlign="space-around center" >
+       <mat-form-field><input matInput matTooltip="detached, duplex ..." placeholder="Property Type"
+          [(ngModel)]="propType">
+      </mat-form-field>
       <mat-form-field><input matInput placeholder="Keywords" [(ngModel)]="keywords"></mat-form-field>
-      <mat-checkbox [(ngModel)]="fresh">fresh</mat-checkbox>
+    
     </div>
-
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+     
+      <mat-form-field>
+        <input matInput matTooltip="1 Main st" placeholder="Address" [(ngModel)]="address">
+      </mat-form-field>  
+     
+      <button mat-mini-fab color="warn" (click)="getAddress()"><i class="material-icons">
+        my_location
+      </i>
+    </button>
+    </div>
     <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px">
 
       <mat-checkbox [(ngModel)]="multiplex">plex</mat-checkbox>
@@ -81,7 +91,7 @@
 </mat-accordion>
 <br>
 
-<div *ngIf="averageSold" fxLayout="row" fxLayoutAlign="space-between center">
+<div *ngIf="average" fxLayout="row" fxLayoutAlign="space-between center">
   <span>
     Listed Avg: {{average|currency:'':'':'1.0-0'}} </span> <span>Listed Count: {{count|currency:'':'':'1.0-0'}}</span>
 </div>
@@ -118,6 +128,17 @@
     arrow_downward
   </i>
 </div>
+<div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+
+<mat-slide-toggle
+      class="toggle-margin"
+      [color]="color"
+      [checked]="checkedAll"
+      (change) = "freshChange()"
+      >
+      Show Removed and Liked
+  </mat-slide-toggle>
+</div>
 <div *ngIf="noResultsWithoutSold" fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap="5px"
   style="text-align: center;">
 
@@ -143,7 +164,7 @@
     There are no listings on the market like this.
   </div> <br>
 
-  <div>There has been {{countSold}} sales, in the last year.</div> <br>
+  <div>There has been {{countSold}} sale(s), in the last year.</div> <br>
 
   <div *ngIf="unsoldCount>0">
     There has been {{unsoldCount}} unsold listing(s), in the last year.
@@ -152,21 +173,49 @@
 </div>
 <br>
 
-<cdk-virtual-scroll-viewport class="example-viewport" itemSize="40">
+<cdk-virtual-scroll-viewport class="example-viewport" [itemSize]="itemsSize">
   <ng-container *cdkVirtualFor="let property of properties" class="card">
+    <div>
 
-    <div class="inlineDiv" *ngIf="show(property)">
+      <div class="inlineDiv" *ngIf="property[0] && show(property[0])">
 
-      <img [src]="getPropertyIcon(property)" (error)="imageError($event)"
-        [ngClass]="{'centered-and-cropped':property.star!='Y','centered-and-cropped-liked':property.star=='Y','centered-and-cropped-disliked':property.star=='D'}"
-        width="110" height="110" (click)="showDetail(property)" (swipe)="onSwipe($event, property)">
-      <h6
-        style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
-        {{property.lp_dol|shortCurrency}}
-        {{property.st|shortText:10}}
-      </h6>
+        <img [src]="getPropertyIcon(property[0])" (error)="imageError($event)"
+          [ngClass]="{'centered-and-cropped':property[0].star!='Y','centered-and-cropped-liked':property[0].star=='Y','centered-and-cropped-disliked':property[0].star=='D'}"
+          width="110" height="110" (click)="showDetail(property[0])" (swipe)="onSwipe($event, property[0])">
+        <h6
+          style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+          {{property[0].lp_dol|shortCurrency}}
+          {{property[0].st|shortText:10}}
+        </h6>
+  
+      </div>
+      <div class="inlineDiv" *ngIf="property[1] && show(property[1])">
 
+        <img [src]="getPropertyIcon(property[1])" (error)="imageError($event)"
+          [ngClass]="{'centered-and-cropped':property[1].star!='Y','centered-and-cropped-liked':property[1].star=='Y','centered-and-cropped-disliked':property[1].star=='D'}"
+          width="110" height="110" (click)="showDetail(property[1])" (swipe)="onSwipe($event, property[1])">
+        <h6
+          style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+          {{property[1].lp_dol|shortCurrency}}
+          {{property[1].st|shortText:10}}
+        </h6>
+  
+      </div>
+      <div class="inlineDiv" *ngIf="property[2] && show(property[2])">
+
+        <img [src]="getPropertyIcon(property[2])" (error)="imageError($event)"
+          [ngClass]="{'centered-and-cropped':property[2].star!='Y','centered-and-cropped-liked':property[2].star=='Y','centered-and-cropped-disliked':property[2].star=='D'}"
+          width="110" height="110" (click)="showDetail(property[2])" (swipe)="onSwipe($event, property[2])">
+        <h6
+          style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+          {{property[2].lp_dol|shortCurrency}}
+          {{property[2].st|shortText:10}}
+        </h6>
+  
+      </div>
+      
     </div>
+   
 
 
   </ng-container>
