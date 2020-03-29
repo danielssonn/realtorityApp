@@ -57,9 +57,9 @@
           <span *ngIf="property.lsc1=='Lsd'||property.lsc2=='Lsd'"> {{"Listing leased"|translate}} </span>
           <span *ngIf="property.lsc1=='Ext'||property.lsc2=='Ext'"> {{"Listing extended"|translate}} </span>
           <span *ngIf="property.lsc1=='Pc'||property.lsc2=='Pc'"> {{"Listing price change"|translate}} </span>
-          <span *ngIf="property.lsc1=='Sc'||property.lsc2=='Sc'"> {{"Sold on condition for"|translate}}
-            {{property.sc_dol1|currency:'':'symbol':'1.0-0'}}{{property.sc_dol2|currency:'':'symbol':'1.0-0'}}
-            {{property.cd1|date}}{{property.cd2|date}}
+          <span *ngIf="property.lsc1=='Sc'||property.lsc2=='Sc'"> {{"Sold on condition for"|translate}} 
+            until {{property.cndsold_xd1|date}}{{property.cndsold_xd2|date}}
+          
           </span>
           <span *ngIf="property.lsc1=='Lc'||property.lsc2=='Lc'"> {{"Leased on condition"|translate}} </span>
         </b>

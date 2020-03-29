@@ -12,6 +12,29 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 })
 export class CreateEngagementComponent implements OnInit {
 
+  recurrences: any[] = [
+    {value: 'daily', viewValue: 'Daily'},
+    {value: 'weekly', viewValue: 'Weekly'},
+    {value: 'twiceMonth', viewValue: 'Twice a Month'},
+    {value: 'monthly', viewValue: 'Once a Month'}
+   
+  ];
+
+  days: any[] = [
+    {value: 'sunday', viewValue: 'Sunday'},
+    {value: 'monday', viewValue: 'Monday'},
+    {value: 'tuesday', viewValue: 'Tuesday'},
+    {value: 'wednesday', viewValue: 'Wednesday'},
+    {value: 'thursday', viewValue: 'Thursday'},
+    {value: 'friday', viewValue: 'Friday'},
+    {value: 'saturday', viewValue: 'Saturday'}
+  ]
+  
+  times: any[] = [
+    {value: 'morning', viewValue: 'Morning'},
+    {value: 'evening', viewValue: 'Evening'}
+  ]
+
   engagementForm = new FormGroup({
     date: new FormControl(''),
     title: new FormControl(''),

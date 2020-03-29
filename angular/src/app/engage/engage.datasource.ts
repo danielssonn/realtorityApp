@@ -23,7 +23,7 @@ export class EngageDataSource implements DataSource<Engagement> {
         this.loadingSubject.complete();
     }
 
-    loadClients(salespersonId: string, filter: string, sortOn: string,
+    loadEngagements(filter: string, sortOn: string,
         sortDirection = 'asc', pageIndex = 0, pageSize = 10) {
 
         this.loadingSubject.next(true);
@@ -34,10 +34,10 @@ export class EngageDataSource implements DataSource<Engagement> {
                 finalize(() => this.loadingSubject.next(false))
             )
             .subscribe(engagement => {
-               if(engagement[0]){
-                this.engagementCount = engagement[0].outOf;
-                return this.engagementSubject.next(engagement.splice(1, engagement.length ));
-               } 
+              
+                this.engagementCount = engagement.length;
+                return this.engagementSubject.next(engagement);
+               
             
             });
     }

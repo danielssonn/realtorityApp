@@ -100,7 +100,7 @@ export class AccountComponent implements OnInit {
           },
           function (msg) {
             console.log('GPLUS', msg)
-            alert('Please try again');
+            alert('Please try again' +msg);
           }
         )
       }

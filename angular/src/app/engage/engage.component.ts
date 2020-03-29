@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { EngageDataSource } from './engage.datasource';
 import { EngageService } from './engage.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatPaginator } from '@angular/material';
 import { CreateEngagementComponent } from './create-engagement/create-engagement.component';
 import { Engagement } from './engagement';
 import { SocialLinkComponent } from './social-link/social-link.component';
 import { EmailListComponent } from './email-list/email-list.component';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-engage',
@@ -13,24 +14,36 @@ import { EmailListComponent } from './email-list/email-list.component';
   styleUrls: ['./engage.component.css']
 })
 export class EngageComponent implements OnInit {
-  
+
   dataSource: EngageDataSource;
   engagement: Engagement;
+
+  @ViewChild(MatPaginator, { static: false }) engagementPaginator: MatPaginator;
 
 
   displayedColumns = ['date', 'title', 'message', 'outcome'];
 
 
-  constructor(private engageService: EngageService, public dialog: MatDialog) { 
+  constructor(private engageService: EngageService, public dialog: MatDialog) {
     this.dataSource = new EngageDataSource(this.engageService);
+
 
   }
 
   ngOnInit() {
-    this.engagement = {id:'0',title:'Tile',message:'Message', outcome:'123', type:'push', date:'today'};
+    this.dataSource.loadEngagements("", "");
   }
 
-  addEngagement(){
+  ngAfterViewInit() {
+
+    this.engagementPaginator.page
+      .pipe(
+        tap(() => this.dataSource.loadEngagements("", "", "", this.engagementPaginator.pageIndex, this.engagementPaginator.pageSize)
+        )
+      ).subscribe()
+  }
+
+  addEngagement() {
     const dialogSpec = {
       height: '90vh',
       width: '90vw',
@@ -45,13 +58,13 @@ export class EngageComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 
       if (result !== 'close') {
-       
+
 
       }
     });
 
   }
-  socialLink(){
+  socialLink() {
     const dialogSpec = {
       height: '90vh',
       width: '90vw',
@@ -66,14 +79,14 @@ export class EngageComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 
       if (result !== 'close') {
-       
+
 
       }
     });
 
   }
 
-emailList(){
+  emailList() {
     const dialogSpec = {
       height: '90vh',
       width: '90vw',
@@ -88,7 +101,7 @@ emailList(){
     dialogRef.afterClosed().subscribe(result => {
 
       if (result !== 'close') {
-       
+
 
       }
     });

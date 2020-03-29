@@ -2,10 +2,9 @@
   <mat-expansion-panel [expanded]="expanded" style="border-style: none;">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Property Search
       </mat-panel-title>
       <mat-panel-description>
-        Set your search here
+        Start your search here
       </mat-panel-description>
     </mat-expansion-panel-header>
 
@@ -184,8 +183,8 @@
           width="110" height="110" (click)="showDetail(property[0])" (swipe)="onSwipe($event, property[0])">
         <h6
           style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
-          {{property[0].lp_dol|shortCurrency}}
-          {{property[0].st|shortText:10}}
+          {{property[0].lp_dol|shortCurrency}} <br>
+          {{property[0].cross_st|shortText:18}}
         </h6>
   
       </div>
@@ -196,8 +195,8 @@
           width="110" height="110" (click)="showDetail(property[1])" (swipe)="onSwipe($event, property[1])">
         <h6
           style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
-          {{property[1].lp_dol|shortCurrency}}
-          {{property[1].st|shortText:10}}
+          {{property[1].lp_dol|shortCurrency}} <br>
+          {{property[1].cross_st|shortText:18}}
         </h6>
   
       </div>
@@ -208,8 +207,8 @@
           width="110" height="110" (click)="showDetail(property[2])" (swipe)="onSwipe($event, property[2])">
         <h6
           style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
-          {{property[2].lp_dol|shortCurrency}}
-          {{property[2].st|shortText:10}}
+          {{property[2].lp_dol|shortCurrency}} <br>
+          {{property[2].cross_st|shortText:18}}
         </h6>
   
       </div>

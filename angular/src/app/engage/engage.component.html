@@ -10,21 +10,21 @@ matSortDirection="asc" matSortDisableClear>
 
 <ng-container matColumnDef="date">
     <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
-    <mat-cell (click)='openDetails(client)' class="description-cell" *matCellDef="let client">{{client.name|shortText:40}}</mat-cell>
+    <mat-cell class="description-cell" *matCellDef="let engagement">{{engagement.date|date}}</mat-cell>
 </ng-container>
 
 <ng-container matColumnDef="title">
     <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
-    <mat-cell (click)='openOverview(client)' class="duration-cell" *matCellDef="let client">{{client.email|shortText:40}}</mat-cell>
+    <mat-cell class="duration-cell" *matCellDef="let engagement">{{engagement.title|shortText:40}}</mat-cell>
 </ng-container>
 
 <ng-container matColumnDef="message">
   <mat-header-cell *matHeaderCellDef>Message</mat-header-cell>
-  <mat-cell (click)='openOverview(client)' class="duration-cell" *matCellDef="let client">{{client.email|shortText:40}}</mat-cell>
+  <mat-cell  class="duration-cell" *matCellDef="let engagement">{{engagement.message|shortText:40}}</mat-cell>
 </ng-container>
 <ng-container matColumnDef="outcome">
   <mat-header-cell *matHeaderCellDef>Outcome</mat-header-cell>
-  <mat-cell (click)='openOverview(client)' class="duration-cell" *matCellDef="let client">{{client.email|shortText:40}}</mat-cell>
+  <mat-cell class="duration-cell" *matCellDef="let engagement">{{engagement.outcome}}</mat-cell>
 </ng-container>
 
 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -32,8 +32,8 @@ matSortDirection="asc" matSortDisableClear>
 <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
 </table>
-<!-- <mat-paginator [length]="dataSource.engagementCount" [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" #clientSearchPaginator ></mat-paginator> -->
-
+<mat-paginator [length]="dataSource.engagementCount" [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" #engagementPaginator ></mat-paginator>
+<br>
 <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="end center">
 
 <button color="warn" (click)='emailList()' mat-raised-button>{{"Manage Email Lists"|translate}}</button>

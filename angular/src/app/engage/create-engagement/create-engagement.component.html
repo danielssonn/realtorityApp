@@ -6,7 +6,7 @@ Create Engagement
 <br>
 <mat-card-content>	
 
-<form (ngSubmit)='create()' class="engagement-form" [formGroup]="engagementForm">
+<form (ngSubmit)='create()'  [formGroup]="engagementForm">
 
   <mat-form-field>
     <input placeholder="date"  matInput [matDatepicker]="myDatepicker">
@@ -15,6 +15,8 @@ Create Engagement
     <mat-hint align="end">Schedule the engagement ^</mat-hint>
  
   </mat-form-field>
+  
+  <br>
   <mat-form-field class="full-width">
     <input matInput placeholder="title" name='title' formControlName='title'>
   </mat-form-field>
@@ -31,6 +33,36 @@ Create Engagement
   <mat-checkbox>Email</mat-checkbox><br>
   
   <br>
+  <mat-form-field class="recurrence">
+  <mat-label>Recurence:</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let recurrence of recurrences" [value]="recurrence.value">
+        {{recurrence.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="dayOfWeek">
+
+  <mat-label>On:</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let day of days" [value]="day.value">
+        {{day.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+  <mat-form-field class="time">
+
+    <mat-label>In:</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let time of times" [value]="time.value">
+          {{time.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
   <div fxLayout="row" fxLayoutAlign="start center">
     <button mat-raised-button color="primary" type="submit"
       [disabled]="!engagementForm.valid">{{"Create"|translate}}</button>
