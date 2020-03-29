@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { SocialLinksDataSource } from './social-link.datasource';
-import { SocialLinkService } from './social-link.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { SocialLinksDataSource } from './engagement-channel.datasource';
+import { SocialLinkService } from './engagement-channel.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-social-link',
-  templateUrl: './social-link.component.html',
-  styleUrls: ['./social-link.component.css']
+  templateUrl: './engagement-chanel.component.html',
+  styleUrls: ['./engagement-channel.component.css']
 })
+
 export class SocialLinkComponent implements OnInit {
+  
   dataSource: SocialLinksDataSource;
+
+  @ViewChild(MatPaginator, { static: false }) channelsPaginator: MatPaginator;
+
+  displayedColumns = ['name', 'accessId', 'accessPassword', 'comment'];
+
 
   networks: any[] = [
     {value: 'facebook', viewValue: 'Facebook Post'},
@@ -27,7 +35,6 @@ export class SocialLinkComponent implements OnInit {
 
   });
 
-  displayedColumns = ['name', 'status', 'comment', 'remove'];
 
   constructor(private socialLinkService: SocialLinkService) {
     this.dataSource = new SocialLinksDataSource(this.socialLinkService);
@@ -35,6 +42,7 @@ export class SocialLinkComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.dataSource.loadChannels("", "");
   }
 
   connect(){}

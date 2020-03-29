@@ -3,8 +3,7 @@ import { EngageDataSource } from './engage.datasource';
 import { EngageService } from './engage.service';
 import { MatDialog, MatPaginator } from '@angular/material';
 import { CreateEngagementComponent } from './create-engagement/create-engagement.component';
-import { Engagement } from './engagement';
-import { SocialLinkComponent } from './social-link/social-link.component';
+import { SocialLinkComponent } from './engagement-channel/engagement-channel.component';
 import { EmailListComponent } from './email-list/email-list.component';
 import { tap } from 'rxjs/operators';
 
@@ -16,7 +15,6 @@ import { tap } from 'rxjs/operators';
 export class EngageComponent implements OnInit {
 
   dataSource: EngageDataSource;
-  engagement: Engagement;
 
   @ViewChild(MatPaginator, { static: false }) engagementPaginator: MatPaginator;
 
@@ -47,9 +45,7 @@ export class EngageComponent implements OnInit {
     const dialogSpec = {
       height: '90vh',
       width: '90vw',
-      data: {
-        dataKey: this.engagement
-      }
+      
     };
 
     let dialogRef: any;
@@ -68,9 +64,7 @@ export class EngageComponent implements OnInit {
     const dialogSpec = {
       height: '90vh',
       width: '90vw',
-      data: {
-        dataKey: this.engagement
-      }
+     
     };
 
     let dialogRef: any;
@@ -90,9 +84,7 @@ export class EngageComponent implements OnInit {
     const dialogSpec = {
       height: '90vh',
       width: '90vw',
-      data: {
-        dataKey: this.engagement
-      }
+     
     };
 
     let dialogRef: any;

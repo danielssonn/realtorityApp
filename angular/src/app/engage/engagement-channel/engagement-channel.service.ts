@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-import { Social } from './social';
+import { Channels } from './engagement-channel';
 
 import { Observable } from 'rxjs/Rx';
 import { map } from 'rxjs/operators';
@@ -17,7 +17,7 @@ import { PropertiesService } from 'app/properties.service';
 
 export class SocialLinkService {
 
-  socialLinks: Social;
+  socialLinks: Channels;
   socialLinkURL: string;
  
 
@@ -28,7 +28,7 @@ export class SocialLinkService {
 
 
   constructor(private http: HttpClient, private propertiesService: PropertiesService) {
-    this.socialLinkURL = environment.serverURL + '/socialLinks';
+    this.socialLinkURL = environment.serverURL + '/channels';
   
     this.socialLinks
   }
@@ -37,8 +37,8 @@ export class SocialLinkService {
 
 
 
-  getSocialLinks(filter = '', sortOrder = 'asc', sortOn: string,
-    pageNumber = 0, pageSize = 3 ): Observable<Social[]> {
+  getChannels(filter = '', sortOrder = 'asc', sortOn: string,
+    pageNumber = 0, pageSize = 3 ): Observable<Channels[]> {
 
     return this.http.get(this.socialLinkURL, {
       params: new HttpParams()

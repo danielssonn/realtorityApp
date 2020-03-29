@@ -107,7 +107,7 @@ import { GalleryComponent,  } from './gallery/gallery.component'
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { EngageComponent } from './engage/engage.component';
 import { CreateEngagementComponent } from './engage/create-engagement/create-engagement.component';
-import { SocialLinkComponent } from './engage/social-link/social-link.component';
+import { SocialLinkComponent } from './engage/engagement-channel/engagement-channel.component'; 
 import { EmailListComponent } from './engage/email-list/email-list.component';
 
 

@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-title>
-    Manage Social/Ad Networks
+    Manage Social/Ad Channels
  </mat-card-title> 
   
 
@@ -11,24 +11,28 @@
 
   <ng-container matColumnDef="name">
     <mat-header-cell *matHeaderCellDef>Network</mat-header-cell>
-    <mat-cell class="description-cell" *matCellDef="let network">
-      {{network.name|shortText:40}}</mat-cell>
+    <mat-cell class="description-cell" *matCellDef="let channel">
+      {{channel.name}}</mat-cell>
   </ng-container>
 
-  <ng-container matColumnDef="status">
-    <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+  <ng-container matColumnDef="accessId">
+    <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
     <mat-cell  class="duration-cell" *matCellDef="let network">
-      {{network.status|shortText:40}}</mat-cell>
+      {{network.accessId}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="accessPassword">
+    <mat-header-cell *matHeaderCellDef>Password</mat-header-cell>
+    <mat-cell  class="duration-cell"  *matCellDef="let network">
+      {{network.accessPassword}}
+    </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="comment">
     <mat-header-cell *matHeaderCellDef>Comment</mat-header-cell>
-    <mat-cell  class="duration-cell"></mat-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="remove">
-    <mat-header-cell *matHeaderCellDef>Remove</mat-header-cell>
-    <mat-cell  class="duration-cell"></mat-cell>
+    <mat-cell  class="duration-cell" *matCellDef="let network">
+      {{network.comment}}
+    </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -36,12 +40,15 @@
   <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
 </table>
+
+<mat-paginator [length]="dataSource.channelsCount" [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" #channelsPaginator ></mat-paginator>
+
 </mat-card>
 
 <br><br>
 <mat-card>
  <mat-card-title>
-New Social/Ad Network
+New Social/Ad Chanel
 </mat-card-title> 
 <br>
 <mat-card-content>
@@ -52,7 +59,7 @@ New Social/Ad Network
 
  
   <mat-form-field class="third">
-    <mat-label>Social Network</mat-label>
+    <mat-label>Channel</mat-label>
     <mat-select>
       <mat-option *ngFor="let network of networks" [value]="network.value">
         {{network.viewValue}}

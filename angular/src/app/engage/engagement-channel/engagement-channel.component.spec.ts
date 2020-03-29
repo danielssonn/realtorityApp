@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SocialLinkComponent } from './social-link.component';
+import { SocialLinkComponent } from './engagement-channel.component';
 
 describe('SocialLinkComponent', () => {
   let component: SocialLinkComponent;
