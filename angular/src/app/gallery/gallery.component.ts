@@ -383,7 +383,7 @@ export class GalleryComponent implements OnInit {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         console.log(position.coords);
-        this.service.getAddress(position.coords.latitude, position.coords.longitude).subscribe(val => {
+        this.service.getAddress(position.coords.latitude, position.coords.longitude, 0).subscribe(val => {
           this.address = val.shortAddress;
           this.spinner.hide();
         });

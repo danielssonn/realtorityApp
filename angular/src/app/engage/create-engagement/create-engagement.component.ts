@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { EngagementService } from '../engage.service';
 
 
 
@@ -12,28 +13,14 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 })
 export class CreateEngagementComponent implements OnInit {
 
-  recurrences: any[] = [
-    {value: 'daily', viewValue: 'Daily'},
-    {value: 'weekly', viewValue: 'Weekly'},
-    {value: 'twiceMonth', viewValue: 'Twice a Month'},
-    {value: 'monthly', viewValue: 'Once a Month'}
-   
-  ];
-
-  days: any[] = [
-    {value: 'sunday', viewValue: 'Sunday'},
-    {value: 'monday', viewValue: 'Monday'},
-    {value: 'tuesday', viewValue: 'Tuesday'},
-    {value: 'wednesday', viewValue: 'Wednesday'},
-    {value: 'thursday', viewValue: 'Thursday'},
-    {value: 'friday', viewValue: 'Friday'},
-    {value: 'saturday', viewValue: 'Saturday'}
-  ]
+  channels: any;
   
-  times: any[] = [
-    {value: 'morning', viewValue: 'Morning'},
-    {value: 'evening', viewValue: 'Evening'}
-  ]
+
+  recurrences: any;
+  selectedRecurrence: any;
+  date = new FormControl(new Date());
+  
+
 
   engagementForm = new FormGroup({
     date: new FormControl(''),
@@ -44,7 +31,10 @@ export class CreateEngagementComponent implements OnInit {
 
   });
 
-  constructor(@Inject(MAT_DIALOG_DATA) public engagement: any, private formBuilder: FormBuilder) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public engagement: any, private formBuilder: FormBuilder,
+              private engagementService: EngagementService,     private dialogRef: MatDialogRef<CreateEngagementComponent>,
+
+   ) { }
   
  
   editorConfig: AngularEditorConfig = {
@@ -84,26 +74,69 @@ export class CreateEngagementComponent implements OnInit {
       },
     ],
     uploadUrl: 'v1/image',
-    sanitize: true,
+    sanitize: false,
     toolbarPosition: 'top'
     
 };
   ngOnInit() {
 
-    this.engagementForm = this.formBuilder.group({
-      date: [this.engagement.dataKey.date],
-      title: [this.engagement.dataKey.title],
-      message: [this.engagement.dataKey.message],
-      outcome: [this.engagement.dataKey.outcome],
-      type: [this.engagement.dataKey.type],
+
+    this.engagementService.getNetworks("","asc","",0,0).subscribe(
+      response => { 
+       
+        this.channels = response;
+
+      }
+    )
+
+    this.engagementService.getRecurrences().subscribe(
+      response =>  {
+        this.recurrences = response;
+      }
+    )
+
+    // this.engagementForm = this.formBuilder.group({
+    //   date: [this.engagement.dataKey.date],
+    //   title: [this.engagement.dataKey.title],
+    //   message: [this.engagement.dataKey.message],
+    //   outcome: [this.engagement.dataKey.outcome],
+    //   type: [this.engagement.dataKey.type],
     
 
 
 
 
-    });
+    // });
   }
 
-  create(){}
+  get f() { return this.engagementForm.controls; }
+
+  changeRecurrence(ev){
+    this.selectedRecurrence = ev.value;
+  }
+
+  
+  create(){
+
+    let channels = [];
+    this.channels.forEach(element => {
+
+      if(element.checkedOrUnchecked){
+        channels.push({channelId:element.id})
+      }
+      
+    });
+
+    this.engagementService.createEngagement(
+      {channels: channels, title: this.f.title.value, date: this.date.value, message: this.f.message.value, recurrence:this.selectedRecurrence }).subscribe(
+        val => {
+         
+          if(val.status === 200){
+            this.dialogRef.close();
+          }
+          
+        }
+      )
+  }
 
 }

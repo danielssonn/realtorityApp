@@ -14,7 +14,7 @@
 
 }
 .mat-column-message {
-    flex: 0 0 50% !important;
+    flex: 0 0 30% !important;
    
 
 }
@@ -23,6 +23,20 @@
    
 
 }
+.mat-column-comment {
+    flex: 0 0 20% !important;
+   
+
+}
+.mat-column-id {
+    flex: 0 0 10% !important;
+   
+
+}
+.mat-column-recurrenceTitle {
+    flex: 0 0 10% !important;
+}
+
 
 
 

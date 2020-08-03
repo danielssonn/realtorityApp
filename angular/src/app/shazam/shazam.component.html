@@ -1,0 +1,163 @@
+<br><br>
+<div fxLayout="row" fxLayoutAlign="center center">
+
+  <mat-form-field class="example-form-field">
+    <mat-label>Radius</mat-label>
+    <input matInput type="text" [(ngModel)]="radius">
+    <button mat-button *ngIf="radius" matSuffix mat-icon-button aria-label="Clear" (click)="radius=''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+<div *ngIf="accuracy" fxLayout="row" fxLayoutAlign="center center">
+  Accuraccy: {{accuracy|number}} meters {{heading}}
+</div>
+
+<div *ngIf="!address" fxLayout="row" fxLayoutAlign="center center" (click)="findNearby()">
+
+  Tap to explore nearby listings
+
+
+</div>
+
+<br>
+
+<div fxLayout="row" fxLayoutAlign="center center">
+  <div class="button-container">
+    <button mat-fab color="primary" aria-label="Search Nearby" style="width: 150px; height: 150px;"
+      (click)="findNearby()">
+      <mat-icon style="font-size: 64px; width: 64px; height: 64px;">near_me</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div  class="example-container" *ngIf="address.shortAddress && streetNumber" fxLayout="row" fxLayoutAlign="center center" >
+  <mat-form-field style="font-size: 1.5em;">
+    <mat-select [(value)]="streetNumber" (selectionChange)="streetNumberChange($event)">
+      <mat-option *ngFor="let number of streetNumberRange" [value]="number.number" >
+        {{number.number}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+<mat-form-field  style="font-size: 1.5em;">
+  <mat-select [(value)]="selectedStreet" (selectionChange)="selectedStreetChange($event)">
+    <mat-option *ngFor="let street of streets" [value]="street" >
+      {{street.street}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+</div>
+
+
+
+<div fxLayout="row" fxLayoutAlign="center center">
+  <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1" min="1" max="3" [(ngModel)]="zoomLevel"
+    (change)="zoomChange()"></mat-slider>
+
+</div>
+<div *ngIf="noResult" fxLayout="row" fxLayoutAlign="center center">
+  <div *ngIf="zoomLevel==1">Nothing right here ... </div>
+  <div *ngIf="zoomLevel==2">Nothing around here ...</div>
+  <div *ngIf="zoomLevel==3">Nothing far and wide ...</div>
+</div>
+<cdk-virtual-scroll-viewport class="example-viewport" [itemSize]="itemsSize">
+  <ng-container *cdkVirtualFor="let property of properties" class="card">
+    <div>
+
+      <div class="inlineDiv" *ngIf="property[0]">
+
+        <div *ngIf="property[0].sp_dol">
+          <img [src]="imageSold()" (error)="imageError($event)"
+            [ngClass]="{'centered-and-cropped':property[0].star!='Y','centered-and-cropped-liked':property[0].star=='Y','centered-and-cropped-disliked':property[0].star=='D'}"
+            width="110" height="110" (click)="showDetail(property[0])">
+          <h6
+            style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+            {{property[0].sp_dol|shortCurrency}} <br>
+            {{property[0].addr|shortText:18}}
+          </h6>
+        </div>
+        <div *ngIf="!property[0].sp_dol">
+          <img [src]="getPropertyIcon(property[0])" (error)="imageError($event)"
+            [ngClass]="{'centered-and-cropped':property[0].star!='Y','centered-and-cropped-liked':property[0].star=='Y','centered-and-cropped-disliked':property[0].star=='D'}"
+            width="110" height="110" (click)="showDetail(property[0])">
+          <h6
+            style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+            {{property[0].lp_dol|shortCurrency}} <br>
+            {{property[0].addr|shortText:18}}
+          </h6>
+        </div>
+
+
+      </div>
+      <div class="inlineDiv" *ngIf="property[1]">
+
+        <div *ngIf="property[1].sp_dol">
+          <img [src]="imageSold()" (error)="imageError($event)"
+            [ngClass]="{'centered-and-cropped':property[1].star!='Y','centered-and-cropped-liked':property[1].star=='Y','centered-and-cropped-disliked':property[1].star=='D'}"
+            width="110" height="110" (click)="showDetail(property[1])">
+          <h6
+            style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+            {{property[1].sp_dol|shortCurrency}} <br>
+            {{property[1].addr|shortText:18}}
+          </h6>
+        </div>
+        <div *ngIf="!property[1].sp_dol">
+          <img [src]="getPropertyIcon(property[1])" (error)="imageError($event)"
+            [ngClass]="{'centered-and-cropped':property[1].star!='Y','centered-and-cropped-liked':property[1].star=='Y','centered-and-cropped-disliked':property[1].star=='D'}"
+            width="110" height="110" (click)="showDetail(property[1])">
+          <h6
+            style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+            {{property[1].lp_dol|shortCurrency}} <br>
+            {{property[1].addr|shortText:18}}
+          </h6>
+        </div>
+
+      </div>
+      <div class="inlineDiv" *ngIf="property[2]">
+
+        <div *ngIf="property[2].sp_dol">
+          <img [src]="imageSold()" (error)="imageError($event)"
+            [ngClass]="{'centered-and-cropped':property[2].star!='Y','centered-and-cropped-liked':property[2].star=='Y','centered-and-cropped-disliked':property[2].star=='D'}"
+            width="110" height="110" (click)="showDetail(property[2])">
+          <h6
+            style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+            {{property[2].sp_dol|shortCurrency}} <br>
+            {{property[2].addr|shortText:18}}
+          </h6>
+        </div>
+        <div *ngIf="!property[2].sp_dol">
+          <img [src]="getPropertyIcon(property[2])" (error)="imageError($event)"
+            [ngClass]="{'centered-and-cropped':property[2].star!='Y','centered-and-cropped-liked':property[2].star=='Y','centered-and-cropped-disliked':property[2].star=='D'}"
+            width="110" height="110" (click)="showDetail(property[2])">
+          <h6
+            style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+            {{property[2].lp_dol|shortCurrency}} <br>
+            {{property[2].addr|shortText:18}}
+          </h6>
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+  </ng-container>
+</cdk-virtual-scroll-viewport>
+
+<div class="inlineDiv" *ngIf="sales">
+
+  <img [src]="getPropertyIcon(sales[0])" (error)="imageError($event)"
+    [ngClass]="{'centered-and-cropped':sales[0].star!='Y','centered-and-cropped-liked':sales[0].star=='Y','centered-and-cropped-disliked':sales[0].star=='D'}"
+    width="110" height="110" (click)="showDetail(sales[0])">
+  <h6
+    style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+    {{sales[0].sp_dol|shortCurrency}} <br>
+    {{sales[0].addr|shortText:18}}
+  </h6>
+
+</div>

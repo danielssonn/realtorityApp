@@ -9,7 +9,7 @@ Create Engagement
 <form (ngSubmit)='create()'  [formGroup]="engagementForm">
 
   <mat-form-field>
-    <input placeholder="date"  matInput [matDatepicker]="myDatepicker">
+    <input placeholder="date"  matInput [matDatepicker]="myDatepicker" [formControl]="date">
     <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
     <mat-datepicker #myDatepicker></mat-datepicker>
     <mat-hint align="end">Schedule the engagement ^</mat-hint>
@@ -25,43 +25,21 @@ Create Engagement
   <br>
   Channels:
   <br>
-  
-  
-  <mat-checkbox>Push Notification </mat-checkbox><br>
-  <mat-checkbox>Add to listing feed </mat-checkbox><br>
-  <mat-checkbox>Post on Facebook </mat-checkbox><br>
-  <mat-checkbox>Email</mat-checkbox><br>
+  <div fxLayout="column" fxLayoutAlign="center start" >
+    <mat-checkbox *ngFor="let channel of channels" [ngModelOptions]="{standalone: true}" [(ngModel)]="channel.checkedOrUnchecked">{{channel.comment}}</mat-checkbox>
+  </div>
+
+
   
   <br>
   <mat-form-field class="recurrence">
   <mat-label>Recurence:</mat-label>
-    <mat-select>
-      <mat-option *ngFor="let recurrence of recurrences" [value]="recurrence.value">
-        {{recurrence.viewValue}}
+    <mat-select  (selectionChange)="changeRecurrence($event)">
+      <mat-option *ngFor="let recurrence of recurrences" [value]="recurrence.id">
+        {{recurrence.title}}
       </mat-option>
     </mat-select>
   </mat-form-field>
-
-  <mat-form-field class="dayOfWeek">
-
-  <mat-label>On:</mat-label>
-    <mat-select>
-      <mat-option *ngFor="let day of days" [value]="day.value">
-        {{day.viewValue}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-
-  <mat-form-field class="time">
-
-    <mat-label>In:</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let time of times" [value]="time.value">
-          {{time.viewValue}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
 
   <div fxLayout="row" fxLayoutAlign="start center">
     <button mat-raised-button color="primary" type="submit"

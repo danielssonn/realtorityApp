@@ -1,45 +1,58 @@
 <br><br>
 
 <div fxLayout="row" fxLayoutAlign="space-around center" style="background-color: #bf1e2d; color:white">
- Past Engagements
+Scheduled Engagements
 </div>
 
 <table mat-table class="client-table mat-elevation-z8" [dataSource]="dataSource" matSort matSortActive="seqNo"
-matSortDirection="asc" matSortDisableClear>
+  matSortDirection="asc" matSortDisableClear>
 
 
-<ng-container matColumnDef="date">
+  <ng-container matColumnDef="date">
     <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
     <mat-cell class="description-cell" *matCellDef="let engagement">{{engagement.date|date}}</mat-cell>
-</ng-container>
+  </ng-container>
 
-<ng-container matColumnDef="title">
+  <ng-container matColumnDef="comment">
+    <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+    <mat-cell class="description-cell" *matCellDef="let engagement">{{engagement.comment}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
     <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
     <mat-cell class="duration-cell" *matCellDef="let engagement">{{engagement.title|shortText:40}}</mat-cell>
-</ng-container>
+  </ng-container>
 
-<ng-container matColumnDef="message">
-  <mat-header-cell *matHeaderCellDef>Message</mat-header-cell>
-  <mat-cell  class="duration-cell" *matCellDef="let engagement">{{engagement.message|shortText:40}}</mat-cell>
-</ng-container>
-<ng-container matColumnDef="outcome">
-  <mat-header-cell *matHeaderCellDef>Outcome</mat-header-cell>
-  <mat-cell class="duration-cell" *matCellDef="let engagement">{{engagement.outcome}}</mat-cell>
-</ng-container>
+  <ng-container matColumnDef="message">
+    <mat-header-cell *matHeaderCellDef>Message</mat-header-cell>
+    <mat-cell (click)="showMessage(engagement)" class="duration-cell" *matCellDef="let engagement">
+      {{engagement.message|shortText:40}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="recurrenceTitle">
+    <mat-header-cell *matHeaderCellDef>Repeat</mat-header-cell>
+    <mat-cell class="duration-cell" *matCellDef="let engagement">
+      {{engagement.reccurenceTitle}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell class="duration-cell" *matCellDef="let engagement"><button mat-button color="warn"
+        (click)="removeEngagement(engagement)">x</button>
+    </mat-cell>
+  </ng-container>
 
-<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
-<mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
 </table>
-<mat-paginator [length]="dataSource.engagementCount" [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" #engagementPaginator ></mat-paginator>
+<mat-paginator [length]="dataSource.engagementCount" [pageSize]="10" [pageSizeOptions]="[3, 5, 10]"
+  #engagementPaginator></mat-paginator>
 <br>
 <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="end center">
+  <button color="primary" (click)='addEngagement()' mat-raised-button>{{"Create"|translate}}</button>
 
-<button color="warn" (click)='emailList()' mat-raised-button>{{"Manage Email Lists"|translate}}</button>
+  <button color="warn" (click)='emailList()' mat-raised-button>{{"Manage Email Lists"|translate}}</button>
 
-<button color="warn" (click)='socialLink()' mat-raised-button>{{"Manage Social/Ad Networls"|translate}}</button>
+  <button color="warn" (click)='socialLink()' mat-raised-button>{{"Manage Social/Ad Networls"|translate}}</button>
 </div>
 <br><br>
-
-<button color="primary" (click)='addEngagement()' mat-raised-button>{{"Create"|translate}}</button>

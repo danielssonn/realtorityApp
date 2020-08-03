@@ -42,6 +42,7 @@ export class PropertiesService {
   private marketingMessageUrl;
   private schoolsUrl;
   private schoolsDistricts;
+  private salesUrl;
 
 
   private propertiesUrlDetail;
@@ -49,6 +50,7 @@ export class PropertiesService {
   private manageUrl;
   private communitiesUrl;
   private communitiesScoreUrl;
+  private communityMatchURL;
 
   private propertiesUrlTrashbin;
   private propertiesUrlEmptyTrash;
@@ -100,6 +102,7 @@ export class PropertiesService {
     this.propertiesUrlEmptyTrash = environment.serverURL + '/emptytrash';
     this.communitiesUrl = environment.serverURL + '/communityBounds';
     this.communitiesScoreUrl = environment.serverURL + '/communityScores';
+    this.salesUrl = environment.serverURL + '/sales'
 
     this.developmentsUrl = environment.serverURL + '/developments';
     this.preferredAreas = environment.serverURL + '/preferredAreas';
@@ -113,6 +116,7 @@ export class PropertiesService {
     this.schoolsUrl = environment.serverURL + '/schools'
     this.schoolsDistricts = environment.serverURL + '/schoolsDistricts'
     this.propertiesRadarUrl = environment.serverURL + '/propertiesRadar'
+    this.communityMatchURL = environment.serverURL + '/communitymatch';
      
     this.geocodeURL = environment.serverURL + '/address';
      
@@ -458,13 +462,14 @@ export class PropertiesService {
     }
   }
 
-  getAddress(lat, lon): Observable<any>{
+  getAddress(lat, lon, radius): Observable<any>{
     console.log('getting address')
   
     
      let params = {
         lat:lat,
         lon:lon,
+        radius: radius
       } 
      this.options.params = params; 
    
@@ -473,6 +478,38 @@ export class PropertiesService {
         return response;
 
       }))
+
+  }
+
+  getCommunityMatch(lat, lon, zoom, address): Observable<any>{
+    let params = {
+      lat:lat,
+      lon:lon,
+      zoom:zoom,
+      address:address
+    } 
+   this.options.params = params; 
+ 
+  return this.http.get(this.communityMatchURL,  this.options).pipe(map(
+    response => {
+      return response;
+
+    }))
+
+  }
+
+  getSales(address):Observable<any>{
+    let params = {
+      address:address,
+      
+    } 
+   this.options.params = params; 
+ 
+  return this.http.get(this.salesUrl,  this.options).pipe(map(
+    response => {
+      return response;
+
+    }))
 
   }
 

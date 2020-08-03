@@ -2,7 +2,7 @@ import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { Channels } from './engagement-channel';
-import { SocialLinkService } from './engagement-channel.service';
+import { EngagementService } from '../engage.service';
 
 export class SocialLinksDataSource implements DataSource<Channels> {
 
@@ -10,10 +10,10 @@ export class SocialLinksDataSource implements DataSource<Channels> {
     private loadingSubject = new BehaviorSubject<boolean>(false);
 
     public loading$ = this.loadingSubject.asObservable();
-    private channelsCount;
+    public channelsCount;
 
 
-    constructor(private channelService: SocialLinkService) { }
+    constructor(private channelService: EngagementService) { }
 
     connect(collectionViewer: CollectionViewer): Observable<Channels[]> {
         return this.channelsSubject.asObservable();
@@ -24,12 +24,12 @@ export class SocialLinksDataSource implements DataSource<Channels> {
         this.loadingSubject.complete();
     }
 
-    loadChannels(filter: string, sortOn: string,
+    loadNetworks(filter: string, sortOn: string,
         sortDirection = 'asc', pageIndex = 0, pageSize = 10) {
 
         this.loadingSubject.next(true);
 
-        this.channelService.getChannels(filter, sortDirection, sortOn,
+        this.channelService.getNetworks(filter, sortDirection, sortOn,
             pageIndex, pageSize).pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))

@@ -10,12 +10,20 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class EngageService {
+export class EngagementService {
   engagementsURL: string;
+  engagementChannelsURL: string;
+  engagementNetworksURL: string;
+  recurrenceURL: string;
 
   constructor(private http: HttpClient) {
 
     this.engagementsURL = environment.serverURL + '/engagements';
+    this.engagementChannelsURL = environment.serverURL + '/channels';
+    this.engagementNetworksURL = environment.serverURL + '/networks';
+    this.recurrenceURL = environment.serverURL + '/recurrences';
+
+
 
   }
 
@@ -35,5 +43,69 @@ export class EngageService {
         return res['payload'];
       })
     );;
+  }
+
+  removeEngagement(engagement): Observable<any>{
+    console.log('removing engagegment', engagement)
+    let httpParams = new HttpParams().set('engagementId', engagement);
+    let options = { params: httpParams };
+    
+    return this.http.delete(this.engagementsURL, options).pipe(map(response => {
+      
+    }))
+
+  }
+
+
+  getNetworks(filter = '', sortOrder = 'asc', sortOn: string,
+    pageNumber = 0, pageSize = 3 ): Observable<any> {
+
+    return this.http.get(this.engagementNetworksURL, {
+      params: new HttpParams()
+        .set('filter', filter)
+        .set('sortOrder', sortOrder)
+        .set('pageNumber', pageNumber.toString())
+        .set('pageSize', pageSize.toString())
+        .set('sortOn', sortOn)
+      // tslint:disable-next-line:quotemark
+    }).pipe(
+      map(res => {
+        res['payload'] = res;
+        return res['payload'];
+      })
+    );
+  }
+
+  getChannels(){
+
+    return this.http.get(this.engagementChannelsURL).pipe(map(response => {
+      return response;
+    }))
+    
+  }
+
+  getRecurrences(){
+
+    return this.http.get(this.recurrenceURL).pipe(map(response => {
+      return response;
+    }))
+    
+  }
+
+  setSocialLinks(links) {
+    
+    return this.http.post(this.engagementChannelsURL, JSON.stringify(links)).pipe(map(response => {
+      
+    }))
+  }
+
+  createEngagement(engagement):Observable<any> {
+
+    console.log('creating engagement', engagement)
+    return this.http.post(this.engagementsURL, engagement).pipe(map(response => {
+
+      return response;
+      
+    }))
   }
 }

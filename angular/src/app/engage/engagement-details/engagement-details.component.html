@@ -1,0 +1,14 @@
+
+<mat-card>
+ 
+  <mat-card-title>
+    <div>{{engagement.title}}</div>
+  </mat-card-title>
+  <br>
+  <mat-card-content>	
+    <div [innerHtml]="getHTMLValue(engagement.message)"></div>
+  </mat-card-content>
+</mat-card>
+
+
+

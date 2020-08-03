@@ -2,7 +2,7 @@ import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { Engagement } from './engagement';
-import { EngageService } from './engage.service';
+import { EngagementService } from './engage.service';
 
 export class EngageDataSource implements DataSource<Engagement> {
 
@@ -10,9 +10,9 @@ export class EngageDataSource implements DataSource<Engagement> {
     private loadingSubject = new BehaviorSubject<boolean>(false);
 
     public loading$ = this.loadingSubject.asObservable();
-    private engagementCount;
+    public engagementCount;
 
-    constructor(private engageService: EngageService) { }
+    constructor(private engageService: EngagementService) { }
 
     connect(collectionViewer: CollectionViewer): Observable<Engagement[]> {
         return this.engagementSubject.asObservable();

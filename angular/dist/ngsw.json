@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1583770120303,
+  "timestamp": 1596397542215,
   "index": "./index.html",
   "assetGroups": [
     {
@@ -10,7 +10,7 @@
       "urls": [
         "./favicon.ico",
         "./index.html",
-        "./main.e1ba659cc5fd50efd78f.js",
+        "./main.f4bb9cb4668cac0e208a.js",
         "./polyfills-es5.409daa48a8f285773a0a.js",
         "./polyfills.344bfcf86068c38d99eb.js",
         "./runtime.458556a34b891ea32398.js",
@@ -169,6 +169,7 @@
         "./assets/sample_polygon.png",
         "./assets/semi_marker.png",
         "./assets/shower.png",
+        "./assets/sold.png",
         "./assets/sold.svg",
         "./assets/soldRotated.ai",
         "./assets/soldRotated.jpg",
@@ -335,6 +336,7 @@
     "./assets/sample_polygon.png": "f9fa7e4b751e9b7489b54cfa962e8e1ddc58f2be",
     "./assets/semi_marker.png": "408450f54a55b89cadd8bf43bb2c0306fe0b48f8",
     "./assets/shower.png": "cd7d0f3c9cf64707ffbaf98ffc99ce7738ab5c16",
+    "./assets/sold.png": "0db320ef873aa22efbb82b3f8b87bbcb270a4b26",
     "./assets/sold.svg": "7ac6e7f21dac54e7810871110eee24969358c63d",
     "./assets/soldRotated.ai": "4b0d19abcb5bde1c635fe1db453d98985d5735b3",
     "./assets/soldRotated.jpg": "f5dbc3126add663601de7299024d2082729b484e",
@@ -351,8 +353,8 @@
     "./assets/weekly-preview.png": "9b6bff10cdd55f8168ee0264859847997c683528",
     "./assets/whylike.png": "557bc9ffc5ed9e7942cc51c4488767152d6dc3f1",
     "./favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "./index.html": "eab42876c19394096ff04d2e8645e3321e1a1107",
-    "./main.e1ba659cc5fd50efd78f.js": "0dacc34da57d2c11abd99abd1d3f18084845c2df",
+    "./index.html": "a7d0a5d631e3cd471a93b91e183bb3bf531a75df",
+    "./main.f4bb9cb4668cac0e208a.js": "3701cf305f747317b7d49618e4ae180452a28750",
     "./polyfills-es5.409daa48a8f285773a0a.js": "8faf7c57851a1c1d1ff9226bb32bc0688ac1521f",
     "./polyfills.344bfcf86068c38d99eb.js": "0003f56a7537092675bc5cc25f4f7301ae868cd9",
     "./runtime.458556a34b891ea32398.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",

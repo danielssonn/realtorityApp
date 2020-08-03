@@ -25,6 +25,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule, Routes, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { GestureConfig } from '@angular/material';
 import * as Hammer from 'hammerjs';
 
 import { MatButtonModule, MatDialogModule, MatSelectModule, MatTableModule, MatPaginatorModule, MatSortModule, MatProgressSpinnerModule, MatExpansionModule,} from '@angular/material';
@@ -109,6 +110,8 @@ import { EngageComponent } from './engage/engage.component';
 import { CreateEngagementComponent } from './engage/create-engagement/create-engagement.component';
 import { SocialLinkComponent } from './engage/engagement-channel/engagement-channel.component'; 
 import { EmailListComponent } from './engage/email-list/email-list.component';
+import { EngagementDetailsComponent } from './engage/engagement-details/engagement-details.component';
+import { ShazamComponent } from './shazam/shazam.component';
 
 
 
@@ -234,9 +237,9 @@ export const routerConfig: Routes = [
   },
   {
     path: '',
-    component: WeekComponent,
+    component: ShazamComponent,
     canActivate: [AuthGuard],
-    data: { title: 'Week' }
+    data: { title: 'Nearby' }
   },
   {
     path: 'research',
@@ -290,7 +293,13 @@ export const routerConfig: Routes = [
     path: 'license',
     component: LicenseComponent,
     data: { title: 'License' }
+  },
+  {
+    path: 'nearby',
+    component: ShazamComponent,
+    data: { title: 'Nearby' }
   }
+
 
 
 
@@ -354,7 +363,9 @@ export function createTranslateLoader(http: HttpClient) {
     EngageComponent,
     CreateEngagementComponent,
     SocialLinkComponent,
-    EmailListComponent
+    EmailListComponent,
+    EngagementDetailsComponent,
+    ShazamComponent
     
 
   ],
@@ -449,7 +460,8 @@ export function createTranslateLoader(http: HttpClient) {
     AdWithMapComponent,
     CreateEngagementComponent,
     EmailListComponent,
-    SocialLinkComponent
+    SocialLinkComponent,
+    EngagementDetailsComponent
     
   ],
   bootstrap: [AppComponent]

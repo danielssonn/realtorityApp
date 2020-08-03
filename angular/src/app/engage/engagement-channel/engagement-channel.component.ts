@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SocialLinksDataSource } from './engagement-channel.datasource';
-import { SocialLinkService } from './engagement-channel.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material';
+import { EngagementService } from '../engage.service';
 
 @Component({
   selector: 'app-social-link',
@@ -36,13 +36,16 @@ export class SocialLinkComponent implements OnInit {
   });
 
 
-  constructor(private socialLinkService: SocialLinkService) {
-    this.dataSource = new SocialLinksDataSource(this.socialLinkService);
-
+  constructor(private engagementChannelService: EngagementService) {
+    this.dataSource = new SocialLinksDataSource(this.engagementChannelService);
+   
    }
 
   ngOnInit() {
-    this.dataSource.loadChannels("", "");
+    this.dataSource.loadNetworks("", "");
+
+    
+
   }
 
   connect(){}

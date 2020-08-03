@@ -72,6 +72,7 @@ export class WeekComponent implements OnInit, AfterViewInit {
   }
 
   setProperties(props) {
+    console.log('got sum ', props)
     if(!Array.isArray(props)){
       return;
     }
@@ -90,7 +91,7 @@ export class WeekComponent implements OnInit, AfterViewInit {
   
     this.calendar = [];
     props.forEach(property => {
-      
+      console.log('got sum ', property)
       if(property.isIn){
         this.propertiesCount++;
         const dateInMonth = moment(property.added).format('l');
