@@ -5,11 +5,26 @@ import { Router } from '@angular/router';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { PropertyDetailComponent } from 'app/property-detail/property-detail.component';
 import { timestamp } from 'rxjs/operators';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-shazam',
   templateUrl: './shazam.component.html',
-  styleUrls: ['./shazam.component.css']
+  styleUrls: ['./shazam.component.css'],
+  animations: [
+    trigger('balloonEffect', [
+      state('initial', style({
+
+        transform: 'scale(1)'
+      })),
+      state('final', style({
+        transform: 'scale(1.08)'
+      })),
+      transition('final=>initial', animate('1000ms')),
+      transition('initial=>final', animate('1500ms'))
+    ]),
+  ]
+
 })
 export class ShazamComponent implements OnInit {
 
@@ -33,9 +48,12 @@ export class ShazamComponent implements OnInit {
   longitude: any;
   alternates: any;
   alternateStreet: any;
-  alternate:any;
-  selectedStreet:any;
+  alternate: any;
+  selectedStreet: any;
   streetNumberRange: any;
+  showCalibration;
+  salesCount;
+  nearbyCount;
 
 
   constructor(private service: PropertiesService, private spinner: NgxSpinnerService,
@@ -49,8 +67,22 @@ export class ShazamComponent implements OnInit {
     this.noResult = false;
     this.radius = 0.005
     this.streets = [];
+    this.showCalibration = false;
+    this.salesCount = 0;
+    this.nearbyCount = 0;
 
 
+
+
+
+  }
+
+  calibration() {
+    this.showCalibration = !this.showCalibration;
+  }
+
+  onEnd(event) {
+    this.currentState = this.currentState === 'initial' ? 'final' : 'initial';
   }
 
   ngOnInit() {
@@ -68,26 +100,34 @@ export class ShazamComponent implements OnInit {
       this.streets = [];
       val.forEach(alt => {
         console.log(this.alternateStreet, this.alternateStreet.indexOf(alt.street))
-       
+        
         if (this.alternateStreet.indexOf(alt.street) == -1) {
           this.streets.push(alt)
           this.alternateStreet.push(alt.street);
         }
+        if (alt.original) {
+          console.log('streets', this.streets, alt.street)
+          this.address = alt;
+          this.address.stNum = alt.shortAddress.substring(0, alt.shortAddress.indexOf(' ')) - 20
+          this.getStreetNumberRange(this.address.stNum);
+          this.selectedStreet = alt;
+
+
+        }
+        
       })
 
-      this.selectedStreet = val[0];
-      
-      this.address = val[0];
 
-      this.address.stNum = val[0].shortAddress.substring(0, val[0].shortAddress.indexOf(' ')) - 20
-      this.getStreetNumberRange(this.address.stNum );
+
+
 
       this.service.getCommunityMatch(position.coords.latitude, position.coords.longitude, this.radius, this.address.formattedAddress).subscribe(nearby => {
 
 
 
-        this.service.getSales(this.streetNumber + " " +this.selectedStreet.street).subscribe(sales => {
-
+        this.service.getSales(this.streetNumber + " " + this.selectedStreet.street).subscribe(sales => {
+          this.salesCount = sales.length;
+          this.nearbyCount = nearby.length;
           this.propertiesPriorChunk = sales.concat(nearby);
           this.setProperties();
           this.spinner.hide();
@@ -104,11 +144,11 @@ export class ShazamComponent implements OnInit {
    */
   geoError = (err) => { console.log(err); alert(err.message) }
 
+  currentState = 'initial';
   /**
    * 
    */
   findNearby() {
-
     this.properties = [];
     this.noResult = false;
     var options = {
@@ -125,24 +165,26 @@ export class ShazamComponent implements OnInit {
   }
 
   selectedStreetChange(ev) {
-    console.log(this.selectedStreet)
+    console.log('selected', this.selectedStreet)
     this.address.stNum = this.selectedStreet.shortAddress.substring(0, this.selectedStreet.shortAddress.indexOf(' ')) - 20
-    this.getStreetNumberRange(this.address.stNum );
+    console.log(this.address.stNum)
+    this.getStreetNumberRange(this.address.stNum);
+
     this.streetNumberChange(1);
 
   }
 
-  getStreetNumberRange(streetRangeFrom){
+  getStreetNumberRange(streetRangeFrom) {
 
-    console.log('street range from',streetRangeFrom)
-    
+    console.log('street range from', streetRangeFrom)
+
     this.streetNumberRange = []
 
-      for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 40; i++) {
 
-        this.streetNumberRange.push({ number: (streetRangeFrom + i) });
-      }
-      this.streetNumber = this.address.stNum + 20;
+      this.streetNumberRange.push({ number: (streetRangeFrom + i) });
+    }
+    this.streetNumber = this.address.stNum + 20;
 
 
   }
@@ -155,8 +197,9 @@ export class ShazamComponent implements OnInit {
     this.service.getCommunityMatch(this.latitute, this.longitude, this.radius, this.streetNumber + this.selectedStreet.street).subscribe(nearby => {
 
 
-      this.service.getSales(this.streetNumber +" "+this.selectedStreet.street).subscribe(sales => {
-
+      this.service.getSales(this.streetNumber + " " + this.selectedStreet.street).subscribe(sales => {
+        this.salesCount = sales.length;
+        this.nearbyCount = nearby.length;
         this.propertiesPriorChunk = sales.concat(nearby);
         this.setProperties();
         this.spinner.hide();

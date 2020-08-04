@@ -1,5 +1,5 @@
 <br><br>
-<div fxLayout="row" fxLayoutAlign="center center">
+<div  *ngIf="showCalibration" fxLayout="row" fxLayoutAlign="center center">
 
   <mat-form-field class="example-form-field">
     <mat-label>Radius</mat-label>
@@ -8,26 +8,28 @@
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
-</div>
-<div *ngIf="accuracy" fxLayout="row" fxLayoutAlign="center center">
-  Accuraccy: {{accuracy|number}} meters {{heading}}
+  <div *ngIf="accuracy" fxLayout="row" fxLayoutAlign="center center">
+    Accuraccy: {{accuracy|number}} meters
+  </div>
 </div>
 
-<div *ngIf="!address" fxLayout="row" fxLayoutAlign="center center" (click)="findNearby()">
+
+<div fxLayout="row" fxLayoutAlign="center center" (click)="calibration()">
 
   Tap to explore nearby listings
 
 
 </div>
 
+
 <br>
 
 <div fxLayout="row" fxLayoutAlign="center center">
-  <div class="button-container">
-    <button mat-fab color="primary" aria-label="Search Nearby" style="width: 150px; height: 150px;"
-      (click)="findNearby()">
-      <mat-icon style="font-size: 64px; width: 64px; height: 64px;">near_me</mat-icon>
-    </button>
+  <div class="button-container"  >
+    <img src="assets/listingsnearby.png" aria-label="Search Nearby" style="width: 250px; height: 250px;"
+      (click)="findNearby()"  [@balloonEffect]=currentState (@balloonEffect.done)="onEnd($event)">
+      
+    
   </div>
 </div>
 
@@ -41,7 +43,7 @@
   </mat-form-field>
 
 
-<mat-form-field  style="font-size: 1.5em;">
+<mat-form-field  style="font-size: 1.5em; width: 50%;">
   <mat-select [(value)]="selectedStreet" (selectionChange)="selectedStreetChange($event)">
     <mat-option *ngFor="let street of streets" [value]="street" >
       {{street.street}}
@@ -64,6 +66,11 @@
   <div *ngIf="zoomLevel==2">Nothing around here ...</div>
   <div *ngIf="zoomLevel==3">Nothing far and wide ...</div>
 </div>
+
+<div fxLayout="row" fxLayoutAlign="center center">
+  Found {{salesCount}} sales at this address, and {{nearbyCount}} listings nearby
+</div>
+<br>
 <cdk-virtual-scroll-viewport class="example-viewport" [itemSize]="itemsSize">
   <ng-container *cdkVirtualFor="let property of properties" class="card">
     <div>

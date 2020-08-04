@@ -1,7 +1,8 @@
 .button-container {
     display: flex;
     justify-content: center;
-    width: 220px;
+    width: 200px;
+  
   }
 
   .example-viewport{
@@ -11,7 +12,7 @@
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
     grid-auto-rows: minmax(100px, auto);
-    height: 100vh;
+    height: 80vh;
 }
 .inlineDiv{
     padding: 2px; 
@@ -57,4 +58,19 @@ img {
 mat-form-field {
   width: 25%;
   
+}
+.material-icons-new {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.icon-white {
+  webkit-filter: contrast(4) invert(1);
+  -moz-filter: contrast(4) invert(1);
+  -o-filter: contrast(4) invert(1);
+  -ms-filter: contrast(4) invert(1);
+  filter: contrast(4) invert(1);
 }
