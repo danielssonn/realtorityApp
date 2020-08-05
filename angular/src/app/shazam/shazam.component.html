@@ -1,5 +1,5 @@
-<br><br>
-<div  *ngIf="showCalibration" fxLayout="row" fxLayoutAlign="center center">
+<br>
+<!-- <div  *ngIf="showCalibration" fxLayout="row" fxLayoutAlign="center center">
 
   <mat-form-field class="example-form-field">
     <mat-label>Radius</mat-label>
@@ -11,12 +11,17 @@
   <div *ngIf="accuracy" fxLayout="row" fxLayoutAlign="center center">
     Accuraccy: {{accuracy|number}} meters
   </div>
+</div> -->
+
+<div fxLayout="row" fxLayoutAlign="end center">
+  
+  <span class="material-icons" (click)="showHow()">
+    help
+    </span>
 </div>
-
-
 <div fxLayout="row" fxLayoutAlign="center center" (click)="calibration()">
 
-  Tap to explore nearby listings
+  Tap to explore nearby listings 
 
 
 </div>
@@ -26,7 +31,7 @@
 
 <div fxLayout="row" fxLayoutAlign="center center">
   <div class="button-container"  >
-    <img src="assets/listingsnearby.png" aria-label="Search Nearby" style="width: 250px; height: 250px;"
+    <img [src]="imageSource" aria-label="Search Nearby" style="width: 250px; height: 250px;"
       (click)="findNearby()"  [@balloonEffect]=currentState (@balloonEffect.done)="onEnd($event)">
       
     
@@ -57,17 +62,12 @@
 
 
 <div fxLayout="row" fxLayoutAlign="center center">
-  <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1" min="1" max="3" [(ngModel)]="zoomLevel"
-    (change)="zoomChange()"></mat-slider>
+ - <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1" min="1" max="2" [(ngModel)]="zoomLevel"
+    (change)="zoomChange()"></mat-slider> + 
 
 </div>
-<div *ngIf="noResult" fxLayout="row" fxLayoutAlign="center center">
-  <div *ngIf="zoomLevel==1">Nothing right here ... </div>
-  <div *ngIf="zoomLevel==2">Nothing around here ...</div>
-  <div *ngIf="zoomLevel==3">Nothing far and wide ...</div>
-</div>
 
-<div fxLayout="row" fxLayoutAlign="center center">
+<div *ngIf="hasResults" fxLayout="row" fxLayoutAlign="center center">
   Found {{salesCount}} sales at this address, and {{nearbyCount}} listings nearby
 </div>
 <br>

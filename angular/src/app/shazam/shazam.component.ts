@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional } from '@angular/core';
 import { PropertiesService } from 'app/properties.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
-import { MatDialogConfig, MatDialog } from '@angular/material';
+import { MatDialogConfig, MatDialog, MatDialogRef } from '@angular/material';
 import { PropertyDetailComponent } from 'app/property-detail/property-detail.component';
 import { timestamp } from 'rxjs/operators';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { HowToComponent } from './how-to/how-to.component';
+import { IfStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-shazam',
@@ -14,11 +16,14 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   animations: [
     trigger('balloonEffect', [
       state('initial', style({
-
         transform: 'scale(1)'
       })),
       state('final', style({
-        transform: 'scale(1.08)'
+        transform: 'scale(1.05)'
+      })),
+
+      transition('void=>final',style({
+        width:'0%',
       })),
       transition('final=>initial', animate('1000ms')),
       transition('initial=>final', animate('1500ms'))
@@ -54,7 +59,9 @@ export class ShazamComponent implements OnInit {
   showCalibration;
   salesCount;
   nearbyCount;
-
+  hasResults;
+  imageSource;
+  currentState;
 
   constructor(private service: PropertiesService, private spinner: NgxSpinnerService,
     private router: Router, private dialog: MatDialog) {
@@ -70,7 +77,8 @@ export class ShazamComponent implements OnInit {
     this.showCalibration = false;
     this.salesCount = 0;
     this.nearbyCount = 0;
-
+    this.hasResults = false;  
+    this.imageSource = "assets/listingsaround.png";
 
 
 
@@ -86,35 +94,63 @@ export class ShazamComponent implements OnInit {
   }
 
   ngOnInit() {
+    
   }
 
   geoSuccess = (position) => {
     console.log(position);
+    this.hasResults = false;  
     this.accuracy = position.coords.accuracy;
     this.heading = position.coords.heading;
     this.latitute = position.coords.latitude;
     this.longitude = position.coords.longitude
+
+    if(this.zoomLevel==1){
+      this.radius=0.0005
+    }
+    if(this.zoomLevel==2){
+      this.radius=0.005
+    }
+
     this.service.getAddress(position.coords.latitude, position.coords.longitude, this.radius).subscribe(val => {
       this.alternates = [];
       this.alternateStreet = [];
       this.streets = [];
+
+      val.sort((a, b) => {
+        return b.original - a.original
+      })
+      
       val.forEach(alt => {
         console.log(this.alternateStreet, this.alternateStreet.indexOf(alt.street))
-        
+
+
+        if (alt.original) {
+
+          //if original, we want to put it in, anyway ... but remove previous same name street
+
+          console.log('streets', this.streets, alt.street, this.streets.indexOf(alt))
+
+          console.log('st', this.streets)
+          this.streets.push(alt);
+
+          this.address = alt;
+
+          this.address.stNum = alt.shortAddress.substring(0, alt.shortAddress.indexOf(' ')) - 20
+          
+          this.getStreetNumberRange(this.address.stNum);
+          this.selectedStreet = alt;
+          this.alternateStreet.push(alt.street);
+
+
+        }
+
         if (this.alternateStreet.indexOf(alt.street) == -1) {
           this.streets.push(alt)
           this.alternateStreet.push(alt.street);
         }
-        if (alt.original) {
-          console.log('streets', this.streets, alt.street)
-          this.address = alt;
-          this.address.stNum = alt.shortAddress.substring(0, alt.shortAddress.indexOf(' ')) - 20
-          this.getStreetNumberRange(this.address.stNum);
-          this.selectedStreet = alt;
 
 
-        }
-        
       })
 
 
@@ -142,9 +178,9 @@ export class ShazamComponent implements OnInit {
    * 
    * @param err Something went off the rails getting a location
    */
-  geoError = (err) => { console.log(err); alert(err.message) }
+  geoError = (err) => {  this.spinner.hide();  alert(err.message) }
 
-  currentState = 'initial';
+ 
   /**
    * 
    */
@@ -177,10 +213,17 @@ export class ShazamComponent implements OnInit {
   getStreetNumberRange(streetRangeFrom) {
 
     console.log('street range from', streetRangeFrom)
+    var j;
+    if(streetRangeFrom>=0){
+      j =40
+    } else {
+      j = (streetRangeFrom*-1) +20;
+      streetRangeFrom = streetRangeFrom*-1;
+    }
 
     this.streetNumberRange = []
-
-    for (let i = 0; i < 40; i++) {
+    var j
+    for (let i = 0; i < j; i++) {
 
       this.streetNumberRange.push({ number: (streetRangeFrom + i) });
     }
@@ -205,11 +248,7 @@ export class ShazamComponent implements OnInit {
         this.spinner.hide();
 
       })
-
-
     });
-
-
   }
 
   /**
@@ -247,6 +286,12 @@ export class ShazamComponent implements OnInit {
     return value;
   }
   zoomChange() {
+    if(this.imageSource == "assets/listingsnearby.png"){
+      this.imageSource = "assets/listingsaround.png";
+    } else{
+      this.imageSource = "assets/listingsnearby.png"
+    }
+   
     this.findNearby();
   }
   getPropertyIcon(property) {
@@ -259,10 +304,12 @@ export class ShazamComponent implements OnInit {
 
   setProperties() {
     this.spinner.show();
+
     if (this.propertiesPriorChunk.length == 0) {
       this.noResult = true;
     }
     this.properties = this.chunkArrayInGroups(this.propertiesPriorChunk, 3);
+    this.hasResults = true;  
     this.spinner.hide();
   }
 
@@ -296,6 +343,16 @@ export class ShazamComponent implements OnInit {
     });
 
   }
+  showHow(){
+    const dialogConfig = new MatDialogConfig();
+    this.dialog.open(HowToComponent, {
+      height: '90vh',
+      width: '80vw',
+      minWidth: '375px'
+    });
+
+  }
+
 
 
 }

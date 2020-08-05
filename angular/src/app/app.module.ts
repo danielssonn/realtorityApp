@@ -112,6 +112,7 @@ import { SocialLinkComponent } from './engage/engagement-channel/engagement-chan
 import { EmailListComponent } from './engage/email-list/email-list.component';
 import { EngagementDetailsComponent } from './engage/engagement-details/engagement-details.component';
 import { ShazamComponent } from './shazam/shazam.component';
+import { HowToComponent } from './shazam/how-to/how-to.component';
 
 
 
@@ -365,7 +366,8 @@ export function createTranslateLoader(http: HttpClient) {
     SocialLinkComponent,
     EmailListComponent,
     EngagementDetailsComponent,
-    ShazamComponent
+    ShazamComponent,
+    HowToComponent
     
 
   ],
@@ -461,7 +463,8 @@ export function createTranslateLoader(http: HttpClient) {
     CreateEngagementComponent,
     EmailListComponent,
     SocialLinkComponent,
-    EngagementDetailsComponent
+    EngagementDetailsComponent,
+    HowToComponent
     
   ],
   bootstrap: [AppComponent]
