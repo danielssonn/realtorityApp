@@ -498,9 +498,14 @@ export class PropertiesService {
 
   }
 
-  getSales(address):Observable<any>{
+  getSales( address, stNum, street, range, zip):Observable<any>{
     let params = {
       address:address,
+      stNum:stNum,
+      street: street,
+      streetNumRange: range,
+      zip: zip
+     
       
     } 
    this.options.params = params; 

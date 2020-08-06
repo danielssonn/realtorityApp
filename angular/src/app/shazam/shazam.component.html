@@ -32,7 +32,7 @@
 <div fxLayout="row" fxLayoutAlign="center center">
   <div class="button-container"  >
     <img [src]="imageSource" aria-label="Search Nearby" style="width: 250px; height: 250px;"
-      (click)="findNearby()"  [@balloonEffect]=currentState (@balloonEffect.done)="onEnd($event)">
+      (click)="findNearby()"  [@balloonEffectTrigger]="currentState" (@balloonEffectTrigger.done)="onEnd($event)">
       
     
   </div>
@@ -41,8 +41,8 @@
 <div  class="example-container" *ngIf="address.shortAddress && streetNumber" fxLayout="row" fxLayoutAlign="center center" >
   <mat-form-field style="font-size: 1.5em;">
     <mat-select [(value)]="streetNumber" (selectionChange)="streetNumberChange($event)">
-      <mat-option *ngFor="let number of streetNumberRange" [value]="number.number" >
-        {{number.number}}
+      <mat-option *ngFor="let number of streetNumberRange" [value]="number" >
+        {{number}}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -62,13 +62,17 @@
 
 
 <div fxLayout="row" fxLayoutAlign="center center">
- - <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1" min="1" max="2" [(ngModel)]="zoomLevel"
-    (change)="zoomChange()"></mat-slider> + 
+  <button mat-icon-button color="accent" aria-label="Example icon-button with a heart icon" (click)="setMinZoom()">
+    here
+  </button>  <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1" min="1" max="2" [(ngModel)]="zoomLevel"
+    (change)="zoomChange()"  ></mat-slider> <button mat-icon-button color="accent" aria-label="Example icon-button with a heart icon" (click)="setMaxZoom()">
+     near
+    </button> 
 
 </div>
 
 <div *ngIf="hasResults" fxLayout="row" fxLayoutAlign="center center">
-  Found {{salesCount}} sales at this address, and {{nearbyCount}} listings nearby
+  Found {{salesCount}} sales, and {{nearbyCount}} listings nearby
 </div>
 <br>
 <cdk-virtual-scroll-viewport class="example-viewport" [itemSize]="itemsSize">
