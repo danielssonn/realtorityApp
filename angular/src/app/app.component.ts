@@ -77,6 +77,10 @@ export class AppComponent implements OnInit {
   startInterview = function () {
     this.router.navigate(['./interview']);
   };
+
+  explore = function(){
+    this.router.navigate(['./nearby']);
+  }
   research = function () {
 
     this.router.navigate(['/research']);

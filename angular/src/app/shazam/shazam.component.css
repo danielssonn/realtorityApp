@@ -7,13 +7,25 @@
 
   .example-viewport{
 
-    margin-left: 20px;
+    margin-left: 10px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
     grid-auto-rows: minmax(100px, auto);
     height: 80vh;
 }
+.sales-viewport{
+
+  margin-left: 10px;
+  margin-right: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+ 
+ 
+}
+
 .inlineDiv{
     padding: 2px; 
     width: 31%; 
@@ -36,8 +48,8 @@
 .centered-and-cropped { object-fit: cover }
 .centered-and-cropped-liked {
     object-fit: cover;
-    border-color: #bf1e2d; 
-    border-style: dotted;
+    /* border-color: #bf1e2d; 
+    border-style: dotted; */
 
 }
 .centered-and-cropped-disliked {

@@ -1,4 +1,4 @@
-<mat-card (swipe)="onSwipe($event)">
+<div (swipe)="onSwipe($event)">
  
   <mat-card-title>
   How this works ...
@@ -7,28 +7,35 @@
   <mat-card-content>
     <br>
     <br>
-    
-	
-    Discover current listings, anywhere you are. With one tap on the screen. <br>
-    
-    <br>
-    
-    Ever see a 'SOLD' sign while walking by, wondering how much the house sold for? We'll show you the most recent sale at an address around you, from the past one year. <br> <br>
+    <ol>
+      <div fxLayout="row" fxLayoutAlign="center center">
 
+      <span class="material-icons">
+        home
+        </span>
+      </div>
+      <li> For home sales, we'll show you sales from the past one year on the part of the street you are on.</li> <br><br>
+      <div fxLayout="row" fxLayoutAlign="center center">
+      <span class="material-icons">
+        apartment
+        </span>
+      </div>
+        
+      <li> For condo sales, we'll show you last few sales at a selected address near you. You can adjust the street number to choose a different building.</li><br><br>
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <span class="material-icons">
+        explore
+        </span>
+        </div>
+      <li> We'll also show you all available listings in a few blocks radius around you.</li>
+      </ol>
+    <br><br><br>
 
-    We'll also show you all the current listings 'nearby'. This is typically one to two city blocks, so you can easily get there to check it out. <br><br>
+    When you want to see any house, or want to get more information -  <a href="mailto:jina@hellomyhouse.com">send us </a> a message or give us <a href="tel:+01-416-270-2726">a call</a>!
 
-   
-    And you can give us a call or send a text if you want to visit any house, anytime! <br> <br>
-
-    For homes, we'll show you sales from the past year on the street around you. <br><br>
-
-    For condos, we'll show you last few sales at a given address. You can adjust the street number. <br><br>
-
-    The sales information is limited to last one year, to keep it current.
 
 
 
   </mat-card-content>
-</mat-card>
+</div>
   

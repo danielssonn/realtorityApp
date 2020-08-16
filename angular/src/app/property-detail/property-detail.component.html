@@ -40,12 +40,12 @@
       <mat-card-title>
         <b> 
 
-          <span *ngIf="property.lsc1=='Sld'||property.lsc2=='Sld'"> {{"Sold for"|translate}}
+          <span *ngIf="property.lsc1=='Sld'||property.lsc2=='Sld' || property.sp_dol"> {{"Sold for"|translate}}
             {{property.sp_dol1|currency:'':'symbol':'1.0-0'}}{{property.sp_dol2|currency:'':'symbol':'1.0-0'}} 
-            
+            {{property.sp_dol|currency:'':'symbol':'1.0-0'}}
            {{"Sold
             On"|translate}}
-            {{property.cd1|date}}{{property.cd2|date}}</span>
+            {{property.cd1|date}}{{property.cd2|date}} {{property.cd|date}} </span>
           <span *ngIf="property.lsc1=='Sus'||property.lsc2=='Sus'"> {{"Listing suspended on"|translate}}:
             {{property.dt_sus1|date}}{{property.dt_sus2|date}}</span>
           <span *ngIf="property.lsc1=='Exp'||property.lsc2=='Exp'"> {{"Listing expired on"|translate}}
@@ -226,7 +226,7 @@
 
       <br><br><br>
     </div>
-    <div fxLayout="row" fxLayoutAlign="center center" class="avatar medium">
+    <div *ngIf="!property.sp_dol" fxLayout="row" fxLayoutAlign="center center" class="avatar medium">
 
       <button *ngIf="property.star!='Y' && userService.isAuthenticated()" color="accent" mat-raised-button
         (click)="like(property)" style="width: 90%">
@@ -261,9 +261,9 @@
 
       </p>
       <br>
-      <div fxLayout="row">
-        <mat-form-field class="userComment">
-          <input (input)='commentEdit()' matInput [maxLength]="80" [(ngModel)]="userComment"
+      <div *ngIf="!property.sp_dol" fxLayout="row">
+        <mat-form-field  class="userComment">
+          <input (input)='commentEdit()' matInput [maxLength]="80" [(ngModel)]="userComment" tabindex=-1
             [placeholder]="'Your Comment' | translate">
         </mat-form-field>
 
@@ -285,7 +285,7 @@
           </li> -->
         <li>
 
-          <agm-map  [styles]="mapStyle" #gm [latitude]="lat" [longitude]="lon" [zoom]="zoom"
+          <agm-map  *ngIf="lat" [styles]="mapStyle" #gm [latitude]="lat" [longitude]="lon" [zoom]="zoom"
             [gestureHandling]="'cooperative'" [fullscreenControl]="true"
             [fullscreenControlOptions]="fullscreenControlOptions" (mapReady)="onMapReady($event)">
             <agm-marker [latitude]="lat" [longitude]="lon"></agm-marker>

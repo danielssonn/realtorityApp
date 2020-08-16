@@ -23,10 +23,14 @@
             <mat-icon> <img src="assets/filter.svg" /></mat-icon>
             <span class='menuItem'>{{"Filters"|translate}}</span>
           </button>
+          <button mat-menu-item (click)="explore()">
+            <mat-icon> <img src="assets/explore.svg" /></mat-icon>
+            <span class='menuItem'>{{"Nearby"|translate}}</span>
+          </button>
           <br><br>
 
           <button mat-menu-item (click)="account()">
-            <mat-icon> <img src="assets/account.svg" /></mat-icon>
+            <mat-icon > <img src="assets/account.svg"/> </mat-icon>
             <span class='menuItem'>{{"Account"|translate}}</span>
           </button>
         </ng-template>

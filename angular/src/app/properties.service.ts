@@ -43,6 +43,8 @@ export class PropertiesService {
   private schoolsUrl;
   private schoolsDistricts;
   private salesUrl;
+  private trailsUrl;
+
 
 
   private propertiesUrlDetail;
@@ -102,7 +104,8 @@ export class PropertiesService {
     this.propertiesUrlEmptyTrash = environment.serverURL + '/emptytrash';
     this.communitiesUrl = environment.serverURL + '/communityBounds';
     this.communitiesScoreUrl = environment.serverURL + '/communityScores';
-    this.salesUrl = environment.serverURL + '/sales'
+    this.salesUrl = environment.serverURL + '/sales';
+    this.trailsUrl =  environment.serverURL + '/trails';
 
     this.developmentsUrl = environment.serverURL + '/developments';
     this.preferredAreas = environment.serverURL + '/preferredAreas';
@@ -327,6 +330,7 @@ export class PropertiesService {
 
   }
 
+
   getUserPreferences(): Observable<any> {
 
     if (this.userPreferences) {
@@ -463,8 +467,6 @@ export class PropertiesService {
   }
 
   getAddress(lat, lon, radius): Observable<any>{
-    console.log('getting address')
-  
     
      let params = {
         lat:lat,
@@ -515,6 +517,15 @@ export class PropertiesService {
       return response;
 
     }))
+
+  }
+
+  getTrails(): Observable<any> {
+    return this.http.get(this.trailsUrl).pipe(map(
+      response => {
+        return response;
+  
+      }))
 
   }
 
@@ -1258,7 +1269,7 @@ export class PropertiesService {
   addComment(property, comment): Observable<any> {
     property.userComment = comment;
     return this.http.post(this.addCommentUrl, property, this.options).pipe(map(response => {
-
+      return response;
     }));
 
   }

@@ -1,5 +1,5 @@
-import { Component, OnInit, Optional } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, OnInit, Optional, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-how-to',
@@ -8,9 +8,13 @@ import { MatDialogRef } from '@angular/material';
 })
 export class HowToComponent implements OnInit {
 
-  constructor( @Optional() private dialogRef: MatDialogRef<HowToComponent>) { }
+  address :any;
+
+  constructor( @Optional() private dialogRef: MatDialogRef<HowToComponent>,  @Optional() @Inject(MAT_DIALOG_DATA) public dialogProperty: any) { }
 
   ngOnInit() {
+    this.address = this.dialogProperty.address;
+    console.log('aa', this.address)
   }
 
   onSwipe(evt) {

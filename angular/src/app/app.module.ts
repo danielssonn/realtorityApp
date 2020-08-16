@@ -243,10 +243,10 @@ export const routerConfig: Routes = [
     data: { title: 'Nearby' }
   },
   {
-    path: 'research',
+    path: 'trails',
     component: MapComponent,
     canActivate: [AuthGuard],
-    data: { title: 'reSearch' }
+    data: { title: 'Trails' }
   },
   {
     path: 'engage',

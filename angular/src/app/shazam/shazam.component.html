@@ -1,4 +1,4 @@
-<br>
+<br><br>
 <!-- <div  *ngIf="showCalibration" fxLayout="row" fxLayoutAlign="center center">
 
   <mat-form-field class="example-form-field">
@@ -12,16 +12,10 @@
     Accuraccy: {{accuracy|number}} meters
   </div>
 </div> -->
-
-<div fxLayout="row" fxLayoutAlign="end center">
-  
-  <span class="material-icons" (click)="showHow()">
-    help
-    </span>
-</div>
+<div class="scrollPane">
 <div fxLayout="row" fxLayoutAlign="center center" (click)="calibration()">
 
-  Tap to explore nearby listings 
+  Tap to explore nearby sales and listings
 
 
 </div>
@@ -30,54 +24,124 @@
 <br>
 
 <div fxLayout="row" fxLayoutAlign="center center">
-  <div class="button-container"  >
-    <img [src]="imageSource" aria-label="Search Nearby" style="width: 250px; height: 250px;"
-      (click)="findNearby()"  [@balloonEffectTrigger]="currentState" (@balloonEffectTrigger.done)="onEnd($event)">
-      
-    
+  <div class="button-container">
+    <img [src]="imageSource" aria-label="Search Nearby" style="width: 250px; height: 250px;" (click)="findNearby()"
+      [@balloonEffectTrigger]="currentState" (@balloonEffectTrigger.done)="onEnd($event)">
+
+
   </div>
 </div>
 
-<div  class="example-container" *ngIf="address.shortAddress && streetNumber" fxLayout="row" fxLayoutAlign="center center" >
-  <mat-form-field style="font-size: 1.5em;">
+<div class="example-container" *ngIf="address.shortAddress && streetNumber" fxLayout="row"
+  fxLayoutAlign="center center" style="padding-left: 10px; padding-right:10px">
+  <mat-form-field style="font-size: 1.3em;">
     <mat-select [(value)]="streetNumber" (selectionChange)="streetNumberChange($event)">
-      <mat-option *ngFor="let number of streetNumberRange" [value]="number" >
+      <mat-option *ngFor="let number of streetNumberRange" [value]="number">
         {{number}}
       </mat-option>
     </mat-select>
+    <mat-hint align="end" style="font-size:0.4em">
+      for condos sales
+    </mat-hint>
   </mat-form-field>
 
 
-<mat-form-field  style="font-size: 1.5em; width: 50%;">
-  <mat-select [(value)]="selectedStreet" (selectionChange)="selectedStreetChange($event)">
-    <mat-option *ngFor="let street of streets" [value]="street" >
-      {{street.street}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
+  <mat-form-field style="font-size: 1.5em; width: 65%;">
+    <mat-select [(value)]="selectedStreet" (selectionChange)="selectedStreetChange($event)">
+      <mat-option *ngFor="let street of streets" [value]="street">
+        {{street.street}}
+      </mat-option>
+    </mat-select>
+    <mat-hint align="end" style="font-size:0.8em">
+      # {{streetNumberRange[0]}} - {{streetNumberRange[streetNumberRange.length-1]}}
+    </mat-hint>
+  </mat-form-field>
 
 
 </div>
 
 
 
-<div fxLayout="row" fxLayoutAlign="center center">
+<!-- <div fxLayout="row" fxLayoutAlign="center center">
   <button mat-icon-button color="accent" aria-label="Example icon-button with a heart icon" (click)="setMinZoom()">
     here
-  </button>  <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1" min="1" max="2" [(ngModel)]="zoomLevel"
-    (change)="zoomChange()"  ></mat-slider> <button mat-icon-button color="accent" aria-label="Example icon-button with a heart icon" (click)="setMaxZoom()">
-     near
-    </button> 
+  </button>
+  <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval="1" min="1" max="2" [(ngModel)]="zoomLevel"
+    (change)="zoomChange()"></mat-slider>
+  <button mat-icon-button color="accent" aria-label="Example icon-button with a heart icon" (click)="setMaxZoom()">
+    near
+  </button>
 
-</div>
+</div> -->
 
-<div *ngIf="hasResults" fxLayout="row" fxLayoutAlign="center center">
-  Found {{salesCount}} sales, and {{nearbyCount}} listings nearby
+<div *ngIf="hasResults" fxLayout="row" fxLayoutAlign="space-between  center"  style="padding-left: 10px;">
+ {{salesCount}} recent sale(s) here  <span class="material-icons" style="color:dimgray" (click)="showHow()">
+    help
+  </span>
 </div>
 <br>
+
+<div class="sales-viewport">
+  <ng-container *ngFor="let property of sales" class="card">
+
+    <div *ngIf="property[0]">
+      <div *ngIf="property[0].sp_dol">
+        <img [src]="imageSold()" (error)="imageError($event)"
+          [ngClass]="{'centered-and-cropped':property[0].star!='Y','centered-and-cropped-liked':property[0].star=='Y','centered-and-cropped-disliked':property[0].star=='D'}"
+          width="110" height="110" (click)="showDetail(property[0])">
+        <h6
+          style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+          {{property[0].sp_dol|shortCurrency}} <br>
+          {{property[0].addr|shortText:15}}
+        </h6>
+      </div>
+    </div>
+
+    <div  *ngIf="property[1]">
+
+      <div *ngIf="property[1].sp_dol">
+        <img [src]="imageSold()" (error)="imageError($event)"
+          [ngClass]="{'centered-and-cropped':property[1].star!='Y','centered-and-cropped-liked':property[1].star=='Y','centered-and-cropped-disliked':property[1].star=='D'}"
+          width="110" height="110" (click)="showDetail(property[1])">
+        <h6
+          style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+          {{property[1].sp_dol|shortCurrency}} <br>
+          {{property[1].addr|shortText:15}}
+        </h6>
+      </div>
+
+
+    </div>
+    <div  *ngIf="property[2]">
+
+      <div *ngIf="property[2].sp_dol">
+        <img [src]="imageSold()" (error)="imageError($event)"
+          [ngClass]="{'centered-and-cropped':property[2].star!='Y','centered-and-cropped-liked':property[2].star=='Y','centered-and-cropped-disliked':property[2].star=='D'}"
+          width="110" height="110" (click)="showDetail(property[2])">
+        <h6
+          style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+          {{property[2].sp_dol|shortCurrency}} <br>
+          {{property[2].addr|shortText:15}}
+        </h6>
+      </div>
+
+
+    </div>
+
+
+
+
+
+  </ng-container>
+</div>
+<div *ngIf="hasResults" fxLayout="row" fxLayoutAlign="space-between center" style="padding-left: 10px;">
+   {{nearbyCount}} avaiable listing(s) {{where}} <span class="material-icons"  style="color:dimgray" (click)="showHow()">
+    help
+  </span>
+</div>
 <cdk-virtual-scroll-viewport class="example-viewport" [itemSize]="itemsSize">
   <ng-container *cdkVirtualFor="let property of properties" class="card">
-    <div>
+    
 
       <div class="inlineDiv" *ngIf="property[0]">
 
@@ -88,7 +152,7 @@
           <h6
             style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
             {{property[0].sp_dol|shortCurrency}} <br>
-            {{property[0].addr|shortText:18}}
+            {{property[0].addr|shortText:15}}
           </h6>
         </div>
         <div *ngIf="!property[0].sp_dol">
@@ -98,7 +162,7 @@
           <h6
             style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
             {{property[0].lp_dol|shortCurrency}} <br>
-            {{property[0].addr|shortText:18}}
+            {{property[0].addr|shortText:15}}
           </h6>
         </div>
 
@@ -113,7 +177,7 @@
           <h6
             style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
             {{property[1].sp_dol|shortCurrency}} <br>
-            {{property[1].addr|shortText:18}}
+            {{property[1].addr|shortText:15}}
           </h6>
         </div>
         <div *ngIf="!property[1].sp_dol">
@@ -123,7 +187,7 @@
           <h6
             style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
             {{property[1].lp_dol|shortCurrency}} <br>
-            {{property[1].addr|shortText:18}}
+            {{property[1].addr|shortText:15}}
           </h6>
         </div>
 
@@ -137,7 +201,7 @@
           <h6
             style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
             {{property[2].sp_dol|shortCurrency}} <br>
-            {{property[2].addr|shortText:18}}
+            {{property[2].addr|shortText:15}}
           </h6>
         </div>
         <div *ngIf="!property[2].sp_dol">
@@ -147,28 +211,16 @@
           <h6
             style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
             {{property[2].lp_dol|shortCurrency}} <br>
-            {{property[2].addr|shortText:18}}
+            {{property[2].addr|shortText:15}}
           </h6>
         </div>
 
       </div>
 
-    </div>
+    
 
 
 
   </ng-container>
 </cdk-virtual-scroll-viewport>
-
-<div class="inlineDiv" *ngIf="sales">
-
-  <img [src]="getPropertyIcon(sales[0])" (error)="imageError($event)"
-    [ngClass]="{'centered-and-cropped':sales[0].star!='Y','centered-and-cropped-liked':sales[0].star=='Y','centered-and-cropped-disliked':sales[0].star=='D'}"
-    width="110" height="110" (click)="showDetail(sales[0])">
-  <h6
-    style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
-    {{sales[0].sp_dol|shortCurrency}} <br>
-    {{sales[0].addr|shortText:18}}
-  </h6>
-
-</div>
+<a href="/trails">Where I've been ...</a></div>

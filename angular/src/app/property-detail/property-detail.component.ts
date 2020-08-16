@@ -499,7 +499,8 @@ export class PropertyDetailComponent implements OnInit {
     addComment(property, comment) {
         this.service.addComment(property, comment).subscribe(
             response => {
-                if (response === 200) {
+                console.log('comment response', response)
+                if (response.status === 200) {
                     this.shallComment = false;
                 }
             }
@@ -510,6 +511,9 @@ export class PropertyDetailComponent implements OnInit {
         this.shallComment = true;
     }
     getPropertyIcon(property) {
+        if(property.sp_dol){
+            return 'assets/sold.png'
+        }
         if (property.marketingMessage) {
             return 'assets/info.svg'
         }

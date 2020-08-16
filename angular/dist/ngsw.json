@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1596735295270,
+  "timestamp": 1597451664707,
   "index": "./index.html",
   "assetGroups": [
     {
@@ -10,7 +10,7 @@
       "urls": [
         "./favicon.ico",
         "./index.html",
-        "./main.ee2e322d13ac737b1ed4.js",
+        "./main.ccc279846aa9eefa2bcd.js",
         "./polyfills-es5.409daa48a8f285773a0a.js",
         "./polyfills.344bfcf86068c38d99eb.js",
         "./runtime.458556a34b891ea32398.js",
@@ -69,6 +69,7 @@
         "./assets/day.svg",
         "./assets/expRotated.jpg",
         "./assets/expRotated.svg",
+        "./assets/explore.svg",
         "./assets/facebooklogin.png",
         "./assets/favorites.png",
         "./assets/favourite.svg",
@@ -239,6 +240,7 @@
     "./assets/day.svg": "ef2e4f41cfd84da00f9ab4bf25323fc6c01054b4",
     "./assets/expRotated.jpg": "b0095d9f6eda4ef863206b297ece9d9065257b56",
     "./assets/expRotated.svg": "74eba243b2093e035bdec0f1a937ccf383d6ad12",
+    "./assets/explore.svg": "27125f63eb9a2a5756de3024595df1ae3d8207c4",
     "./assets/facebooklogin.png": "14a248eee2408624256dad0af99081f5068dd099",
     "./assets/favorites.png": "2c14d68ba85fe6fa1285adc55201a1197cb47a1f",
     "./assets/favourite.svg": "e59638c4024785750952bc9221aede4c12162eb5",
@@ -359,8 +361,8 @@
     "./assets/weekly-preview.png": "9b6bff10cdd55f8168ee0264859847997c683528",
     "./assets/whylike.png": "557bc9ffc5ed9e7942cc51c4488767152d6dc3f1",
     "./favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "./index.html": "242549e7294b4e665608ba4cb2d46681d6495f84",
-    "./main.ee2e322d13ac737b1ed4.js": "f7e7b0f85b8000de4180b63eb176efd23fcaa089",
+    "./index.html": "212472d28097ea774ab0aa817546a7d582ee1153",
+    "./main.ccc279846aa9eefa2bcd.js": "44dee9cf15a0175b40814f1a9b9b1193b4152cde",
     "./polyfills-es5.409daa48a8f285773a0a.js": "8faf7c57851a1c1d1ff9226bb32bc0688ac1521f",
     "./polyfills.344bfcf86068c38d99eb.js": "0003f56a7537092675bc5cc25f4f7301ae868cd9",
     "./runtime.458556a34b891ea32398.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
