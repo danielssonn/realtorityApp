@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, NgZone } from '@angular/core';
+import { Component, OnInit, Input, NgZone, ApplicationModule } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { UserService } from '../user.service';
 // import { AuthService, GoogleLoginProvider } from 'angular5-social-login';
@@ -25,9 +25,9 @@ export class AccountComponent implements OnInit {
   userName: String;
   salesPersonId: String;
   clients: any;
-
   loginOn = false;
   lang: any;
+  isAppleDevice: boolean;
 
 
   // tslint:disable-next-line:max-line-length
@@ -35,10 +35,18 @@ export class AccountComponent implements OnInit {
     private clientManagerSearchService: ClientManagerSearchService, private deviceService: DeviceService) {
     this.user = this.service.isAuthenticated();
     this.userName = this.session.getItem('userName');
-    this.salesPersonId =   this.session.getItem('salesPersonId');
+    this.salesPersonId = this.session.getItem('salesPersonId');
+
+    this.dvs.platform.subscribe(val=> {
+      if (val.platform == 'iOS') {
+        this.isAppleDevice = true;
+      }
+    }
+    )
+    
+
 
     this.lang = this.translate.currentLang;
-
   }
   public logout() {
     this.service.logout();
@@ -61,13 +69,34 @@ export class AccountComponent implements OnInit {
     }
   }
 
+  public signinWithApple() {
+
+    if (this.dvs.getDevice() !== 'browser') {
+      const that = this;
+      this.dvs.signInWithApple.subscribe((apple) => {
+        
+        apple.signin(
+          { requestedScopes: [0, 1] },
+           (success) => {
+            this.appleSuccess(success);
+          },
+          (err) => {
+            alert("Please try again ...");
+
+          })
+
+      })
+
+    }
+    else { console.log('Sing in with Apple not supported in browser, yet') }
+  }
 
   public signinWithGoogle() {
 
     const service = this.service;
-    const that = this;
+
     if (this.dvs.getDevice() !== 'browser') {
-      console.log('OK, this is not browser ....')
+    
       this.dvs.googlePlus.subscribe((gPlus) => {
         gPlus.login(
           {
@@ -79,28 +108,15 @@ export class AccountComponent implements OnInit {
             service.oAuth(success).subscribe(
               value => {
                 if (value) {
-                  console.log('oAuth Value', value);
-                  this.session.setItem('userName', value.email + ' via Google');
-                  this.session.setItem('salesPersonId', value.salespersonId);
-                  this.service.setUser(value);
-                  this.service.registerPushToken().subscribe();
-                  that._zone.run((() => {
-                    this.spinner.show();
-                    this.clientManagerSearchService.getActiveClient().subscribe();
-                    this.clearPreferences();
-                    this.navigateOnPreferences();
 
-                  }
-                  )
-                  )
+                  this.setSession(value, 'via Google Sign On');
 
                 }
               }
             )
           },
           function (msg) {
-            console.log('GPLUS', msg)
-            alert('Please try again' +msg);
+            alert('Please try again' + msg);
           }
         )
       }
@@ -126,12 +142,12 @@ export class AccountComponent implements OnInit {
     this.service.oAuth(profile).subscribe(value => {
       if (value) {
         this.service.setUser(value);
-        this.session.setItem('userName', value.email + ' via Google');
+        this.session.setItem('userName', value.email + ' Google Sign On');
         console.log('sp', value.salespersonId, (value.salespersonId))
-        if(value.salespersonId){
+        if (value.salespersonId) {
 
           this.session.setItem('salesPersonId', value.salespersonId);
-        } else{
+        } else {
           this.session.setItem('salesPersonId', null);
 
         }
@@ -158,6 +174,37 @@ export class AccountComponent implements OnInit {
 
     })
     this.spinner.hide();
+  }
+
+  public appleSuccess(value) {
+
+   
+      this.spinner.show();
+      this.service.appleSignin(value).subscribe(value => {
+        this.setSession(value, 'via Sign in with Apple')
+        this.spinner.hide();
+      })
+    }
+    
+
+
+
+
+  public setSession(value, via) {
+    const that = this;
+    this.session.setItem('userName', value.email + ' '+via);
+    this.session.setItem('salesPersonId', value.salespersonId);
+    this.service.setUser(value);
+    this.service.registerPushToken().subscribe();
+    that._zone.run((() => {
+      this.spinner.show();
+      this.clientManagerSearchService.getActiveClient().subscribe();
+      this.clearPreferences();
+      this.navigateOnPreferences();
+
+    }
+    )
+    )
   }
 
   ngOnInit() {

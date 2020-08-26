@@ -246,7 +246,7 @@ export const routerConfig: Routes = [
     path: 'trails',
     component: MapComponent,
     canActivate: [AuthGuard],
-    data: { title: 'Trails' }
+    data: { title: 'My Trails' }
   },
   {
     path: 'engage',
@@ -298,6 +298,7 @@ export const routerConfig: Routes = [
   {
     path: 'nearby',
     component: ShazamComponent,
+    canActivate: [AuthGuard],
     data: { title: 'Nearby' }
   }
 

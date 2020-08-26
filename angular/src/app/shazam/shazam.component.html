@@ -23,15 +23,19 @@
 
 <br>
 
-<div fxLayout="row" fxLayoutAlign="center center">
-  <div class="button-container">
-    <img [src]="imageSource" aria-label="Search Nearby" style="width: 250px; height: 250px;" (click)="findNearby()"
-      [@balloonEffectTrigger]="currentState" (@balloonEffectTrigger.done)="onEnd($event)">
-
-
-  </div>
+<div  fxLayout="row" fxLayoutAlign="center center">
+      <img [src]="'assets/listingsnearby.png'"  (click)="findNearby()"  style="width: 250px; height: 250px;"
+      [@balloonEffectTrigger]="currentState" (@balloonEffectTrigger.done)="onEnd($event)" >
 </div>
+<div fxLayout="row" fxLayoutAlign="end center" style="padding-right: 10px;"> 
 
+  <a href="/trails" >
+    <button mat-mini-fab style="background-color:#205aa0; color:white" aria-label="Example icon button with a menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </a>
+
+</div>
 <div class="example-container" *ngIf="address.shortAddress && streetNumber" fxLayout="row"
   fxLayoutAlign="center center" style="padding-left: 10px; padding-right:10px">
   <mat-form-field style="font-size: 1.3em;">
@@ -223,4 +227,5 @@
 
   </ng-container>
 </cdk-virtual-scroll-viewport>
-<a href="/trails">Where I've been ...</a></div>
+
+

@@ -12,7 +12,9 @@ declare var cordova;
 @Injectable({
   providedIn: 'root'
 })
+
 export class DeviceService {
+  signInWithApple: Observable<any>;
   googlePlus: Observable<any>;
   platform: Observable<any>;
   networkOffline: Observable<any>;
@@ -33,6 +35,8 @@ export class DeviceService {
     this.platform = this.cds.deviceReady.map(() => device);
 
     this.googlePlus = this.cds.deviceReady.map(() => window.plugins.googleplus);
+
+    this.signInWithApple = this.cds.deviceReady.map(() => window.cordova.plugins.SignInWithApple);
 
     this.firebase =  this.cds.deviceReady.map(() => cordova.plugins.firebase.messaging );
 

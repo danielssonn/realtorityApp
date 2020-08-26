@@ -22,6 +22,8 @@ export class UserService {
   private signupUrl;
   private resetUrl;
   private updateUrl;
+  private appleSigninUrl;
+
 
   private pushTokenRegUrl;
   private pushToken;
@@ -45,6 +47,7 @@ export class UserService {
     this.resetUrl = environment.serverURL + '/forgot';
     this.pushTokenRegUrl = environment.serverURL + '/registerPushToken';
     this.updateUrl = environment.serverURL + '/updateUserDetails';
+    this.appleSigninUrl = environment.serverURL + '/appleSignin';
   }
 
   public isAuthenticated(): boolean {
@@ -110,9 +113,6 @@ export class UserService {
     if (token) {
       this.pushToken = token;
     }
-
-
-
     const tokenReg = {
       deviceId: this.deviceService.getDevice().uuid,
       token: this.pushToken,
@@ -136,6 +136,19 @@ export class UserService {
     }))
 
 
+  }
+
+  appleSignin(prof):Observable<any>{
+
+    const profile = { profile: prof };
+    return this.http.post(this.appleSigninUrl, JSON.stringify(profile)).pipe(map(response => {
+      if (response) {
+        this.session.setItem('user', 'true');
+        return response;
+      } else {
+        return null;
+      }
+    }))
   }
 
 

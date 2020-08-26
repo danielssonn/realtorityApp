@@ -69,7 +69,13 @@
         <img src="assets/btn_google_signin_light_normal_web@2x.png" height="55">
       </a>
     </div>
-    <div fxLayout="row" fxLayoutAlign="center center">
+
+    <div *ngIf="isAppleDevice" id="appleid-signin" fxLayout="row" fxLayoutAlign="center center">
+
+      <a target="_self" (click)="signinWithApple()">
+        <img src="assets/signinapple.png" width="225">
+      </a>
+    </div>    <div fxLayout="row" fxLayoutAlign="center center">
       <span>
         --
       </span>

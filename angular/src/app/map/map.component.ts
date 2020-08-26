@@ -40,6 +40,11 @@ export class MapComponent implements OnInit {
     this.zoom = 14;
 
     this.service.getTrails().subscribe(trails => {
+     
+      if(trails.length ===0){
+        alert('Once you explore nearby listings, you will find all previous locations here.');
+        this.router.navigate(['nearby']);
+      }
       let counter = 0;
       trails.forEach(trail => {
        

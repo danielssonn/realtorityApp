@@ -23,10 +23,11 @@ import { IfStmt, analyzeAndValidateNgModules } from '@angular/compiler';
       })),
 
       transition('void=>initial', style({
-        width: '0%',
+
       })),
       transition('final=>initial', animate('1000ms')),
-      transition('initial=>final', animate('1500ms'))
+      transition('initial=>final', animate('1000ms')),
+     
     ]),
   ]
 
@@ -65,6 +66,7 @@ export class ShazamComponent implements OnInit, AfterViewInit {
   zip;
   where;
   options;
+  isLoaded;
 
   constructor(private service: PropertiesService, private spinner: NgxSpinnerService,
     private router: Router, private route: ActivatedRoute, private dialog: MatDialog) {
@@ -103,6 +105,8 @@ export class ShazamComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+
+
     this.currentState = 'initial';
 
     this.route.params.subscribe(params => {
@@ -111,6 +115,7 @@ export class ShazamComponent implements OnInit, AfterViewInit {
       this.latitute = +params['latitude']; 
       this.longitude =  +params['longitude']; 
       let position = {coords: {latitude: String, longitude:String}};
+     
       if(this.latitute && this.longitude){
         position.coords.latitude = this.latitute;
         position.coords.longitude = this.longitude;
@@ -123,7 +128,13 @@ export class ShazamComponent implements OnInit, AfterViewInit {
    });
   }
 
+  imageLoaded(){
+    console.log('sdddssa')
+    this.isLoaded = true;
+  }
+
   ngAfterViewInit() {
+   
 
   }
 
@@ -287,7 +298,20 @@ export class ShazamComponent implements OnInit, AfterViewInit {
     if (this.streetNumberRange.length>0) {
       this.address = this.selectedStreet;
 
-      this.service.getSales(this.streetNumber + " " + this.selectedStreet.street, this.streetNumber, this.selectedStreet.street.substring(0, this.selectedStreet.street.indexOf(" ")), this.streetNumberRange, this.zip).subscribe(sales => {
+      let street = this.selectedStreet.street ;
+      let ind;
+      // if the last space is less then before last letter - such as Salem Ave N. We need just Salem. For Baby Point Rd, we need Baby Point
+      if(this.selectedStreet.street.lastIndexOf(" ")<this.selectedStreet.street.length-2){
+        ind = this.selectedStreet.street.lastIndexOf(" ")
+      } else{
+        ind = this.selectedStreet.street.indexOf(" ")
+      }
+
+      if(this.selectedStreet.street.indexOf(" ")>0){
+        street = this.selectedStreet.street.substring(0, ind)
+      }
+
+      this.service.getSales(this.streetNumber + " " + this.selectedStreet.street, this.streetNumber, street, this.streetNumberRange, this.zip).subscribe(sales => {
         this.salesCount = sales.length;
         this.nearbyCount = nearby.length;
         this.sales = this.chunkArrayInGroups(sales, 3);
