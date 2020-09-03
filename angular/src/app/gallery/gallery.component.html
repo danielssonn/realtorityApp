@@ -15,59 +15,74 @@
 
     <div fxLayout="row" fxLayoutAlign="space-around center">
       <mat-form-field><input matInput placeholder="MLS #" [(ngModel)]="mlsNum"></mat-form-field>
-      <mat-form-field><input matInput placeholder="max DOM" [(ngModel)]="maxDom"></mat-form-field>
+      <mat-form-field><input matInput placeholder="Max Days On Market" [(ngModel)]="maxDom"></mat-form-field>
     </div>
 
     <div fxLayout="row" fxLayoutAlign="space-around center">
-      <mat-form-field><input matInput matTooltip="Use + to include more than" placeholder="Beds" [(ngModel)]="minBeds">
+      <mat-form-field><input matInput matTooltip="Use + to include more than" placeholder="Bedrooms (2, 2+)"
+          [(ngModel)]="minBeds">
       </mat-form-field>
-      <mat-form-field><input matInput matTooltip="Use + to include more than" placeholder="Baths"
+      <mat-form-field><input matInput matTooltip="Use + to include more than" placeholder="Bathrooms (3, 3+)"
           [(ngModel)]="minBaths">
       </mat-form-field>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-around center">
-      <mat-form-field><input matInput placeholder="min Lot Width" [(ngModel)]="minLotW"></mat-form-field>
-      <mat-form-field><input matInput placeholder="min Lot Depth" [(ngModel)]="minLotD"></mat-form-field>
+      <mat-form-field><input matInput placeholder="Min Lot Width ft." [(ngModel)]="minLotW"></mat-form-field>
+      <mat-form-field><input matInput placeholder="Min Lot Depth ft." [(ngModel)]="minLotD"></mat-form-field>
     </div>
 
     <div fxLayout="row" fxLayoutAlign="space-around center">
-      <mat-form-field><input matInput placeholder="Municipality" [(ngModel)]="municipality"></mat-form-field>
+
+
       <mat-form-field class="example-full-width">
-        <input type="text" placeholder="Community" aria-label="Number" matInput [formControl]="communityControl"
-          [matAutocomplete]="auto" [(ngModel)]="community">
-        <mat-autocomplete #auto="matAutocomplete">
+        <input type="text" placeholder="Municipality" aria-label="Municipality" matInput
+          [formControl]="municipalityControl" [matAutocomplete]="auto1" [(ngModel)]="municipality">
+        <mat-autocomplete #auto1="matAutocomplete">
+          <mat-option *ngFor="let municipality of filteredMunicipalities | async" [value]="municipality">
+            {{municipality}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input [disabled]="true" type="text" placeholder="Community" aria-label="Number" matInput
+          [formControl]="communityControl" [matAutocomplete]="auto2" [(ngModel)]="community">
+        <mat-autocomplete #auto2="matAutocomplete">
           <mat-option *ngFor="let community of filteredCommunities | async" [value]="community">
             {{community}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
     </div>
-    
-    
-   
-    <div fxLayout="row" fxLayoutAlign="space-around center" >
-       <mat-form-field><input matInput matTooltip="detached, duplex ..." placeholder="Property Type"
-          [(ngModel)]="propType">
-      </mat-form-field>
-      <mat-form-field><input matInput placeholder="Keywords" [(ngModel)]="keywords"></mat-form-field>
-    
-    </div>
+
+
+
     <div fxLayout="row" fxLayoutAlign="space-around center">
-     
+
+      <mat-form-field><input matInput placeholder="Keywords (ravine, pool)" [(ngModel)]="keywords">
+      </mat-form-field>
+
+    </div>
+    <div></div>
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+
       <mat-form-field>
         <input matInput matTooltip="1 Main st" placeholder="Address" [(ngModel)]="address">
-      </mat-form-field>  
-     
+      </mat-form-field>
+
+
+    </div>
+    <!-- <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
       <button mat-mini-fab color="warn" (click)="getAddress()"><i class="material-icons">
         my_location
       </i>
     </button>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="5px">
-
+    </div> -->
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+      <!-- 
       <mat-checkbox [(ngModel)]="multiplex">plex</mat-checkbox>
       <mat-checkbox [(ngModel)]="schools">schools</mat-checkbox>
-      <mat-checkbox [(ngModel)]="newOnly">0-5y</mat-checkbox>
+      <mat-checkbox [(ngModel)]="newOnly">0-5y</mat-checkbox> -->
       <mat-radio-group [(ngModel)]="selectHouseCondo">
         <mat-radio-button class="condoHouseRadio" *ngFor="let houseCondo of houseCondos" [value]="houseCondo">
           {{houseCondo}}
@@ -82,52 +97,52 @@
       <button mat-raised-button color="primary" (click)="go()"><i class="material-icons">
           image_search
         </i> Search</button>
-
-
     </div>
 
   </mat-expansion-panel>
-</mat-accordion>
-<br>
+</mat-accordion> 
+<div class="scrollPane">
+  <div style="font-size: 0.8em; padding-top: 3px; padding-bottom: 5px;">
+  <div *ngIf="averageSold" fxLayoutAlign="center center">
+    Listed right now:
+  </div>
+  <div *ngIf="average" fxLayout="row" fxLayoutAlign="space-between center" style="padding:5px">
+    <span>
+      Average Listed Price: {{average|currency:'CAD':'':'1.0-0'}} </span> <span>Number of Listings: {{count|currency:'$':'':'1.0-0'}}</span>
+  </div>
+  <div *ngIf="averageSold" fxLayoutAlign="center center">
+   Sold in the last 365 days:
+  </div>
 
-<div *ngIf="average" fxLayout="row" fxLayoutAlign="space-between center">
-  <span>
-    Listed Avg: {{average|currency:'':'':'1.0-0'}} </span> <span>Listed Count: {{count|currency:'':'':'1.0-0'}}</span>
+  <div *ngIf="averageSold" fxLayout="row" fxLayoutAlign="space-between center" style="padding:5px">
+    <span> Average Sold Price: {{averageSold|currency:'$':'':'1.0-0'}} </span>
+    <span>Average Days on Market: {{averageDOM}} </span>
+  </div>
+  <div *ngIf="averageSold" fxLayout="row" fxLayoutAlign="space-between center" style="padding:5px">
+    <span>Number of Sold:
+      {{countSold|currency:'$':'':'1.0-0'}} </span>
+
+    <span>Number of Relisted/Not Sold: {{unsoldCount|currency:'$':'':'1.0-0'}}</span>
+
+  </div>
+
+  <div *ngIf="average" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+
+    <button mat-raised-button color="warn" (click)="priceSort()"><i class="material-icons">
+        sort
+      </i>by price</button>
+    <button mat-raised-button color="warn" (click)="dateSort()"><i class="material-icons">
+        sort
+      </i>by date</button>
+    <i *ngIf="!sortOrderUp" class="material-icons">
+      arrow_upward
+    </i>
+    <i *ngIf="sortOrderUp" class="material-icons">
+      arrow_downward
+    </i>
+  </div>
 </div>
-<div *ngIf="averageSold" fxLayout="row" fxLayoutAlign="space-between center">
-  <span> Sold Avg: {{averageSold|currency:'':'':'1.0-0'}} (yr) </span><span>Sold Count:
-    {{countSold|currency:'':'':'1.0-0'}} (yr) </span>
-
-
-</div>
-<div *ngIf="averageSold" fxLayout="row" fxLayoutAlign="space-between center">
-  <span>Unsold Count: {{unsoldCount|currency:'':'':'1.0-0'}} (yr)</span>
-  <span>List to Sale: {{listToSale}}x </span>
-</div>
-
-<div *ngIf="averageSold" fxLayout="row" fxLayoutAlign="space-between center">
-
-  <span>DOM Avg: {{averageDOM}} </span>
-
-</div>
-
-<br>
-<div *ngIf="average" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
-
-  <button mat-raised-button color="warn" (click)="priceSort()"><i class="material-icons">
-      sort
-    </i>by price</button>
-  <button mat-raised-button color="warn" (click)="dateSort()"><i class="material-icons">
-      sort
-    </i>by date</button>
-  <i *ngIf="!sortOrderUp" class="material-icons">
-    arrow_upward
-  </i>
-  <i *ngIf="sortOrderUp" class="material-icons">
-    arrow_downward
-  </i>
-</div>
-<div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
+  <!-- <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="5px">
 
 <mat-slide-toggle
       class="toggle-margin"
@@ -137,85 +152,79 @@
       >
       Show Removed and Liked
   </mat-slide-toggle>
-</div>
-<div *ngIf="noResultsWithoutSold" fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap="5px"
-  style="text-align: center;">
+</div> -->
+  <div *ngIf="noResultsWithoutSold" fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap="5px"
+    style="text-align: center;">
 
-  <div>Such void ... for so very long ...</div>
+    <div>Such void ... for so very long ...</div>
 
 
-  <br>
-  <div>There are no listings on the market like this. </div><br>
-  <div> We looked into the past year of sales and haven't found any,
-    either.
-  </div> <br>
-  <div *ngIf="unsoldCount>0">
-    There has been {{unsoldCount}} unsold listing(s), in the last year.
-  </div>
-</div>
-
-<div *ngIf="noResultsWithSold" fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap="5px"
-  style="text-align: center;">
-  <div> We are all out, right now!</div>
-
-  <br>
-  <div>
-    There are no listings on the market like this.
-  </div> <br>
-
-  <div>There has been {{countSold}} sale(s), in the last year.</div> <br>
-
-  <div *ngIf="unsoldCount>0">
-    There has been {{unsoldCount}} unsold listing(s), in the last year.
-  </div>
-
-</div>
-<br>
-
-<cdk-virtual-scroll-viewport class="example-viewport" [itemSize]="itemsSize">
-  <ng-container *cdkVirtualFor="let property of properties" class="card">
-    <div>
-
-      <div class="inlineDiv" *ngIf="property[0] && show(property[0])">
-
-        <img [src]="getPropertyIcon(property[0])" (error)="imageError($event)"
-          [ngClass]="{'centered-and-cropped':property[0].star!='Y','centered-and-cropped-liked':property[0].star=='Y','centered-and-cropped-disliked':property[0].star=='D'}"
-          width="110" height="110" (click)="showDetail(property[0])" (swipe)="onSwipe($event, property[0])">
-        <h6
-          style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
-          {{property[0].lp_dol|shortCurrency}} <br>
-          {{property[0].cross_st|shortText:18}}
-        </h6>
-  
-      </div>
-      <div class="inlineDiv" *ngIf="property[1] && show(property[1])">
-
-        <img [src]="getPropertyIcon(property[1])" (error)="imageError($event)"
-          [ngClass]="{'centered-and-cropped':property[1].star!='Y','centered-and-cropped-liked':property[1].star=='Y','centered-and-cropped-disliked':property[1].star=='D'}"
-          width="110" height="110" (click)="showDetail(property[1])" (swipe)="onSwipe($event, property[1])">
-        <h6
-          style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
-          {{property[1].lp_dol|shortCurrency}} <br>
-          {{property[1].cross_st|shortText:18}}
-        </h6>
-  
-      </div>
-      <div class="inlineDiv" *ngIf="property[2] && show(property[2])">
-
-        <img [src]="getPropertyIcon(property[2])" (error)="imageError($event)"
-          [ngClass]="{'centered-and-cropped':property[2].star!='Y','centered-and-cropped-liked':property[2].star=='Y','centered-and-cropped-disliked':property[2].star=='D'}"
-          width="110" height="110" (click)="showDetail(property[2])" (swipe)="onSwipe($event, property[2])">
-        <h6
-          style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
-          {{property[2].lp_dol|shortCurrency}} <br>
-          {{property[2].cross_st|shortText:18}}
-        </h6>
-  
-      </div>
-      
+    <br>
+    <div>There are no listings on the market like this.</div><br>
+    <div> We looked into the past year of sales and haven't found any,
+      either.
+    </div> <br>
+    <div *ngIf="unsoldCount>0">
+      There has been {{unsoldCount}} unsold listing(s), in the last year.
     </div>
-   
+  </div>
 
+  <div *ngIf="noResultsWithSold" fxLayout="column" fxLayoutAlign="space-around center" fxLayoutGap="5px"
+    style="text-align: center;">
+    <div> We are all out, right now!</div>
 
-  </ng-container>
-</cdk-virtual-scroll-viewport>
+    <br>
+    <div>
+      There are no listings on the market like this.
+    </div> <br>
+
+    <div>There has been {{countSold}} sale(s), in the last year.</div> <br>
+
+    <div *ngIf="unsoldCount>0">
+      There has been {{unsoldCount}} unsold listing(s), in the last year.
+    </div>
+
+  </div>
+    <cdk-virtual-scroll-viewport class="example-viewport" [itemSize]="itemsSize">
+      <ng-container *cdkVirtualFor="let property of properties">
+        <div style="height: 140px;">
+
+          <div class="inlineDiv" *ngIf="property[0] && show(property[0])">
+
+            <img [src]="getPropertyIcon(property[0])" (error)="imageError($event)"
+              [ngClass]="{'centered-and-cropped':property[0].star!='Y','centered-and-cropped-liked':property[0].star=='Y','centered-and-cropped-disliked':property[0].star=='D'}"
+              width="110" height="110" (click)="showDetail(property[0])" (swipe)="onSwipe($event, property[0])">
+            <h6
+              style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+              {{property[0].lp_dol|shortCurrency}} <br>
+              {{property[0].cross_st|shortText:15}}
+            </h6>
+
+          </div>
+          <div class="inlineDiv" *ngIf="property[1] && show(property[1])">
+
+            <img [src]="getPropertyIcon(property[1])" (error)="imageError($event)"
+              [ngClass]="{'centered-and-cropped':property[1].star!='Y','centered-and-cropped-liked':property[1].star=='Y','centered-and-cropped-disliked':property[1].star=='D'}"
+              width="110" height="110" (click)="showDetail(property[1])" (swipe)="onSwipe($event, property[1])">
+            <h6
+              style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+              {{property[1].lp_dol|shortCurrency}} <br>
+              {{property[1].cross_st|shortText:15}}
+            </h6>
+
+          </div>
+          <div class="inlineDiv" *ngIf="property[2] && show(property[2])">
+
+            <img [src]="getPropertyIcon(property[2])" (error)="imageError($event)"
+              [ngClass]="{'centered-and-cropped':property[2].star!='Y','centered-and-cropped-liked':property[2].star=='Y','centered-and-cropped-disliked':property[2].star=='D'}"
+              width="110" height="110" (click)="showDetail(property[2])" (swipe)="onSwipe($event, property[2])">
+            <h6
+              style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
+              {{property[2].lp_dol|shortCurrency}} <br>
+              {{property[2].cross_st|shortText:15}}
+            </h6>
+          </div>
+        </div>
+      </ng-container>
+    </cdk-virtual-scroll-viewport>
+  </div>

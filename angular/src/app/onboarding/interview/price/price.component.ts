@@ -192,10 +192,10 @@ export class PriceComponent implements OnInit {
     if (this.hasChanged) {
 
       this.save();
-      this.router.navigate(['./today'])
+      this.router.navigate(['./week'])
 
     } else {
-      this.router.navigate(['./today'])
+      this.router.navigate(['./week'])
     }
   }
 

@@ -57,7 +57,7 @@
       </mat-option>
     </mat-select>
     <mat-hint align="end" style="font-size:0.8em">
-      # {{streetNumberRange[0]}} - {{streetNumberRange[streetNumberRange.length-1]}}
+    Street #{{streetNumberRange[0]}} - {{streetNumberRange[streetNumberRange.length-1]}}
     </mat-hint>
   </mat-form-field>
 
@@ -139,9 +139,7 @@
   </ng-container>
 </div>
 <div *ngIf="hasResults" fxLayout="row" fxLayoutAlign="space-between center" style="padding-left: 10px;">
-   {{nearbyCount}} avaiable listing(s) {{where}} <span class="material-icons"  style="color:dimgray" (click)="showHow()">
-    help
-  </span>
+   {{nearbyCount}} avaiable listing(s) {{where}} 
 </div>
 <cdk-virtual-scroll-viewport class="example-viewport" [itemSize]="itemsSize">
   <ng-container *cdkVirtualFor="let property of properties" class="card">

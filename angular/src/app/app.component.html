@@ -7,28 +7,32 @@
       </button>
       <mat-menu #menu="matMenu">
         <ng-template matMenuContent>
-          <button mat-menu-item (click)="showToday()">
-            <mat-icon><img src="assets/day.svg" /></mat-icon>
-            <span class='menuItem'>{{"Today"|translate}}</span>
-          </button>
-          <button mat-menu-item (click)="showWeek()">
-            <mat-icon><img src="assets/calendar.svg" /></mat-icon>
-            <span class='menuItem'>{{"Week"|translate}}</span>
-          </button>
-          <button mat-menu-item (click)="showFavorites()">
-            <mat-icon> <img src="assets/favourite.svg"></mat-icon>
-            <span class='menuItem'>{{"Favorites"|translate}}</span>
-          </button>
-          <button mat-menu-item (click)="startInterview()">
-            <mat-icon> <img src="assets/filter.svg" /></mat-icon>
-            <span class='menuItem'>{{"Filters"|translate}}</span>
-          </button>
+ 
           <button mat-menu-item (click)="explore()">
             <mat-icon> <img src="assets/explore.svg" /></mat-icon>
             <span class='menuItem'>{{"Nearby"|translate}}</span>
           </button>
-          <br><br>
+          <button mat-menu-item (click)="showWeek()">
+            <mat-icon><img src="assets/rss.svg" /></mat-icon>
+            <span class='menuItem'>{{"My Feed"|translate}}</span>
+          </button>
 
+          <button mat-menu-item (click)="showSearch()">
+            <mat-icon> <img src="assets/search.svg"></mat-icon>
+            <span class='menuItem'>{{"Advanced Search"|translate}}</span>
+          </button>
+
+
+          <br><br>
+          <button mat-menu-item (click)="showFavorites()">
+            <mat-icon> <img src="assets/favourite.svg"></mat-icon>
+            <span class='menuItem'>{{"Favorites"|translate}}</span>
+          </button>
+          <button mat-menu-item (click)="startInterview()" >
+            <mat-icon> <img src="assets/filter.svg" /></mat-icon>
+            <span class='menuItem'>{{"Filters"|translate}}</span>
+          </button>
+         
           <button mat-menu-item (click)="account()">
             <mat-icon > <img src="assets/account.svg"/> </mat-icon>
             <span class='menuItem'>{{"Account"|translate}}</span>
@@ -41,8 +45,8 @@
 
       <mat-icon (click)="openDialog()"><img src="assets/call.svg" style="position: absolute;
         right: 0px;
-        width: 20px;
-        padding: 10px;
+        width: 30px;
+        padding: 5px;
         " />
 
       </mat-icon>

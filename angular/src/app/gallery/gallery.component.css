@@ -6,10 +6,10 @@ img {
 
 }
 
-.inlineDiv{
-    padding: 2px; 
+.inlineDiv{ 
     width: 31%; 
     display: inline-block;
+    height: 140px;
 }
 .toggle-margin{
     margin: 10px;
@@ -22,7 +22,7 @@ img {
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 10px;
     grid-auto-rows: minmax(100px, auto);
-    height: 100vh;
+    height: 70vh;
 }
 
 .card{

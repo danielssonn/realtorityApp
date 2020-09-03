@@ -66,7 +66,7 @@ export class AccoutSimpleComponent implements OnInit {
         this.router.navigate(['interview']);
 
       } else {
-        this.router.navigate(['today']);
+        this.router.navigate(['week']);
       }
     })
 

@@ -19,18 +19,31 @@
       </button>
     </div>
   </div>
-  <div *ngIf="!user">
+  <div>
     <div>
 
       <div *ngIf="lang!='ko_KR'" >
         <br>
-        <div style="padding: 15px;font-family: 'Montserrat', sans-serif; text-align: center;">
-          <div style="font-size: 1.2em;text-align: center;" ><b>Your home search, made simple.</b></div><br> <br>
-          Set the search criteria for your perfect home, and we'll constantly deliver matching listings as soon as they hit the market. 
-          <br><br>
-          Track your favourite listings and get the price changes and sold notifications. Get to know the market, before you buy or sell your home.
-          <br><br>
-          Your time is important and the market is always on the move. Get ahead, find your perfect home!
+        <div style="padding: 10px;font-family: 'Montserrat', sans-serif;">
+          <div style="font-size: 1.2em;text-align: center;" ><b>Your real estate search, made simple</b></div>
+        </div>
+          <div style="padding: 15px;font-family: 'Montserrat', sans-serif;">
+
+          <div class="title"><mat-icon><img src="assets/explore.svg"  width="20px"/></mat-icon>
+          Nearby </div>
+          <div style="font-size: 0.9em;">
+          Walking by a "SOLD" sign, wondering about the price? It takes one tap to find out. 
+         </div> 
+          <br>
+          <div class="title"><mat-icon><img src="assets/rss.svg" /></mat-icon> 
+          My Feed </div>
+          <div style="font-size: 0.9em;">Set your preferences and receive new listings automatically in your feed. 
+          </div>
+          <br>
+          <div class="title"><mat-icon><img src="assets/search.svg" /></mat-icon> 
+          Advanced Search </div>
+          <div style="font-size: 0.9em;"> Do you prefer to do a deep search yourself? You can do that too.</div>
+
         </div>
 
        

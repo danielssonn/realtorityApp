@@ -306,6 +306,10 @@ export class AppComponent implements OnInit {
   onClack() {
     console.log('Clacked through');
   }
+  showSearch(){
+    this.router.navigate(['./gallery']);
+
+  }
 
 }
 

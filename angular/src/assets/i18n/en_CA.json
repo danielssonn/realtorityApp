@@ -1,8 +1,8 @@
 {
     "Today": "Today",
     "Week": "Week",
-    "Favorites": "Favourites",
-    "Filters": "Settings",
+    "Favorites": "My Favourites",
+    "Filters": "My Feed Settings",
     "Trashbin": "Trash",
     "Map Hint": "Hint: Move the map to a location you like and take a snap to set search area",
     "searchforlocation": "Search for an address",
@@ -10,13 +10,13 @@
     "Check again": "Check again tomorrow!",
     "Refresh": "Refresh",
     "Must Have Parking": "Must have parking",
-    "Location": "Set your search area",
-    "Price": "Set your price range",
+    "Location": "My Feed: Search Area",
+    "Price": "My Feed: Price Range",
     "Parking": "Parking",
     "Size": "Size",
-    "Type": "Set your home type",
-    "Bedrooms": "Bedrooms",
-    "Bathrooms": "Bathrooms",
+    "Type": "My Feed: Home Type",
+    "Bedrooms": "My Feed: Bedrooms",
+    "Bathrooms": "My Feed: Bathrooms",
     "Success! Please Login ...": "Success! Please Log in.",
     "How This Works": "How this works",
     "Contact Us": "Contact us",
@@ -60,7 +60,7 @@
     "This is default presets":"Showing the default settings.",
     "Login to customize":"To set your own search areas, price and more -  ",
     "New Listings Today":"New listings today",
-    "New Listings Week":" New listings this week",
+    "New Listings Week":" My Feed",
     "Log in from defaults":"Log in",
     "Track It":" Track the Sold Price",
     "Added to favs":"Added to Favourites. We'll let you know once sold.",
@@ -78,6 +78,8 @@
     "Sometimes one side":"Sometimes one side of the street vs. the other can make all the difference between your kids going to a great school or just a good one.",
     "You have already":" You have already set your search area. Selecting this option will further limit the search and only include homes within the exact school boundaries of top public or catholic elementary and secondary schools as per EQAO and Fraser Institute rankings.",
     "School missing":"Is a school missing from our top list? Let us know.",
-    "Recommend it":"Recommend it"
+    "Recommend it":"Recommend it",
+    "Advanced Search":"Advanced Search",
+    "Schools":"My Feed: Schools"
 
 }

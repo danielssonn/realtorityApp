@@ -262,7 +262,8 @@ export const routerConfig: Routes = [
   {
     path: 'gallery',
     component: GalleryComponent,
-    data: { title: 'Gallery' }
+    canActivate: [AuthGuard],
+    data: { title: 'Advanced Search' }
   },
   {
     path: 'accountSimple',

@@ -6,3 +6,12 @@ and (min-device-width : 768px)
 and (max-device-width : 1024px)  { 
     h2, h3{ font-size:2em}
 }
+.title{
+    
+    display: table-cell;
+    width: 100vw;
+    height: 20px;
+    padding-bottom: 10px;
+    padding-top: 15px;
+    vertical-align: middle;
+}
