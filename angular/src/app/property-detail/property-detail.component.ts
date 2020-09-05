@@ -523,7 +523,7 @@ export class PropertyDetailComponent implements OnInit {
 
     getMessagePhoneNumberAndSend(property) {
         let phoneNumber = '4162702726';
-       
+        this.userService.audit('engage').subscribe();
         const cm = this.clientManagerSearchService.getCurrentClientManager();
         if (cm.client && cm.client.userId !== '-1') {
             phoneNumber = cm.client.phone;
@@ -549,7 +549,7 @@ export class PropertyDetailComponent implements OnInit {
         }
     }
     sendSms(property, phoneNumber) {
-
+       
         console.log('sending to', phoneNumber)
 
         this.translate.get('Composing message').subscribe((res: string) => {

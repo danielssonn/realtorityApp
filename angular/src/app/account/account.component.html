@@ -1,4 +1,4 @@
-<div style="padding-top: 5%" (swipe)="onSwipe($event)">
+<div class="scrollPane"  (swipe)="onSwipe($event)">
 
 
 
@@ -8,7 +8,7 @@
   <div *ngIf="user">
 
     <div *ngIf="userName" fxLayout="row" fxLayoutAlign="space-between center">
-      <span style="padding-left: 5px">Hello {{userName}}!</span>  
+      <span style="padding-left: 5px; padding-top:10px">Hello {{userName}}!</span>  
   
     </div>
     <app-client-manager></app-client-manager>
@@ -27,19 +27,24 @@
         <div style="padding: 10px;font-family: 'Montserrat', sans-serif;">
           <div style="font-size: 1.2em;text-align: center;" ><b>Your real estate search, made simple</b></div>
         </div>
-          <div style="padding: 15px;font-family: 'Montserrat', sans-serif;">
+        <div  fxLayout="row" fxLayoutAlign="end end"  style="padding-left: 10px; font-size: 0.7em;" >
+         <span (click)="showWhere()">Listings Coverage</span><span class="material-icons" style="color:dimgray"  (click)="showWhere()">
+             help
+           </span>
+         </div>
+          <div style="padding-left: 15px;font-family: 'Montserrat', sans-serif;">
 
           <div class="title"><mat-icon><img src="assets/explore.svg"  width="20px"/></mat-icon>
           Nearby </div>
           <div style="font-size: 0.9em;">
           Walking by a "SOLD" sign, wondering about the price? It takes one tap to find out. 
          </div> 
-          <br>
+          
           <div class="title"><mat-icon><img src="assets/rss.svg" /></mat-icon> 
           My Feed </div>
           <div style="font-size: 0.9em;">Set your preferences and receive new listings automatically in your feed. 
           </div>
-          <br>
+          
           <div class="title"><mat-icon><img src="assets/search.svg" /></mat-icon> 
           Advanced Search </div>
           <div style="font-size: 0.9em;"> Do you prefer to do a deep search yourself? You can do that too.</div>
@@ -98,10 +103,11 @@
         <a style="text-align: center; color: #5b7a59" routerLink="/signup"><button mat-raised-button style="width: 225px">{{"Register with email"|translate}}</button></a>
       </h4>
     </div>
-    <br>
-
-    <br>
-
+    <div fxLayout="row" fxLayoutAlign="center center" style="padding-top:15px; font-size: 0.7em;">
+             <span (click)="showWhy()">Why do I need an account</span><span class="material-icons" style="color:dimgray"  (click)="showWhy()">
+             help
+           </span>
+          </div>  
     <br>
   </div>
   <div style="text-align: center; color: grey">

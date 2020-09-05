@@ -10,6 +10,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { SidenavService } from 'app/sidenav.service';
 import { ClientManagerSearchService } from 'app/client-manager/client-manager-search/client-manager-search.service';
+import { MatDialogConfig, MatDialog } from '@angular/material';
+import { CoverageComponent } from './coverage/coverage.component';
+import { WhySignonComponent } from './why-signon/why-signon.component';
 
 
 
@@ -32,7 +35,7 @@ export class AccountComponent implements OnInit {
 
   // tslint:disable-next-line:max-line-length
   constructor(private translate: TranslateService, private spinner: NgxSpinnerService, public _zone: NgZone, private dvs: DeviceService, private formBuilder: FormBuilder, private router: Router, public service: UserService, private session: CoolLocalStorage, private propService: PropertiesService,
-    private clientManagerSearchService: ClientManagerSearchService, private deviceService: DeviceService) {
+    private clientManagerSearchService: ClientManagerSearchService, private deviceService: DeviceService, private dialog: MatDialog) {
     this.user = this.service.isAuthenticated();
     this.userName = this.session.getItem('userName');
     this.salesPersonId = this.session.getItem('salesPersonId');
@@ -116,7 +119,7 @@ export class AccountComponent implements OnInit {
             )
           },
           function (msg) {
-            alert('Please try again' + msg);
+            alert('Please try again. ' + msg);
           }
         )
       }
@@ -224,5 +227,24 @@ export class AccountComponent implements OnInit {
 
   radar() {
     this.router.navigate(['./radar']);
+  }
+
+  showWhere(){
+    const dialogConfig = new MatDialogConfig();
+    this.dialog.open(CoverageComponent, {
+      height: '90vh',
+      width: '80vw',
+      minWidth: '375px'
+    });
+  }
+
+  showWhy(){
+    const dialogConfig = new MatDialogConfig();
+    this.dialog.open(WhySignonComponent, {
+      height: '90vh',
+      width: '80vw',
+      minWidth: '375px'
+    });
+
   }
 }

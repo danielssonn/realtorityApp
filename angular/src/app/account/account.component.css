@@ -12,6 +12,6 @@ and (max-device-width : 1024px)  {
     width: 100vw;
     height: 20px;
     padding-bottom: 10px;
-    padding-top: 15px;
+    padding-top: 10px;
     vertical-align: middle;
 }

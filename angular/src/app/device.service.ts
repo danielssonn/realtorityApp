@@ -38,7 +38,7 @@ export class DeviceService {
 
     this.signInWithApple = this.cds.deviceReady.map(() => window.cordova.plugins.SignInWithApple);
 
-    this.firebase =  this.cds.deviceReady.map(() => cordova.plugins.firebase.messaging );
+    this.firebase =  this.cds.deviceReady.map(() => window.FirebasePlugin );
 
     this.networkOffline = this.cds.networkOffline.map(() => true)
 

@@ -231,16 +231,39 @@ export class AppComponent implements OnInit {
 
     this.dvs.firebase.subscribe(firebase => {
      
+      console.log('GOT Firebase', firebase) 
+      
+      firebase.hasPermission(function(hasPermission){
+        console.log("Permission is " + (hasPermission ? "granted" : "denied"));
+         if(hasPermission ==="NO"){
+          firebase.grantPermission().then(function() {
+            console.log("Push messaging is allowed");
+            firebase.getToken(
+              function(tkn){ console.log("FCM Token", tkn); this.userService.registerPushToken(tkn).subscribe()},
+              function(err){ console.log("Get Token error", err)}
+            )
+          });
+         } else{
+          
+            console.log("Push messaging is allowed");
+            firebase.getToken(
+              function(tkn){ console.log("FCM Token", tkn); this.userService.registerPushToken(tkn).subscribe()},
+              function(err){ console.log("Get Token error", err)}
+            )
+         }
 
-      firebase.requestPermission().then(function() {
-        console.log("Push messaging is allowed");
       });
 
-      firebase.getToken().then(tkn => this.userService.registerPushToken(tkn).subscribe());
       
+
+      firebase.getToken(
+        function(tkn){ console.log("FCM Token", tkn); this.userService.registerPushToken(tkn).subscribe()},
+        function(err){ console.log("Get Token error", err)}
+      )
+
       firebase.onTokenRefresh(tkn => this.userService.registerPushToken(tkn).subscribe());
 
-      firebase.onMessage(msg => this.zone.run(() =>this.showFavorites()))
+      firebase.onMessageReceived(msg => this.zone.run(() =>this.showFavorites()))
       firebase.onBackgroundMessage(msg => this.zone.run(() => this.showFavorites()))
     });
 

@@ -113,6 +113,8 @@ import { EmailListComponent } from './engage/email-list/email-list.component';
 import { EngagementDetailsComponent } from './engage/engagement-details/engagement-details.component';
 import { ShazamComponent } from './shazam/shazam.component';
 import { HowToComponent } from './shazam/how-to/how-to.component';
+import { CoverageComponent } from './account/coverage/coverage.component';
+import { WhySignonComponent } from './account/why-signon/why-signon.component';
 
 
 
@@ -369,7 +371,10 @@ export function createTranslateLoader(http: HttpClient) {
     EmailListComponent,
     EngagementDetailsComponent,
     ShazamComponent,
-    HowToComponent
+    HowToComponent,
+    CoverageComponent,
+    WhySignonComponent
+  
     
 
   ],
@@ -466,7 +471,9 @@ export function createTranslateLoader(http: HttpClient) {
     EmailListComponent,
     SocialLinkComponent,
     EngagementDetailsComponent,
-    HowToComponent
+    HowToComponent,
+    CoverageComponent,
+    WhySignonComponent
     
   ],
   bootstrap: [AppComponent]

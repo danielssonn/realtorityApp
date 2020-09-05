@@ -23,6 +23,7 @@ export class UserService {
   private resetUrl;
   private updateUrl;
   private appleSigninUrl;
+  private auditUrl;
 
 
   private pushTokenRegUrl;
@@ -48,6 +49,7 @@ export class UserService {
     this.pushTokenRegUrl = environment.serverURL + '/registerPushToken';
     this.updateUrl = environment.serverURL + '/updateUserDetails';
     this.appleSigninUrl = environment.serverURL + '/appleSignin';
+    this.auditUrl = environment.serverURL + '/audit';
   }
 
   public isAuthenticated(): boolean {
@@ -91,6 +93,12 @@ export class UserService {
       return response;
     }))
 
+  }
+
+  audit(what){
+    return this.http.post(this.auditUrl, {what:what}).pipe(map(response => {
+      return response;
+    }))
   }
 
   reset(user): Observable<any> {
