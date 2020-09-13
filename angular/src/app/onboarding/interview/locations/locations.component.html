@@ -1,6 +1,6 @@
-<div [ngClass]="{'scrollPane':shouldScroll}">
+<div [ngClass]="{'scrollPane':shouldScroll, 'fixPane':!shouldScroll}">
   <app-showing-defaults [isPreset]="true"></app-showing-defaults>
-
+  
     <div *ngIf="locations.length==0" (click)="addLocation()">
       <br><br>
       <div fxLayout="column" fxLayoutAlign="center center" style="text-align: center;">

@@ -86,6 +86,9 @@ export class LocationsComponent implements OnInit {
           zoom: parseFloat(area.zoom), lat: parseFloat(geo[0]), lon: parseFloat(geo[1]),
           polygon: poly
         });
+        if(this.locations.length>1){
+          this.shouldScroll = true;
+        }
         this.spinner.hide();
       })
     });
@@ -107,13 +110,7 @@ export class LocationsComponent implements OnInit {
 
   ngOnInit() {
     this.allSaved=1;
-    if(this.isAuth && this.locations.length===1){
-      this.shouldScroll = false;
-    } else{
-      this.shouldScroll = true;
-    }
 
-  
    
   }
   

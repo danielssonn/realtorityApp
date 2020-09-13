@@ -43,7 +43,7 @@
 
 </div>
 <div fxLayout="row" fxLayoutAlign="center center">
-   <button [disabled]="!isAuth" mat-button class="date" (click)="addWeek()"> {{"Previous Week"|translate}} -> </button>
+   <button [disabled]="!isAuth" mat-button class="date" (click)="addWeek()"> {{"Previous Week"|translate}} {{service.getAddWeeks()}} -> </button>
 </div>
 <div fxLayout="row" fxLayoutAlign="center center" style="padding:5px">
   <mat-icon (click)="startInterview()"> <img src="assets/filter.svg" /></mat-icon>

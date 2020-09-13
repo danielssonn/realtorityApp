@@ -5,6 +5,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { error } from '../../../../node_modules/@angular/compiler/src/util';
 import { UserService } from 'app/user.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { FormControl } from '@angular/forms';
+import { startWith, map } from 'rxjs/operators';
 
 
 @Component({
@@ -15,48 +17,65 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 export class FavoritesComponent implements OnInit, AfterViewInit {
 
   favorites: any;
+  filteredFavorites: any;
+  filterControl = new FormControl();
+  favFilter: String;
 
 
-  @ViewChild(CdkVirtualScrollViewport,  {static:false}) viewport: CdkVirtualScrollViewport;
+
+  @ViewChild(CdkVirtualScrollViewport, { static: false }) viewport: CdkVirtualScrollViewport;
 
   constructor(private router: Router, private service: PropertiesService, private spinner: NgxSpinnerService,
-    private userService: UserService ) {
-   
+    private userService: UserService) {
+
     this.service.getUserPreferences().subscribe(
       val => {
         this.spinner.show();
         this.service.favorites().then(
           value => {
-    
+
             this.favorites = value;
+            this.filteredFavorites = this.filterControl.valueChanges
+              .pipe(
+                startWith(''),
+                map(value => this._filterFavorites(value))
+              );
+
             this.spinner.hide();
-           
-           
-          }, err => {this.spinner.hide(); this.router.navigate(['ohoh']) });
+
+
+          }, err => { this.spinner.hide(); this.router.navigate(['ohoh']) });
       }
     );
 
-    
-   }
 
-  showDetail = function() {
+  }
+
+  showDetail = function () {
     this.router.navigate(['details']);
   };
   ngOnInit() {
-  
+
+
   }
 
-  ngAfterViewInit(){
+  private _filterFavorites(value: string): string[] {
+    console.log('filtering')
+    const filterValue = value.toLowerCase();
+    return this.favorites.filter(option => option.addr.toLowerCase().includes(filterValue));
+  }
+
+  ngAfterViewInit() {
 
     setTimeout(() => {
       this.viewport.scrollToIndex(this.service.getScrollPosition());
-  });
-  
-   
+    });
+
+
   }
- 
-  scrolledTo(ev){
-    if(ev!=0){
+
+  scrolledTo(ev) {
+    if (ev != 0) {
       this.service.setScrollPosition(ev);
 
     }

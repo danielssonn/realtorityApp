@@ -183,6 +183,8 @@ export class ShazamComponent implements OnInit, AfterViewInit {
       })
 
       this.service.getCommunityMatch(position.coords.latitude, position.coords.longitude, this.radius, this.address.formattedAddress).subscribe(nearby => {
+        
+        console.log(nearby)
         this.addSales(nearby);
 
       });

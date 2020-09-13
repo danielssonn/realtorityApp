@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1599231866245,
+  "timestamp": 1599937878890,
   "index": "./index.html",
   "assetGroups": [
     {
@@ -10,7 +10,7 @@
       "urls": [
         "./favicon.ico",
         "./index.html",
-        "./main.8675653d4b7dd2642910.js",
+        "./main.4d233c1d429286d32393.js",
         "./polyfills-es5.409daa48a8f285773a0a.js",
         "./polyfills.344bfcf86068c38d99eb.js",
         "./runtime.458556a34b891ea32398.js",
@@ -267,8 +267,8 @@
     "./assets/howitworkskr.png": "c198d3d9e8a3558a85472dc1f050390cdd8c9af4",
     "./assets/howto.png": "8902ad689c4448fc37f5a62000f8003579054573",
     "./assets/howto2.png": "0316b94120ea489bdb0b264e1578282df11f4aae",
-    "./assets/i18n/en_CA.json": "af30d5fa5aef1d5533f01922a70c97d662f58d8c",
-    "./assets/i18n/ko_KR.json": "a609e053be1efffd4e4f1497bf9b9fc2a933b304",
+    "./assets/i18n/en_CA.json": "e2eb098860d07a8f6b6ae8f26c6b084bad3710ae",
+    "./assets/i18n/ko_KR.json": "f0bd305232e6c6388d5b6ca3c7057ca3d3f6b46c",
     "./assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
     "./assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
     "./assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
@@ -379,8 +379,8 @@
     "./assets/weekly-preview.png": "9b6bff10cdd55f8168ee0264859847997c683528",
     "./assets/whylike.png": "557bc9ffc5ed9e7942cc51c4488767152d6dc3f1",
     "./favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "./index.html": "90514264f9f88adf2752b29891ac50b949d49e4d",
-    "./main.8675653d4b7dd2642910.js": "f5968109e947beb1ca34224bbce2a8103d317112",
+    "./index.html": "75318ea81f69d444794280aef997dfb3ae588086",
+    "./main.4d233c1d429286d32393.js": "3b25fcaaf6c66b899577bb37464c1f38bbbe0bf0",
     "./polyfills-es5.409daa48a8f285773a0a.js": "8faf7c57851a1c1d1ff9226bb32bc0688ac1521f",
     "./polyfills.344bfcf86068c38d99eb.js": "0003f56a7537092675bc5cc25f4f7301ae868cd9",
     "./runtime.458556a34b891ea32398.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",

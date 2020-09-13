@@ -47,7 +47,7 @@ export class WeekComponent implements OnInit, AfterViewInit {
     this.router.navigate(['interview']);
   }
 
-  constructor(private router: Router, private service: PropertiesService, private spinner: NgxSpinnerService,
+  constructor(private router: Router, public service: PropertiesService, private spinner: NgxSpinnerService,
     private translate: TranslateService, private userService: UserService, public snackBar: MatSnackBar, ) {
      this.isAuth =  this.userService.isAuthenticated();
      this.service.getUserPreferences().subscribe();
@@ -64,7 +64,6 @@ export class WeekComponent implements OnInit, AfterViewInit {
         });
       });
     } else {
-
       this.refresh();
     }
    
@@ -72,7 +71,7 @@ export class WeekComponent implements OnInit, AfterViewInit {
   }
 
   setProperties(props) {
-    console.log('got sum ', props)
+
     if(!Array.isArray(props)){
       return;
     }
@@ -91,7 +90,7 @@ export class WeekComponent implements OnInit, AfterViewInit {
   
     this.calendar = [];
     props.forEach(property => {
-      console.log('got sum ', property)
+      
       if(property.isIn){
         this.propertiesCount++;
         const dateInMonth = moment(property.added).format('l');
@@ -114,7 +113,7 @@ export class WeekComponent implements OnInit, AfterViewInit {
 
     const datePipe = new DatePipe(this.translate.currentLang);
 
-    return datePipe.transform(moment(property.added), 'EEE, d');
+    return datePipe.transform(moment(property.added), 'EEE d/M');
   }
 
   ngOnInit() {

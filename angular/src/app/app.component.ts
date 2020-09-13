@@ -230,25 +230,25 @@ export class AppComponent implements OnInit {
 
 
     this.dvs.firebase.subscribe(firebase => {
-     
-      console.log('GOT Firebase', firebase) 
-      
+         
+      firebase.grantPermission();
+
       firebase.hasPermission(function(hasPermission){
         console.log("Permission is " + (hasPermission ? "granted" : "denied"));
          if(hasPermission ==="NO"){
           firebase.grantPermission().then(function() {
             console.log("Push messaging is allowed");
             firebase.getToken(
-              function(tkn){ console.log("FCM Token", tkn); this.userService.registerPushToken(tkn).subscribe()},
-              function(err){ console.log("Get Token error", err)}
+              tkn => { console.log("FCM Token", tkn); this.userService.registerPushToken(tkn).subscribe()},
+              err =>{ console.log("Get Token error", err)}
             )
           });
          } else{
           
             console.log("Push messaging is allowed");
             firebase.getToken(
-              function(tkn){ console.log("FCM Token", tkn); this.userService.registerPushToken(tkn).subscribe()},
-              function(err){ console.log("Get Token error", err)}
+              tkn=>{ console.log("FCM Token", tkn); this.userService.registerPushToken(tkn).subscribe()},
+              err=>{ console.log("Get Token error", err)}
             )
          }
 
@@ -257,8 +257,8 @@ export class AppComponent implements OnInit {
       
 
       firebase.getToken(
-        function(tkn){ console.log("FCM Token", tkn); this.userService.registerPushToken(tkn).subscribe()},
-        function(err){ console.log("Get Token error", err)}
+        tkn=>{ console.log("FCM Token", tkn); this.userService.registerPushToken(tkn).subscribe()},
+        err=>{ console.log("Get Token error", err)}
       )
 
       firebase.onTokenRefresh(tkn => this.userService.registerPushToken(tkn).subscribe());

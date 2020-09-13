@@ -430,7 +430,7 @@ export class LocationComponent implements OnInit {
                         this.geoJson = response;
                         this.spinner.hide();
                         if (this.geoJson.features.length > 0) {
-                            this.snackBar.open('There are more properties matching your search criteria in the darker Communties on the map.', 'Dismiss', {
+                            this.snackBar.open('There are more properties matching your search criteria in the darker Communities on the map.', 'Dismiss', {
                                 duration: 8000,
                             });
                         } else {

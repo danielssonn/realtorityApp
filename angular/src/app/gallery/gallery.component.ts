@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig, TooltipPosition, throwMatDialogContentAlreadyAttachedError, ThemePalette } from '@angular/material';
 import { PropertiesService } from 'app/properties.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -9,6 +9,8 @@ import { FormControl, NumberValueAccessor } from '@angular/forms';
 import { TooltipFormatter } from 'app/onboarding/interview/price/price.component';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import {MatAccordion} from '@angular/material/expansion';
+
 
 
 
@@ -19,6 +21,9 @@ import { startWith, map } from 'rxjs/operators';
 
 })
 export class GalleryComponent implements OnInit {
+
+  @ViewChild(MatAccordion, {static:false}) accordion: MatAccordion;
+  
   color: ThemePalette = 'accent';
   properties: any;
   position: TooltipPosition = 'below';
@@ -931,6 +936,7 @@ export class GalleryComponent implements OnInit {
       return;
     }
 
+    this.accordion.closeAll();
     this.expanded = false;
     this.average = null;
     this.averageSold = null;

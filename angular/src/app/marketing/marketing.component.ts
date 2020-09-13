@@ -4,6 +4,7 @@ import { Marketing } from './marketing';
 import { MarketingItem } from './marketingItem';
 import { JustTextAdComponent } from './just-text-ad/just-text-ad.component';
 import { AdWithMapComponent } from './ad-with-map/ad-with-map.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-marketing',
@@ -200,28 +201,37 @@ export class MarketingComponent implements OnInit {
       }
   ]
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private domSanitizer: DomSanitizer,) { }
 
   ngOnInit() {
     this.loadComponent();
   }
 
   loadComponent() {
-  let message = JSON.parse(this.marketingItem);
-    // perhaps switch around components based on the input
-    let componentFactory;
-    if (message.data.map) {
-      componentFactory = this.componentFactoryResolver.resolveComponentFactory(AdWithMapComponent);
-    }
-    else  {
-       componentFactory = this.componentFactoryResolver.resolveComponentFactory(JustTextAdComponent);
+
+  console.log("MI", this.marketingItem)  
+  let message = this.marketingItem;
+
+
+  
+    // // perhaps switch around components based on the input
+    // let componentFactory;
+    // if (message.map) {
+    //   componentFactory = this.componentFactoryResolver.resolveComponentFactory(AdWithMapComponent);
+    // }
+    // else  {
+    //    componentFactory = this.componentFactoryResolver.resolveComponentFactory(JustTextAdComponent);
+    // }
+
+    //   const viewContainerRef = this.adHost.viewContainerRef;
+    //   viewContainerRef.clear();
+    //   const componentRef = viewContainerRef.createComponent(componentFactory);
+    //   (<Marketing>componentRef.instance).data = message.longMessage;
+
     }
 
-      const viewContainerRef = this.adHost.viewContainerRef;
-      viewContainerRef.clear();
-      const componentRef = viewContainerRef.createComponent(componentFactory);
-      (<Marketing>componentRef.instance).data = message.data;
-
+    getInnerHTMLValue() {
+        return this.domSanitizer.bypassSecurityTrustHtml(this.marketingItem.longMessage);
     }
 
 
