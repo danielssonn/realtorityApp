@@ -78,7 +78,7 @@ export class AppComponent implements OnInit {
     this.router.navigate(['./interview']);
   };
 
-  explore = function(){
+  explore = function () {
     this.router.navigate(['./nearby']);
   }
   research = function () {
@@ -166,14 +166,14 @@ export class AppComponent implements OnInit {
     this.clientManagerSearchService.setup();
 
 
- 
-      this.clientManagerSubscription = this.clientManagerSearchService.clientManagerBuilder().subscribe(
-        {
-          next: (x) => { this.onBehalf = x.client; this.isSalesPerson = true; console.log('clientManagerSubscription fired', x) },
-          error: (x) => { console.log('erroorz', x) }
-        }
-      );
-    
+
+    this.clientManagerSubscription = this.clientManagerSearchService.clientManagerBuilder().subscribe(
+      {
+        next: (x) => { this.onBehalf = x.client; this.isSalesPerson = true; console.log('clientManagerSubscription fired', x) },
+        error: (x) => { console.log('erroorz', x) }
+      }
+    );
+
 
     if (navigator.language === 'ko_KR') {
       this.translate.use(navigator.language);
@@ -230,40 +230,61 @@ export class AppComponent implements OnInit {
 
 
     this.dvs.firebase.subscribe(firebase => {
-         
+
       firebase.grantPermission();
 
-      firebase.hasPermission(function(hasPermission){
+      firebase.hasPermission(function (hasPermission) {
         console.log("Permission is " + (hasPermission ? "granted" : "denied"));
-         if(hasPermission ==="NO"){
-          firebase.grantPermission().then(function() {
+        if (hasPermission === "NO") {
+          firebase.grantPermission().then(function () {
             console.log("Push messaging is allowed");
             firebase.getToken(
-              tkn => { console.log("FCM Token", tkn); this.userService.registerPushToken(tkn).subscribe()},
-              err =>{ console.log("Get Token error", err)}
+              tkn => { console.log("FCM Token", tkn); this.userService.registerPushToken(tkn).subscribe() },
+              err => { console.log("Get Token error", err) }
             )
           });
-         } else{
-          
-            console.log("Push messaging is allowed");
-            firebase.getToken(
-              tkn=>{ console.log("FCM Token", tkn); this.userService.registerPushToken(tkn).subscribe()},
-              err=>{ console.log("Get Token error", err)}
-            )
-         }
+        } else {
+
+          console.log("Push messaging is allowed");
+          firebase.getToken(
+            tkn => { console.log("FCM Token", tkn); this.userService.registerPushToken(tkn).subscribe() },
+            err => { console.log("Get Token error", err) }
+          )
+        }
 
       });
 
-      
+
 
       firebase.getToken(
-        tkn=>{ console.log("FCM Token", tkn); this.userService.registerPushToken(tkn).subscribe()},
-        err=>{ console.log("Get Token error", err)}
+        tkn => { console.log("FCM Token", tkn); this.userService.registerPushToken(tkn).subscribe() },
+        err => { console.log("Get Token error", err) }
       )
 
       firebase.onTokenRefresh(tkn => this.userService.registerPushToken(tkn).subscribe());
 
-      firebase.onMessageReceived(msg => this.zone.run(() =>this.showFavorites()))
+      firebase.onMessageReceived(msg => this.zone.run(() => {
+
+        
+        
+        if (msg.key){
+          if (msg.key =="feedUpdated"){
+          this.showWeek();
+          } 
+          else if (msg.key =="favouritesUpdated"){
+            this.showFavorites();
+          } 
+          else if (msg.key =="showNearby"){
+            this.showNearby();
+          } 
+          else{
+            this.showFavorites();
+          }
+        }else {
+          this.showFavorites()
+        }
+          
+      }))
       firebase.onBackgroundMessage(msg => this.zone.run(() => this.showFavorites()))
     });
 
@@ -329,9 +350,11 @@ export class AppComponent implements OnInit {
   onClack() {
     console.log('Clacked through');
   }
-  showSearch(){
+  showSearch() {
     this.router.navigate(['./gallery']);
-
+  }
+  showNearby() {
+    this.router.navigate(['./nearby']);
   }
 
 }

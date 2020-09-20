@@ -380,10 +380,11 @@ export class PropertyDetailComponent implements OnInit {
             return;
         }
         if (property.marketingMessage) {
+            console.log('MM')
             this.property = property;
             // tslint:disable-next-line:max-line-length
             this.emailSubjectRegular = 'mailto:jina@hellomyhouse.com?subject=Hello!&body= ... ';
-
+            this.userService.audit('marketingMsgTap').subscribe();
             return;
         }
         // this.property = property[0];

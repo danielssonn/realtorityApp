@@ -7,7 +7,7 @@
     
     <mat-card *ngIf="property.internet1!='N'&&property.internet2!='N'"
       [ngClass]="{'propertyCard':!property.star,'read':property.star}" (click)="showDetail(property)"
-      (click)="showDetail(property)" (swipe)="onSwipe($event)">
+     (swipe)="onSwipe($event)">
 
       <div fxLayout="row" fxLayoutAlign="space-between center">
         <!-- <button color="accent" mat-mini-fab (click)="remove($event,property)"><mat-icon>close</mat-icon>
