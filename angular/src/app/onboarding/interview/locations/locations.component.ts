@@ -54,8 +54,10 @@ export class LocationsComponent implements OnInit {
     // subscription on main click
     this.subscription = this.messageService.getMessage().subscribe(message => { 
     
-      if(!this.allSaved){
-        this.saveMaps(true);
+      if(message.text ==='clack'){
+          if(!this.allSaved){ 
+            this.saveMaps(true);
+          }
       }
      });
 

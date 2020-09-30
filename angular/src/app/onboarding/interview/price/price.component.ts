@@ -159,7 +159,9 @@ export class PriceComponent implements OnInit {
 
     // subscription on main click
     this.subscription = this.messageService.getMessage().subscribe(message => {
-      this.save()
+      if(message.text ==='clack'){
+        this.save();
+      }
     });
   }
   getFrom() {

@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1600607764870,
+  "timestamp": 1601422207792,
   "index": "./index.html",
   "assetGroups": [
     {
@@ -10,7 +10,7 @@
       "urls": [
         "./favicon.ico",
         "./index.html",
-        "./main.1c7340914bab094a9ed4.js",
+        "./main.3997f21d7b7194d84c0a.js",
         "./polyfills-es5.409daa48a8f285773a0a.js",
         "./polyfills.344bfcf86068c38d99eb.js",
         "./runtime.458556a34b891ea32398.js",
@@ -267,7 +267,7 @@
     "./assets/howitworkskr.png": "c198d3d9e8a3558a85472dc1f050390cdd8c9af4",
     "./assets/howto.png": "8902ad689c4448fc37f5a62000f8003579054573",
     "./assets/howto2.png": "0316b94120ea489bdb0b264e1578282df11f4aae",
-    "./assets/i18n/en_CA.json": "e2eb098860d07a8f6b6ae8f26c6b084bad3710ae",
+    "./assets/i18n/en_CA.json": "9ddde32221749068b2515b05d51af301aca889ca",
     "./assets/i18n/ko_KR.json": "f0bd305232e6c6388d5b6ca3c7057ca3d3f6b46c",
     "./assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
     "./assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
@@ -379,8 +379,8 @@
     "./assets/weekly-preview.png": "9b6bff10cdd55f8168ee0264859847997c683528",
     "./assets/whylike.png": "557bc9ffc5ed9e7942cc51c4488767152d6dc3f1",
     "./favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "./index.html": "6f877ecd26454cd5a880528d4003b75be99a40d1",
-    "./main.1c7340914bab094a9ed4.js": "d0adb3b7880140bf18fdea6cf897d403dd6bf4a0",
+    "./index.html": "8d10c7c83d3e13bcedc660562102c87bb980fca2",
+    "./main.3997f21d7b7194d84c0a.js": "940df6f85709236c47c4603abab6265a60f55791",
     "./polyfills-es5.409daa48a8f285773a0a.js": "8faf7c57851a1c1d1ff9226bb32bc0688ac1521f",
     "./polyfills.344bfcf86068c38d99eb.js": "0003f56a7537092675bc5cc25f4f7301ae868cd9",
     "./runtime.458556a34b891ea32398.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",

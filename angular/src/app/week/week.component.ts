@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { PropertiesService } from '../properties.service';
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { UserService } from 'app/user.service';
 import { MatSnackBar } from '@angular/material';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import { MessageService } from 'app/message.service';
 
 
 
@@ -36,7 +37,7 @@ export class WeekComponent implements OnInit, AfterViewInit {
   properties: any;
   calendar = [];
 
-  @ViewChild(CdkVirtualScrollViewport,  {static:false}) viewport: CdkVirtualScrollViewport;
+  @ViewChild(CdkVirtualScrollViewport, { static: false }) viewport: CdkVirtualScrollViewport;
 
 
   showDetail() {
@@ -48,16 +49,25 @@ export class WeekComponent implements OnInit, AfterViewInit {
   }
 
   constructor(private router: Router, public service: PropertiesService, private spinner: NgxSpinnerService,
-    private translate: TranslateService, private userService: UserService, public snackBar: MatSnackBar, ) {
-     this.isAuth =  this.userService.isAuthenticated();
-     this.service.getUserPreferences().subscribe();
+    private translate: TranslateService, private userService: UserService, public snackBar: MatSnackBar, private messageService: MessageService) {
+    this.isAuth = this.userService.isAuthenticated();
+    this.service.getUserPreferences().subscribe();
+
+    this.messageService.getMessage().subscribe(message => {
+
+      if(message.text ==='update'){
+        this.refresh();
+      }
+
+    });
+
   }
 
 
 
   addWeek() {
 
-    if(!this.service.addWeek()){
+    if (!this.service.addWeek()) {
       this.translate.get('Maximum number of weeks reached').subscribe((res: string) => {
         this.snackBar.open(res, '', {
           duration: 2000,
@@ -66,40 +76,40 @@ export class WeekComponent implements OnInit, AfterViewInit {
     } else {
       this.refresh();
     }
-   
-    
+
+
   }
 
   setProperties(props) {
 
-    if(!Array.isArray(props)){
+    if (!Array.isArray(props)) {
       return;
     }
     this.properties = [];
     this.propertiesCount = 0;
-    
-    props.sort(function(a,b){
+
+    props.sort(function (a, b) {
       var c = new Date(a.added);
       var d = new Date(b.added);
-      return +d- +c;
+      return +d - +c;
     })
     if (!props || !props[0]) {
-    
+
       return;
     }
-  
+
     this.calendar = [];
     props.forEach(property => {
-      
-      if(property.isIn){
+
+      if (property.isIn) {
         this.propertiesCount++;
         const dateInMonth = moment(property.added).format('l');
 
-        if(this.calendar.indexOf(dateInMonth) === -1){
+        if (this.calendar.indexOf(dateInMonth) === -1) {
           this.calendar.push(dateInMonth)
           property.d = dateInMonth
         }
-        this.properties.push(property)  
+        this.properties.push(property)
       }
 
 
@@ -122,7 +132,7 @@ export class WeekComponent implements OnInit, AfterViewInit {
       value => {
         this.setProperties(value);
         this.spinner.hide();
-      }, err => {  this.spinner.hide(); this.router.navigate(['ohoh']) });
+      }, err => { this.spinner.hide(); this.router.navigate(['ohoh']) });
   }
 
   refresh() {
@@ -130,7 +140,7 @@ export class WeekComponent implements OnInit, AfterViewInit {
     this.setProperties([]);
     this.service.weekly(true).subscribe(
       value => {
-      
+
         this.setProperties(value)
         this.spinner.hide();
         this.translate.get('Weekly listings updated').subscribe((res: string) => {
@@ -140,17 +150,17 @@ export class WeekComponent implements OnInit, AfterViewInit {
         });
       });
   }
-  ngAfterViewInit(){
-    
+  ngAfterViewInit() {
+
     setTimeout(() => {
       this.viewport.scrollToIndex(this.service.getScrollPosition());
-  });
-  
-   
+    });
+
+
   }
- 
-  scrolledTo(ev){
-    if(ev!=0){
+
+  scrolledTo(ev) {
+    if (ev != 0) {
       this.service.setScrollPosition(ev);
 
     }

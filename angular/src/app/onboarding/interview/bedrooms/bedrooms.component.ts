@@ -57,7 +57,10 @@ export class BedroomsComponent implements OnInit {
 
     // subscription on main click
     this.subscription = this.messageService.getMessage().subscribe(message => {
-      this.save()
+
+      if(message.text ==='clack'){
+        this.save();
+      }
     });
 
 
@@ -106,6 +109,7 @@ export class BedroomsComponent implements OnInit {
 
   save() {
     if (this.hasChanged) {
+      console.log("bed save");
       this.spinner.show();
       this.service.dailyReset();
       this.service.weeklyReset();

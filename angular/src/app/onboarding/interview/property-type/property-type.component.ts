@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { PropertiesService } from 'app/properties.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from 'app/user.service';
+import { MessageService } from 'app/message.service';
 
 @Component({
   selector: 'app-property-type',
@@ -20,7 +21,7 @@ export class PropertyTypeComponent implements OnInit {
 
 
   constructor(private spinner: NgxSpinnerService, private router: Router, private location: Location, private service: PropertiesService,
-    private userService: UserService) {
+    private userService: UserService, private messageService: MessageService) {
     this.hasChanged = false;
     this.spinner.show();
     service.getUserPreferences().subscribe(val => {
@@ -45,8 +46,32 @@ export class PropertyTypeComponent implements OnInit {
       }
 
       this.spinner.hide();
+
+      this.messageService.getMessage().subscribe(message => {
+
+        if(message.text ==='clack'){
+          this.save();
+        }
+      });
+
     })
   }
+
+  save(){
+    if (this.hasChanged) {
+      const selectedPropertyTypes = { detached: 0, semi: 0, townhouse: 0, condo: 0 };
+      this.selectedOptions.forEach(selected => {
+        selectedPropertyTypes[selected.toLowerCase()] = 1;
+      })
+      this.service.savePropertyType(selectedPropertyTypes).then(() => {
+        this.service.dailyReset();
+        this.service.weeklyReset();
+      })
+    } 
+
+
+  }
+
   next() {
     if (this.hasChanged) {
       const selectedPropertyTypes = { detached: 0, semi: 0, townhouse: 0, condo: 0 };

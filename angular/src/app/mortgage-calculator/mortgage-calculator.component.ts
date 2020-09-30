@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class MortgageCalculatorComponent implements OnInit {
   @Input() asking;
-  rate = 3.79;
+  rate = 2.05;
   @Input() downpayment;
   @Input() maintenance = -1;
 

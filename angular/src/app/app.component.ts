@@ -82,7 +82,6 @@ export class AppComponent implements OnInit {
     this.router.navigate(['./nearby']);
   }
   research = function () {
-
     this.router.navigate(['/research']);
   }
 
@@ -91,6 +90,7 @@ export class AppComponent implements OnInit {
     this.service.clearCachedProperties();
     this.router.navigate(['./week']);
   };
+
   showToday = function () {
     this.service.setScrollPosition(0);
     this.service.clearCachedProperties();
@@ -268,10 +268,12 @@ export class AppComponent implements OnInit {
         
         
         if (msg.key){
-          if (msg.key =="feedUpdated"){
+          if (msg.key =="feedUpdated"){ 
           this.showWeek();
+          this.messageService.sendMessage('update');
           } 
           else if (msg.key =="favouritesUpdated"){
+           
             this.showFavorites();
           } 
           else if (msg.key =="showNearby"){
@@ -281,11 +283,14 @@ export class AppComponent implements OnInit {
             this.showFavorites();
           }
         }else {
-          this.showFavorites()
+            this.showFavorites();
         }
           
       }))
-      firebase.onBackgroundMessage(msg => this.zone.run(() => this.showFavorites()))
+      firebase.onBackgroundMessage(msg => this.zone.run(() => { 
+        this.showFavorites();
+      }))
+      
     });
 
     this.dvs.networkOffline.subscribe(netw => this.networkFail = true)
