@@ -180,6 +180,13 @@ export class AppComponent implements OnInit {
       this.dvs.setLanguage(navigator.language);
     }
 
+    this.dvs.resume.subscribe(resume => {
+
+      this.zone.run(() => {
+        this.showNearby();
+     });
+  
+    })
     this.dvs.googlePlus.subscribe(gPlus => console.log('GPLUS', gPlus));
 
     this.dvs.globalization.subscribe(glob => {
@@ -265,32 +272,36 @@ export class AppComponent implements OnInit {
 
       firebase.onMessageReceived(msg => this.zone.run(() => {
 
-        
-        
-        if (msg.key){
-          if (msg.key =="feedUpdated"){ 
-          this.showWeek();
-          this.messageService.sendMessage('update');
-          } 
-          else if (msg.key =="favouritesUpdated"){
-           
-            this.showFavorites();
-          } 
-          else if (msg.key =="showNearby"){
-            this.showNearby();
-          } 
-          else{
-            this.showFavorites();
+
+
+        if (msg.key) {
+          if (msg.key == "feedUpdated") {
+            this.showWeek();
+            this.messageService.sendMessage('update');
           }
-        }else {
+          else if (msg.key == "favouritesUpdated") {
             this.showFavorites();
+            this.messageService.sendMessage('update');
+
+          }
+          else if (msg.key == "showNearby") {
+            this.showNearby();
+
+          }
+          else {
+            this.showFavorites();
+            this.messageService.sendMessage('update');
+          }
+        } else {
+          this.showFavorites();
+          this.messageService.sendMessage('update');
         }
-          
+
       }))
-      firebase.onBackgroundMessage(msg => this.zone.run(() => { 
-        this.showFavorites();
+      firebase.onBackgroundMessage(msg => this.zone.run(() => {
+        this.messageService.sendMessage('update');
       }))
-      
+
     });
 
     this.dvs.networkOffline.subscribe(netw => this.networkFail = true)

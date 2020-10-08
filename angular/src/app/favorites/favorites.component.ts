@@ -7,6 +7,7 @@ import { UserService } from 'app/user.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
+import { MessageService } from 'app/message.service';
 
 
 @Component({
@@ -26,8 +27,21 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
   @ViewChild(CdkVirtualScrollViewport, { static: false }) viewport: CdkVirtualScrollViewport;
 
   constructor(private router: Router, private service: PropertiesService, private spinner: NgxSpinnerService,
-    private userService: UserService) {
+    private userService: UserService, private messageService: MessageService) {
 
+    this.refresh();
+
+    this.messageService.getMessage().subscribe(message => {
+
+      if (message.text === 'update') {
+        this.refresh();
+      }
+
+    });
+
+  }
+
+  refresh() {
     this.service.getUserPreferences().subscribe(
       val => {
         this.spinner.show();
@@ -47,7 +61,6 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
           }, err => { this.spinner.hide(); this.router.navigate(['ohoh']) });
       }
     );
-
 
   }
 

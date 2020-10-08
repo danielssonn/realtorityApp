@@ -25,6 +25,7 @@ export class DeviceService {
   language: String;
   appRate: any;
   getAppRate: Observable<any>
+  resume: Observable<any>
 
 
   constructor(private cds: CordovaService) {
@@ -46,6 +47,7 @@ export class DeviceService {
 
     this.globalization = this.cds.deviceReady.map(() => navigator)
 
+    this.resume = this.cds.deviceResume.map(() => device );
 
 
   }
