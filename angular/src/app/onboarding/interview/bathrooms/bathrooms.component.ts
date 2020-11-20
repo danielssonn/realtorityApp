@@ -20,6 +20,7 @@ export class BathroomsComponent implements OnInit {
   nextDisabled = true;
   subscription: Subscription;
 
+
   constructor(private router: Router, private location: Location, private service: PropertiesService, private spinner: NgxSpinnerService,
     private userService: UserService, private messageService: MessageService) {
     this.hasChanged = false;
@@ -108,5 +109,10 @@ export class BathroomsComponent implements OnInit {
 
   ngOnInit() {
   }
+  
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
+
 
 }

@@ -24,10 +24,11 @@
 
 <br>
 
-<div  fxLayout="row" fxLayoutAlign="center center">
+<div  fxLayout="row" fxLayoutAlign="center center" > 
       <img [src]="'assets/listingsnearby.png'"  (click)="findNearby()"  style="width: 250px; height: 250px;"
       [@balloonEffectTrigger]="currentState" (@balloonEffectTrigger.done)="onEnd($event)" >
 </div>
+
 <div fxLayout="row" fxLayoutAlign="end center" style="padding-right: 10px;"> 
 
   <a href="/trails" >
@@ -91,8 +92,8 @@
 
     <div *ngIf="property[0]">
       <div *ngIf="property[0].sp_dol">
-        <img [src]="imageSold()" (error)="imageError($event)"
-          [ngClass]="{'centered-and-cropped':property[0].star!='Y','centered-and-cropped-liked':property[0].star=='Y','centered-and-cropped-disliked':property[0].star=='D'}"
+        <img [src]="imageSold(property[0].added)" (error)="imageError($event)"
+          [ngClass]="{'opacity1':getAge(property[0].added)<='6','opacity2':getAge(property[0].added)>'6'&&getAge(property[0].added)<='18', 'opacity3': getAge(property[0].added)>18}"
           width="110" height="110" (click)="showDetail(property[0])">
         <h6
           style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
@@ -105,9 +106,9 @@
     <div  *ngIf="property[1]">
 
       <div *ngIf="property[1].sp_dol">
-        <img [src]="imageSold()" (error)="imageError($event)"
-          [ngClass]="{'centered-and-cropped':property[1].star!='Y','centered-and-cropped-liked':property[1].star=='Y','centered-and-cropped-disliked':property[1].star=='D'}"
-          width="110" height="110" (click)="showDetail(property[1])">
+        <img [src]="imageSold(property[1].added)" (error)="imageError($event)"
+        [ngClass]="{'opacity1':getAge(property[1].added)<='6','opacity2':getAge(property[1].added)>'6'&&getAge(property[0].added)<='18', 'opacity3': getAge(property[1].added)>18}"
+        width="110" height="110" (click)="showDetail(property[1])">
         <h6
           style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
           {{property[1].sp_dol|shortCurrency}} <br>
@@ -117,12 +118,12 @@
 
 
     </div>
-    <div  *ngIf="property[2]">
+    <div *ngIf="property[2]">
 
       <div *ngIf="property[2].sp_dol">
-        <img [src]="imageSold()" (error)="imageError($event)"
-          [ngClass]="{'centered-and-cropped':property[2].star!='Y','centered-and-cropped-liked':property[2].star=='Y','centered-and-cropped-disliked':property[2].star=='D'}"
-          width="110" height="110" (click)="showDetail(property[2])">
+        <img [src]="imageSold(property[2].added)" (error)="imageError($event)"
+        [ngClass]="{'opacity1':getAge(property[2].added)<='6','opacity2':getAge(property[2].added)>'6'&&getAge(property[0].added)<='18', 'opacity3': getAge(property[2].added)>18}"
+        width="110" height="110" (click)="showDetail(property[2])">
         <h6
           style="position:relative; bottom: 25px; text-align: center; color:white; background-color: rgba(42, 48, 48, 0.65)">
           {{property[2].sp_dol|shortCurrency}} <br>

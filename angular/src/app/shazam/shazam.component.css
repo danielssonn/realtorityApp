@@ -25,6 +25,18 @@
  
  
 }
+.opacity1{
+  opacity:1;
+}
+.opacity2{
+  opacity:0.7;
+}
+.opacity3{
+  opacity:0.4;
+}
+
+
+
 
 .inlineDiv{
     padding: 2px; 

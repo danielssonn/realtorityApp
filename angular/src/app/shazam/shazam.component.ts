@@ -8,6 +8,8 @@ import { timestamp, switchMap } from 'rxjs/operators';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { HowToComponent } from './how-to/how-to.component';
 import { IfStmt, analyzeAndValidateNgModules } from '@angular/compiler';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-shazam',
@@ -98,6 +100,7 @@ export class ShazamComponent implements OnInit, AfterViewInit {
   }
 
   onEnd(event) {
+
     if (this.currentState) {
       this.currentState = this.currentState === 'initial' ? 'final' : 'initial';
     }
@@ -106,7 +109,7 @@ export class ShazamComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-
+    
     this.currentState = 'initial';
 
     this.route.params.subscribe(params => {
@@ -139,7 +142,7 @@ export class ShazamComponent implements OnInit, AfterViewInit {
   }
 
   geoSuccess = (position) => {
-    
+    console.log(position)
     this.hasResults = false;
     this.accuracy = position.coords.accuracy;
     this.heading = position.coords.heading;
@@ -168,10 +171,11 @@ export class ShazamComponent implements OnInit, AfterViewInit {
           this.validateZip();
           this.address.zip = this.zip;
 
-          this.address.stNum = parseInt(alt.shortAddress.substring(0, alt.shortAddress.indexOf(' ')));
-
+          // this.address.stNum = parseInt(alt.shortAddress.substring(0, alt.shortAddress.indexOf(' ')));
+          this.setStreetNumber(alt);
           this.getStreetNumberRange(this.address.stNum);
           this.selectedStreet = alt;
+          
           this.alternateStreet.push(alt.street);
         }
 
@@ -239,21 +243,40 @@ export class ShazamComponent implements OnInit, AfterViewInit {
     this.hasResults = false;
     this.sales = [];
     console.log('selected', this.selectedStreet)
-    this.address.stNum = this.selectedStreet.shortAddress.substring(0, this.selectedStreet.shortAddress.indexOf(' ')) * 1
+
+    this.setStreetNumber(this.selectedStreet);
     console.log(this.address.stNum)
     this.getStreetNumberRange(this.address.stNum);
     this.streetNumberChange(1);
 
   }
 
+  setStreetNumber(selectedStreet){
+    let stNum = selectedStreet.shortAddress.substring(0, selectedStreet.shortAddress.indexOf(' '));
 
+    if(isNaN(stNum)){
+      // let's see if 1b would work with 1
+      stNum = String(stNum).substring(0, stNum.length -1);
+    }
+
+
+    this.address.stNum = stNum *1;
+  }
 
   getStreetNumberRange(streetRangeFrom) {
-
+    
+    console.log("b cutoff ", streetRangeFrom)
     this.streetNumberRange = [];
 
+
+
     if(isNaN(streetRangeFrom)){
-      return;
+      // let's see if 1b would work with 1
+      streetRangeFrom = String(streetRangeFrom).substring(0, streetRangeFrom.length -1);
+      console.log("cutoff ", streetRangeFrom)
+      if( isNaN(streetRangeFrom) ){
+        return;
+      } 
     }
 
     var max;
@@ -394,8 +417,13 @@ export class ShazamComponent implements OnInit, AfterViewInit {
     $event.target.src = 'assets/coming.png';
   }
 
-  imageSold() {
+  imageSold(when) {
     return '/assets/sold.png';
+  }
+
+  getAge(when){
+    
+    return moment().diff(when, 'months',false);
   }
 
   showDetail(property) {

@@ -225,4 +225,9 @@ export class PriceComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
+
+
 }

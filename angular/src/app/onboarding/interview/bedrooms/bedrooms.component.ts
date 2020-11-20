@@ -106,6 +106,11 @@ export class BedroomsComponent implements OnInit {
 
   ngOnInit() {
   }
+  
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
+
 
   save() {
     if (this.hasChanged) {

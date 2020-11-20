@@ -112,9 +112,13 @@ export class LocationsComponent implements OnInit {
 
   ngOnInit() {
     this.allSaved=1;
-
    
   }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
+
   
   addLocation() {
     this.spinner.show();

@@ -9,6 +9,8 @@ import { UserService } from 'app/user.service';
 import { MatSnackBar } from '@angular/material';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { MessageService } from 'app/message.service';
+import { Subscription } from 'rxjs';
+import { ThrowStmt } from '@angular/compiler';
 
 
 
@@ -36,6 +38,7 @@ export class WeekComponent implements OnInit, AfterViewInit {
   isAuth;
   properties: any;
   calendar = [];
+  private subscription: Subscription;
 
   @ViewChild(CdkVirtualScrollViewport, { static: false }) viewport: CdkVirtualScrollViewport;
 
@@ -52,10 +55,13 @@ export class WeekComponent implements OnInit, AfterViewInit {
     private translate: TranslateService, private userService: UserService, public snackBar: MatSnackBar, private messageService: MessageService) {
     this.isAuth = this.userService.isAuthenticated();
     this.service.getUserPreferences().subscribe();
+    
+    console.log('feed component constructed');
+    this.subscription = this.messageService.getMessage().subscribe(message => {
+      if(message.text ==='updateFeed'){
+        console.log('update feed received!')
+        console.log(message);
 
-    this.messageService.getMessage().subscribe(message => {
-
-      if(message.text ==='update'){
         this.refresh();
       }
 
@@ -132,7 +138,17 @@ export class WeekComponent implements OnInit, AfterViewInit {
       value => {
         this.setProperties(value);
         this.spinner.hide();
+        this.translate.get('Weekly listings updated').subscribe((res: string) => {
+          this.snackBar.open(res, '', {
+            duration: 2000,
+          });
+        });
       }, err => { this.spinner.hide(); this.router.navigate(['ohoh']) });
+  }
+
+  ngOnDestroy(){
+    console.log('week  destroy');
+    this.subscription.unsubscribe();
   }
 
   refresh() {
@@ -150,6 +166,8 @@ export class WeekComponent implements OnInit, AfterViewInit {
         });
       });
   }
+
+  
   ngAfterViewInit() {
 
     setTimeout(() => {

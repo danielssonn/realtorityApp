@@ -5,7 +5,7 @@
 
   <div>
     
-    <mat-card *ngIf="property.internet1!='N'&&property.internet2!='N'"
+    <mat-card 
       [ngClass]="{'propertyCard':!property.star,'read':property.star}" (click)="showDetail(property)"
      (swipe)="onSwipe($event)">
 

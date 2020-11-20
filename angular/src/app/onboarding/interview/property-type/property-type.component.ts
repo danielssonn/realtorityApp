@@ -5,6 +5,7 @@ import { PropertiesService } from 'app/properties.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from 'app/user.service';
 import { MessageService } from 'app/message.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-property-type',
@@ -18,6 +19,7 @@ export class PropertyTypeComponent implements OnInit {
   selectedOptions: any;
   hasChanged: boolean;
   nextDisabled = true;
+  subscription: Subscription;
 
 
   constructor(private spinner: NgxSpinnerService, private router: Router, private location: Location, private service: PropertiesService,
@@ -47,7 +49,7 @@ export class PropertyTypeComponent implements OnInit {
 
       this.spinner.hide();
 
-      this.messageService.getMessage().subscribe(message => {
+      this.subscription = this.messageService.getMessage().subscribe(message => {
 
         if(message.text ==='clack'){
           this.save();
@@ -124,5 +126,10 @@ export class PropertyTypeComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
+
 
 }

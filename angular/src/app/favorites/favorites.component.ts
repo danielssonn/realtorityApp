@@ -8,6 +8,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { FormControl } from '@angular/forms';
 import { startWith, map } from 'rxjs/operators';
 import { MessageService } from 'app/message.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -21,6 +22,8 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
   filteredFavorites: any;
   filterControl = new FormControl();
   favFilter: String;
+  private subscription: Subscription;
+
 
 
 
@@ -28,12 +31,13 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
 
   constructor(private router: Router, private service: PropertiesService, private spinner: NgxSpinnerService,
     private userService: UserService, private messageService: MessageService) {
-
+      console.log('favourites component constructed');
     this.refresh();
 
-    this.messageService.getMessage().subscribe(message => {
+    this.subscription = this.messageService.getMessage().subscribe(message => {
 
-      if (message.text === 'update') {
+      if (message.text === 'updateFavs') {
+        console.log('updateFavs received')
         this.refresh();
       }
 
@@ -42,9 +46,13 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
   }
 
   refresh() {
+
+    this.filteredFavorites = [];
+    this.spinner.show();
     this.service.getUserPreferences().subscribe(
       val => {
-        this.spinner.show();
+
+        this.service.clearCachedProperties();
         this.service.favorites().then(
           value => {
 
@@ -69,13 +77,22 @@ export class FavoritesComponent implements OnInit, AfterViewInit {
   };
   ngOnInit() {
 
-
   }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
+
 
   private _filterFavorites(value: string): string[] {
     console.log('filtering')
     const filterValue = value.toLowerCase();
-    return this.favorites.filter(option => option.addr.toLowerCase().includes(filterValue));
+    return this.favorites.filter(option => {
+        if(option.addr =="170 Jozo Weider Blvd"){
+          console.log('Jozo!')
+        }
+       return option.addr.toLowerCase().includes(filterValue)
+      });
   }
 
   ngAfterViewInit() {

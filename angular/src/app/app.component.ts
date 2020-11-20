@@ -57,6 +57,7 @@ export class AppComponent implements OnInit {
   onBehalf: any;
   clientManagerSubscription: Subscription;
   isSalesPerson: any;
+  notiCancel: boolean;
 
 
   clack() {
@@ -182,10 +183,25 @@ export class AppComponent implements OnInit {
 
     this.dvs.resume.subscribe(resume => {
 
+
       this.zone.run(() => {
-        this.showNearby();
-     });
-  
+        if (!this.notiCancel) {
+          console.log('resumed ....' ,  this.router.url)
+
+
+          if(this.router.url === "/week"){
+            console.log('resumed on Feed!')
+            this.messageService.sendMessage('updateFeed');
+          }
+          if(this.router.url === "/favorites"){
+            console.log('resumed on Favs!')
+            this.messageService.sendMessage('updateFavs');
+          }
+        }
+        this.notiCancel = false;
+
+      });
+
     })
     this.dvs.googlePlus.subscribe(gPlus => console.log('GPLUS', gPlus));
 
@@ -272,34 +288,46 @@ export class AppComponent implements OnInit {
 
       firebase.onMessageReceived(msg => this.zone.run(() => {
 
+        this.notiCancel = true;
 
 
         if (msg.key) {
           if (msg.key == "feedUpdated") {
             this.showWeek();
-            this.messageService.sendMessage('update');
+            this.messageService.sendMessage('updateFeed');
+            this.userService.audit('feedUpdateNotificationOpen').subscribe();
+
           }
           else if (msg.key == "favouritesUpdated") {
             this.showFavorites();
-            this.messageService.sendMessage('update');
+            this.messageService.sendMessage('updateFavs');
+            this.userService.audit('favouritesUpdateNotificationOpen').subscribe();
 
           }
           else if (msg.key == "showNearby") {
             this.showNearby();
+            this.userService.audit("showNearbyNotificationOpen").subscribe();
 
+          }
+          else if (msg.key == "marketingNotification") {
+            this.showWeek();
+            this.messageService.sendMessage('updateFeed');
+            this.userService.audit("marketingNotificationOpen").subscribe();
           }
           else {
             this.showFavorites();
-            this.messageService.sendMessage('update');
+            this.messageService.sendMessage('updateFavs');
           }
         } else {
           this.showFavorites();
-          this.messageService.sendMessage('update');
+          this.messageService.sendMessage('updateFavs');
         }
 
       }))
       firebase.onBackgroundMessage(msg => this.zone.run(() => {
-        this.messageService.sendMessage('update');
+        console.log('bg msg')
+        this.messageService.sendMessage('updateFeed');
+        this.messageService.sendMessage('updateFavs');
       }))
 
     });

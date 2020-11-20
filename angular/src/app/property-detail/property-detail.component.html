@@ -71,6 +71,9 @@
 
       <mat-card-title>{{property.cross_st}}</mat-card-title>
       <mat-card-title>{{"Listing Price"|translate}}: {{property.lp_dol|currency:'':'symbol':'4.0-0'}}</mat-card-title>
+      <mat-card-title *ngIf="property.new_price1 && property.new_price1!=property.lp_dol"> {{"New Price"|translate}} {{property.new_price1|currency:'':'symbol':'4.0-0'}} </mat-card-title>
+      <mat-card-title *ngIf="property.new_price2 && property.new_price2!=property.lp_dol"> {{"New Price"|translate}} {{property.new_price2|currency:'':'symbol':'4.0-0'}} </mat-card-title>
+
       <mat-card-title *ngIf="property.added">Since:  {{property.added|date}}</mat-card-title>
 
       <mat-card-title>{{property.type_own1_out|translate}}</mat-card-title>
