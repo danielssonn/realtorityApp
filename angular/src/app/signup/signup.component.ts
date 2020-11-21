@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'app/user.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { MatSnackBarModule, MatSnackBar } from '@angular/material';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-signup',

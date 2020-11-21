@@ -3,13 +3,13 @@ import { mergeMap, map, filter } from 'rxjs/operators';
 import { Component, ViewChild, NgZone, OnInit, ViewChildren, QueryList, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { MatSidenavModule, MatSidenav } from '@angular/material';
+import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
 import { Location } from '@angular/common';
 
 
 
 import { UserService } from './user.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 
 import { PropertiesService } from './properties.service';

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SocialLinksDataSource } from './engagement-channel.datasource';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MatPaginator } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
 import { EngagementService } from '../engage.service';
 
 @Component({

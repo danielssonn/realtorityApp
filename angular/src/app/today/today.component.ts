@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from 'app/user.service';
 import * as moment from 'moment';
 import { TranslateService } from '@ngx-translate/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 

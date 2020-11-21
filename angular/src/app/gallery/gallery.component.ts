@@ -1,5 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig, TooltipPosition, throwMatDialogContentAlreadyAttachedError, ThemePalette } from '@angular/material';
+import { MatDialog, MatDialogConfig, throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog';
+import { TooltipPosition } from '@angular/material/tooltip';
+
 import { PropertiesService } from 'app/properties.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -10,6 +12,7 @@ import { TooltipFormatter } from 'app/onboarding/interview/price/price.component
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import {MatAccordion} from '@angular/material/expansion';
+import { ThemePalette } from '@angular/material/core';
 
 
 

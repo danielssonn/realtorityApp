@@ -1,21 +1,24 @@
 {
   "configVersion": 1,
-  "timestamp": 1605373858776,
+  "timestamp": 1605968597933,
   "index": "./index.html",
   "assetGroups": [
     {
       "name": "app",
       "installMode": "prefetch",
       "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
       "urls": [
         "./favicon.ico",
         "./index.html",
-        "./main.3cdcd4e44dbb1c506bff.js",
-        "./polyfills-es5.409daa48a8f285773a0a.js",
-        "./polyfills.344bfcf86068c38d99eb.js",
-        "./runtime.458556a34b891ea32398.js",
-        "./scripts.0b2953ef6f6d0b541531.js",
-        "./styles.dd5c043ad76b0b211e00.css"
+        "./main.516ef30df14899a209ba.js",
+        "./polyfills-es5.08256f2aefdf2901c96c.js",
+        "./polyfills.9fffd3fd2dcde94a972c.js",
+        "./runtime.359d5ee4682f20e936e9.js",
+        "./scripts.c397a902683ec5c07019.js",
+        "./styles.5fc9540e0fd02f565e51.css"
       ],
       "patterns": []
     },
@@ -23,6 +26,9 @@
       "name": "assets",
       "installMode": "lazy",
       "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
       "urls": [
         "./assets/A.png",
         "./assets/App Icons.ai",
@@ -379,13 +385,13 @@
     "./assets/weekly-preview.png": "9b6bff10cdd55f8168ee0264859847997c683528",
     "./assets/whylike.png": "557bc9ffc5ed9e7942cc51c4488767152d6dc3f1",
     "./favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "./index.html": "80d35c707a6c99173d28bf97783f403dc16de1ba",
-    "./main.3cdcd4e44dbb1c506bff.js": "9df6e2c5f7add749a3b713afc2025457836e636f",
-    "./polyfills-es5.409daa48a8f285773a0a.js": "8faf7c57851a1c1d1ff9226bb32bc0688ac1521f",
-    "./polyfills.344bfcf86068c38d99eb.js": "0003f56a7537092675bc5cc25f4f7301ae868cd9",
-    "./runtime.458556a34b891ea32398.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
-    "./scripts.0b2953ef6f6d0b541531.js": "d5361db4923d71c0e57b48fca5fbca1dd8dfcd56",
-    "./styles.dd5c043ad76b0b211e00.css": "cec63aa9b2034b4c441441774893757783358257"
+    "./index.html": "1fc46cd3825216f701cd5aaa6b3a041ecae81c62",
+    "./main.516ef30df14899a209ba.js": "19704ef93d92678c52ef913cc19ed534c0ef31c7",
+    "./polyfills-es5.08256f2aefdf2901c96c.js": "766be15b4608585f4a713b80dd2d1a5c6e68d04b",
+    "./polyfills.9fffd3fd2dcde94a972c.js": "ed7ed1c1dd696ff191040e5babdb6850d2f0aa1f",
+    "./runtime.359d5ee4682f20e936e9.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "./scripts.c397a902683ec5c07019.js": "7486ce7ab7ea15ca8a32f88a78cc7c8850123dd6",
+    "./styles.5fc9540e0fd02f565e51.css": "529d7ce1680abc609b689e41f28c55befd72ce46"
   },
   "navigationUrls": [
     {
@@ -404,5 +410,6 @@
       "positive": false,
       "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
     }
-  ]
+  ],
+  "navigationRequestStrategy": "performance"
 }

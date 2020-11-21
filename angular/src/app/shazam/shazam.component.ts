@@ -2,7 +2,7 @@ import { Component, OnInit, Optional, AfterViewInit } from '@angular/core';
 import { PropertiesService } from 'app/properties.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { MatDialogConfig, MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialogConfig, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PropertyDetailComponent } from 'app/property-detail/property-detail.component';
 import { timestamp, switchMap } from 'rxjs/operators';
 import { trigger, state, style, animate, transition } from '@angular/animations';

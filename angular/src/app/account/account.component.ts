@@ -10,7 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { SidenavService } from 'app/sidenav.service';
 import { ClientManagerSearchService } from 'app/client-manager/client-manager-search/client-manager-search.service';
-import { MatDialogConfig, MatDialog } from '@angular/material';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { CoverageComponent } from './coverage/coverage.component';
 import { WhySignonComponent } from './why-signon/why-signon.component';
 

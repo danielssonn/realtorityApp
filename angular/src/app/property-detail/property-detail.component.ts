@@ -8,7 +8,9 @@ import { PropertiesService } from '../properties.service';
 import { UserService } from 'app/user.service';
 import * as moment from 'moment';
 import { TranslateService } from '@ngx-translate/core';
-import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 import { DeviceService } from 'app/device.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ControlPosition } from '@agm/core'
@@ -448,6 +450,8 @@ export class PropertyDetailComponent implements OnInit {
     }
 
     onSwipe(evt) {
+
+        console.log('swipperz')
 
         if (this.dialogRef) {
             this.dialogRef.close();

@@ -5,7 +5,6 @@ import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DOCUMENT, CurrencyPipe, LOCATION_INITIALIZED } from '@angular/common';
-
 import { Injector, APP_INITIALIZER } from '@angular/core';
 
 import {TranslateModule, TranslateLoader, TranslateService} from '@ngx-translate/core';
@@ -24,24 +23,44 @@ import { MyHttpInterceptor } from './my-http-interceptor';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule, Routes, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
-import { GestureConfig } from '@angular/material';
-import * as Hammer from 'hammerjs';
+import { HammerModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+declare var Hammer;
+import { MatButtonModule} from '@angular/material/button';
+import { MatDialogModule} from '@angular/material/dialog';
+import { MatSelectModule} from '@angular/material/select';
+import { MatTableModule} from '@angular/material/table';
+import { MatPaginatorModule} from '@angular/material/paginator';
+import { MatSortModule} from '@angular/material/sort';
+import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatExpansionModule} from '@angular/material/expansion';
 
-import { MatButtonModule, MatDialogModule, MatSelectModule, MatTableModule, MatPaginatorModule, MatSortModule, MatProgressSpinnerModule, MatExpansionModule,} from '@angular/material';
+
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/_dev/packages/core';
 // import {AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/dummy/packages/core';
 import { AgmJsMarkerClustererModule } from '@agm/_dev/packages/js-marker-clusterer';
 import { CoolStorageModule } from '@angular-cool/storage';
 
 
-import { MatListModule } from '@angular/material';
-import { MatMenuModule } from '@angular/material';
-import { MatDatepickerModule } from '@angular/material';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 
-// tslint:disable-next-line:max-line-length
-import { MatButtonToggleModule, MatSnackBarModule, MatAutocompleteModule, MatSliderModule, MatSlideToggleModule, MatCardModule, MatIconModule, MatCheckboxModule, MatRadioModule, MatTooltipModule } from '@angular/material';
+
+import { MatButtonToggleModule} from '@angular/material/button-toggle';
+
+import { MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatSliderModule} from '@angular/material/slider';
+import { MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatCardModule} from '@angular/material/card';
+import { MatIconModule} from '@angular/material/icon';
+import { MatCheckboxModule} from '@angular/material/checkbox';
+import { MatRadioModule} from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+
+
 import { MatInputModule } from '@angular/material/input';
 import { MatRippleModule, MatNativeDateModule } from '@angular/material/core';
 
@@ -49,7 +68,6 @@ import { MatRippleModule, MatNativeDateModule } from '@angular/material/core';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 
 import { AppComponent } from './app.component';
-import 'hammerjs';
 import { InterviewComponent } from './onboarding/interview/interview.component';
 import { LocationComponent } from './onboarding/interview/location/location.component';
 import { PriceComponent } from './onboarding/interview/price/price.component';
@@ -144,10 +162,15 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
 
 
 export class MyHammerConfig extends HammerGestureConfig {
+  
   buildHammer(element: HTMLElement) {
-    const mc = new Hammer(element, {
-      touchAction: 'pan-y'
-    });
+    const mc = new (<any>window).Hammer(element);
+
+    for (const eventName in this.overrides) {
+      if (eventName) {
+        mc.get(eventName).set(this.overrides[eventName]);
+      }
+    }
 
     return mc;
   }
@@ -390,6 +413,7 @@ export function createTranslateLoader(http: HttpClient) {
 
     }),
     CoolStorageModule,
+    HammerModule,
     MatSliderModule,
     MatSelectModule,
     MatRadioModule,

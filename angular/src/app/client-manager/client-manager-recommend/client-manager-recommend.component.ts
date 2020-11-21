@@ -1,10 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, Inject, Optional } from '@angular/core';
 import { ClientRecommendationService } from './client-recommendation.service';
 import { ClientRecommendationDataSource } from './client-recommendation-datasource';
-import { MatPaginator, MatSort, MatSnackBar } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+
 import { fromEvent, merge, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
-import { MatDialog, MatDialogConfig } from "@angular/material";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { PropertyDetailComponent } from 'app/property-detail/property-detail.component';
 
 import { ClientManagerSearchService } from '../client-manager-search/client-manager-search.service';

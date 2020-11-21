@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AgmCoreModule } from '@agm/_dev/packages/core';
 import { PropertiesService } from '../properties.service';
-import { MatSidenavModule } from '@angular/material';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { SidenavService } from 'app/sidenav.service';
 import { Location } from '@angular/common';
 

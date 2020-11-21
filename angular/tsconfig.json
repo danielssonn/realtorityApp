@@ -64,7 +64,8 @@
     "../node_modules/@agm/_dev/packages/core/directives/rectangle.ts",
     "../node_modules/@agm/_dev/packages/core/services/fit-bounds.ts",
     "../node_modules/@agm/_dev/packages/core/services/managers/rectangle-manager.ts",
-    "../node_modules/@agm/_dev/packages/core/map-types.ts"
+    "../node_modules/@agm/_dev/packages/core/map-types.ts",
+    "../node_modules/@agm/_dev/packages/js-marker-clusterer/services/google-clusterer-types.ts"
   
   ]
 }

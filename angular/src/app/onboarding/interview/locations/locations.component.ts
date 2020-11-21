@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 
 import { NgxSpinnerService } from 'ngx-spinner';
 import { UserService } from 'app/user.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { SidenavService } from 'app/sidenav.service';
 import { MessageService } from 'app/message.service';

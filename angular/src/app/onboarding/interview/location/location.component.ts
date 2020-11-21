@@ -9,7 +9,7 @@ import { PropertiesService } from '../../../properties.service';
 import * as jsts from 'jsts/dist/jsts.js';
 import { LocationsComponent } from '../locations/locations.component';
 import { UserService } from 'app/user.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ValueTransformer } from '@angular/compiler/src/util';
 

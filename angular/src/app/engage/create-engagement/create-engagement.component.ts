@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { EngagementService } from '../engage.service';
 

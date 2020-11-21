@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { UserService } from 'app/user.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { MessageService } from 'app/message.service';
 import { Subscription } from 'rxjs';
@@ -129,7 +129,7 @@ export class WeekComponent implements OnInit, AfterViewInit {
 
     const datePipe = new DatePipe(this.translate.currentLang);
 
-    return datePipe.transform(moment(property.added), 'EEE d/M');
+    return datePipe.transform(property.added, 'EEE d/M');
   }
 
   ngOnInit() {

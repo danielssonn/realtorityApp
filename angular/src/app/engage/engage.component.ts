@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { EngageDataSource } from './engage.datasource';
 import { EngagementService } from './engage.service';
-import { MatDialog, MatPaginator } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+
 import { CreateEngagementComponent } from './create-engagement/create-engagement.component';
 import { SocialLinkComponent } from './engagement-channel/engagement-channel.component';
 import { EmailListComponent } from './email-list/email-list.component';
