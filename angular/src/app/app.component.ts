@@ -30,6 +30,9 @@ import { CoolLocalStorage } from '@angular-cool/storage';
 import { ConditionalExpr } from '@angular/compiler';
 import { MessageService } from './message.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { environment } from '../environments/environment';
+
+
 
 declare var device;
 declare var AppRate: any;
