@@ -64,6 +64,7 @@ export class UserService {
   }
 
   setUser(user){
+
     this.userSubject.next(user);
   }
 

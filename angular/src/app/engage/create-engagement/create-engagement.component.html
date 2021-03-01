@@ -1,51 +1,53 @@
 <mat-card>
- 
-<mat-card-title>
-Create Engagement
-</mat-card-title>
-<br>
-<mat-card-content>	
 
-<form (ngSubmit)='create()'  [formGroup]="engagementForm">
-
-  <mat-form-field>
-    <input placeholder="date"  matInput [matDatepicker]="myDatepicker" [formControl]="date">
-    <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
-    <mat-datepicker #myDatepicker></mat-datepicker>
-    <mat-hint align="end">Schedule the engagement ^</mat-hint>
- 
-  </mat-form-field>
-  
+  <mat-card-title>
+    Create Engagement
+  </mat-card-title>
   <br>
-  <mat-form-field class="full-width">
-    <input matInput placeholder="title" name='title' formControlName='title'>
-  </mat-form-field>
+  <mat-card-content>
 
-  <angular-editor formControlName="message" [config]="editorConfig"></angular-editor>
-  <br>
-  Channels:
-  <br>
-  <div fxLayout="column" fxLayoutAlign="center start" >
-    <mat-checkbox *ngFor="let channel of channels" [ngModelOptions]="{standalone: true}" [(ngModel)]="channel.checkedOrUnchecked">{{channel.comment}}</mat-checkbox>
-  </div>
+    <form (ngSubmit)='create()' [formGroup]="engagementForm">
+
+      <mat-form-field>
+        <input placeholder="date" matInput [matDatepicker]="myDatepicker" [formControl]="date">
+        <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #myDatepicker></mat-datepicker>
+        <mat-hint align="end">Schedule the engagement ^</mat-hint>
+
+      </mat-form-field>
+
+      <br>
+      <mat-form-field class="full-width">
+        <input matInput placeholder="title" name='title' formControlName='title'>
+      </mat-form-field>
+
+        <angular-editor formControlName="message" [config]="editorConfig"></angular-editor>
+      <br>
+      
+      Channels:
+      <br>
+      <div fxLayout="column" fxLayoutAlign="center start">
+        <mat-checkbox *ngFor="let channel of channels" [ngModelOptions]="{standalone: true}"
+          [(ngModel)]="channel.checkedOrUnchecked">{{channel.comment}}</mat-checkbox>
+      </div>
 
 
-  
-  <br>
-  <mat-form-field class="recurrence">
-  <mat-label>Recurence:</mat-label>
-    <mat-select  (selectionChange)="changeRecurrence($event)">
-      <mat-option *ngFor="let recurrence of recurrences" [value]="recurrence.id">
-        {{recurrence.title}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
 
-  <div fxLayout="row" fxLayoutAlign="start center">
-    <button mat-raised-button color="primary" type="submit"
-      [disabled]="!engagementForm.valid">{{"Create"|translate}}</button>
-  </div>
+      <br>
+      <mat-form-field class="recurrence">
+        <mat-label>Recurence:</mat-label>
+        <mat-select (selectionChange)="changeRecurrence($event)">
+          <mat-option *ngFor="let recurrence of recurrences" [value]="recurrence.id">
+            {{recurrence.title}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-</form>
-</mat-card-content>	
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <button mat-raised-button color="primary" type="submit"
+          [disabled]="!engagementForm.valid">{{"Create"|translate}}</button>
+      </div>
+
+    </form>
+  </mat-card-content>
 </mat-card>

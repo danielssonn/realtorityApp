@@ -14,7 +14,6 @@ import { EngagementService } from '../engage.service';
 export class CreateEngagementComponent implements OnInit {
 
   channels: any;
-  
 
   recurrences: any;
   selectedRecurrence: any;
@@ -95,18 +94,9 @@ export class CreateEngagementComponent implements OnInit {
       }
     )
 
-    // this.engagementForm = this.formBuilder.group({
-    //   date: [this.engagement.dataKey.date],
-    //   title: [this.engagement.dataKey.title],
-    //   message: [this.engagement.dataKey.message],
-    //   outcome: [this.engagement.dataKey.outcome],
-    //   type: [this.engagement.dataKey.type],
-    
 
 
 
-
-    // });
   }
 
   get f() { return this.engagementForm.controls; }
@@ -121,6 +111,7 @@ export class CreateEngagementComponent implements OnInit {
     let channels = [];
     this.channels.forEach(element => {
 
+     
       if(element.checkedOrUnchecked){
         channels.push({channelId:element.id})
       }

@@ -92,7 +92,7 @@
 
     <div *ngIf="property[0]">
       <div *ngIf="property[0].sp_dol">
-        <img [src]="imageSold(property[0].added)" (error)="imageError($event)"
+        <img [src]="imageSold(property[0].added)" (error)="imageTooOld($event)"
           [ngClass]="{'opacity1':getAge(property[0].added)<='6','opacity2':getAge(property[0].added)>'6'&&getAge(property[0].added)<='18', 'opacity3': getAge(property[0].added)>18}"
           width="110" height="110" (click)="showDetail(property[0])">
         <h6
@@ -106,7 +106,7 @@
     <div  *ngIf="property[1]">
 
       <div *ngIf="property[1].sp_dol">
-        <img [src]="imageSold(property[1].added)" (error)="imageError($event)"
+        <img [src]="imageSold(property[1].added)" (error)="imageTooOld($event)"
         [ngClass]="{'opacity1':getAge(property[1].added)<='6','opacity2':getAge(property[1].added)>'6'&&getAge(property[0].added)<='18', 'opacity3': getAge(property[1].added)>18}"
         width="110" height="110" (click)="showDetail(property[1])">
         <h6
@@ -121,7 +121,7 @@
     <div *ngIf="property[2]">
 
       <div *ngIf="property[2].sp_dol">
-        <img [src]="imageSold(property[2].added)" (error)="imageError($event)"
+        <img [src]="imageSold(property[2].added)" (error)="imageTooOld($event)"
         [ngClass]="{'opacity1':getAge(property[2].added)<='6','opacity2':getAge(property[2].added)>'6'&&getAge(property[0].added)<='18', 'opacity3': getAge(property[2].added)>18}"
         width="110" height="110" (click)="showDetail(property[2])">
         <h6

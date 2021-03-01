@@ -39,8 +39,9 @@ export class AccoutSimpleComponent implements OnInit {
     this.spinner.show();
     const user = { username: this.f.email.value, password: this.f.password.value };
     this.service.logon(user).subscribe(value => {
-
       if (value.userId) {
+        console.log('signing innn '+value.userId);
+
         this.session.setItem('user', true);
         this.session.setItem('userName', value.username);
         this.session.setItem('salesPersonId', value.salespersonId);

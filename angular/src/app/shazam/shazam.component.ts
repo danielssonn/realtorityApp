@@ -417,8 +417,13 @@ export class ShazamComponent implements OnInit, AfterViewInit {
     $event.target.src = 'assets/coming.png';
   }
 
-  imageSold(when) {
-    return '/assets/sold.png';
+  imageTooOld(ev){
+    ev.target.src = '/assets/sold.png';
+  }
+
+  imageSold(property) {
+
+    return 'https://s3.amazonaws.com/mlspicz/' + property.ml_num + '-1'
   }
 
   getAge(when){

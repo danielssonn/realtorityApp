@@ -553,6 +553,13 @@ export class PropertyDetailComponent implements OnInit {
             )
         }
     }
+    openVirtualTour(property){
+       
+        if(property.tour_url){
+            window.open(property.tour_url, '_system');
+        }
+        return false;
+    }
     sendSms(property, phoneNumber) {
        
         console.log('sending to', phoneNumber)
