@@ -194,10 +194,10 @@ export class PriceComponent implements OnInit {
     if (this.hasChanged) {
 
       this.save();
-      this.router.navigate(['./week'])
+      this.router.navigate(['./interview/keywords'])
 
     } else {
-      this.router.navigate(['./week'])
+      this.router.navigate(['./interview/keywords'])
     }
   }
 
@@ -215,6 +215,7 @@ export class PriceComponent implements OnInit {
   changed() {
     this.hasChanged = true;
   }
+
   previous() {
     if (this.hasChanged) {
       this.save();

@@ -1,16 +1,18 @@
-<div class="camera">
 
     <div fxLayout="row" fxLayoutAlign="space-between center">    
-            <mat-form-field class="mat-block" >
-                <input matInput matInput placeholder={{searchforlocation}} autocorrect="off" autocapitalize="off"
-                    spellcheck="off" type="text" #search [formControl]="searchControl">
-            </mat-form-field>
-      
-        <button [disabled]="!isAuth" style="color:grey" mat-button (click)="removeMap()">
-            <mat-icon>delete</mat-icon>
-        </button>
+        <mat-form-field class="mat-block" >
+            <input matInput matInput placeholder={{searchforlocation}} autocorrect="off" autocapitalize="off"
+                spellcheck="off" type="text" #search [formControl]="searchControl">
+        </mat-form-field>
+  
+    <button [disabled]="!isAuth" style="color:grey" mat-button (click)="removeMap()">
+        <mat-icon>delete</mat-icon>
+    </button>
 
-    </div>
+</div>
+<div class="camera">
+
+
     <agm-map [styles]="mapStyle" [gestureHandling]="'cooperative'" [zoomControl]="true" [streetViewControl]="false"
         [hidden]="!showMap" [minZoom]="minZoom" [maxZoom]="maxZoom" [(zoom)]="zoom" [latitude]="lat" [longitude]="lon"
         (mapReady)="mapReady($event)" (mapClick)="mapClicked($event)" [scrollwheel]="null"
@@ -78,4 +80,3 @@
 
 </div>
 
-<div id="scrollBottom"></div>

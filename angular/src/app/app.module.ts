@@ -110,6 +110,8 @@ import { ShowingDefaultsComponent } from './showing-defaults/showing-defaults.co
 import { HtmlSanitizerPipe } from './html-sanitizer-pipe.pipe';
 import { SchoolBoundsComponent } from './schools/schools.component';
 import { SchoolsComponent } from './onboarding/interview/schools/schools.component';
+import { KeywordsComponent } from './onboarding/interview/keywords/keywords.component';
+
 import { ClientManagerComponent } from './client-manager/client-manager.component';
 import { ClientManagerDetailsComponent } from './client-manager/client-manager-details/client-manager-details.component';
 import { ClientManagerRecommendComponent } from './client-manager/client-manager-recommend/client-manager-recommend.component';
@@ -190,6 +192,8 @@ export const routerConfig: Routes = [
       { path: 'type', component: PropertyTypeComponent, data: { title: 'Type' }, },
       { path: 'beds', component: BedroomsComponent, data: { title: 'Bedrooms' }, },
       { path: 'schools', component: SchoolsComponent, data: { title: 'Schools' }, },
+      { path: 'keywords', component: KeywordsComponent, data: { title: 'Keywords' }, },
+
 
       {
         path: 'baths', component: BathroomsComponent, data: { title: 'Bathrooms' },
@@ -396,7 +400,9 @@ export function createTranslateLoader(http: HttpClient) {
     ShazamComponent,
     HowToComponent,
     CoverageComponent,
-    WhySignonComponent
+    WhySignonComponent,
+    KeywordsComponent
+      
   
     
 

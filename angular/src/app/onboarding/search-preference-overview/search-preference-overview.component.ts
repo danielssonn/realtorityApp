@@ -101,10 +101,10 @@ export class SearchPreferenceOverviewComponent implements OnInit {
         if (val.bath3){
           this.baths = this.baths+'3'
         }
-        if (val.baths4){
+        if (val.bath4){
           this.baths = this.baths+'4'
         }
-        if (val.baths5){
+        if (val.bath5){
           this.baths = this.baths+'5+'
         }
       }

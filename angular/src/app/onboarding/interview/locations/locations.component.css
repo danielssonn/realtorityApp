@@ -2,8 +2,8 @@
     height: 90vh;
 }
 .fixPane{
-    min-height: -o-calc(100vh - 50px); /* opera */
-    min-height: -webkit-calc(100vh - 50px); /* google, safari */
-    min-height: -moz-calc(100vh - 50px); /* firefox */
+    min-height: -o-calc(100vh - 10px); /* opera */
+    min-height: -webkit-calc(100vh - 10px); /* google, safari */
+    min-height: -moz-calc(100vh - 10px); /* firefox */
    
 }

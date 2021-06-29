@@ -29,6 +29,7 @@ interface Community {
 export class PropertiesService {
 
 
+
   private propertiesUrlWeek;
   private developmentsUrl;
   private propertiesRadarUrl;
@@ -293,6 +294,12 @@ export class PropertiesService {
     })).subscribe();
   }
 
+  async saveKeywords(keyword1: any, keyword2: any, keyword3: any, keyword4: any){
+    return this.http.post(this.preferredProperty, {keyword1:keyword1, keyword2:keyword2, keyword3: keyword3, keyword4: keyword4}).pipe(map(response => {
+      this.userPreferences = false;
+      return response;
+    })).subscribe();  }
+
 
   weeklyReset() {
     this.weeklyProperties = null;
@@ -387,7 +394,7 @@ export class PropertiesService {
       return observableOf(this.propertiesOnRadar);
     } else {
 
-      this.options.params = { beds: 3, lotWidth: 20, schools: 1, maxPrice: 1700000, municipality: 'toronto', type: 'detached' };
+     console.log(params)
       this.options.params = params;
       let pSign;
       if (params.beds) {

@@ -27,10 +27,16 @@
       <button [disabled]="!isAuth" mat-button class="date" (click)="addWeek()"> {{"Previous Week"|translate}} {{service.getAddWeeks()}} -> </button>
    </div>
   </div>
-    <br>
+  <div fxLayout="row" fxLayoutAlign="center center" style="padding-top: 10px;">
+
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="address filter" aria-label="Street Filter" matInput [formControl]="filterControl"
+        [(ngModel)]="feedFilter">
+    </mat-form-field>
+  </div>
     <cdk-virtual-scroll-viewport class="example-viewport" itemSize="90" 
       (scrolledIndexChange)="scrolledTo($event)">
-      <ng-container *cdkVirtualFor="let property of properties">
+      <ng-container *cdkVirtualFor="let property of filteredFeed">
         <app-property-card [property]="property" [dayOfWeek]="displayDate(property)"></app-property-card>
       </ng-container>
     </cdk-virtual-scroll-viewport>

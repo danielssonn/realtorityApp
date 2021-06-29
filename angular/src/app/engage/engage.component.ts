@@ -11,6 +11,7 @@ import { tap } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 import { EngagementDetailsComponent } from './engagement-details/engagement-details.component';
 import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -25,11 +26,11 @@ export class EngageComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) engagementPaginator: MatPaginator;
 
 
-  displayedColumns = ['date', 'comment','title', 'message', 'recurrenceTitle','id'];
+  displayedColumns = ['date', 'comment', 'title', 'message', 'recurrenceTitle', 'id'];
 
 
 
-  constructor(private engageService: EngagementService, public dialog: MatDialog, private sanitize: DomSanitizer) {
+  constructor(private engageService: EngagementService, public dialog: MatDialog, private sanitize: DomSanitizer, private spinner: NgxSpinnerService) {
     this.dataSource = new EngageDataSource(this.engageService);
 
 
@@ -56,7 +57,7 @@ export class EngageComponent implements OnInit {
     const dialogSpec = {
       height: '90vh',
       width: '90vw',
-      
+
     };
 
     let dialogRef: any;
@@ -74,18 +75,23 @@ export class EngageComponent implements OnInit {
 
   }
 
-  removeEngagement(engagement){
+  removeEngagement(engagement) {
+    this.spinner.show();
     this.engageService.removeEngagement(engagement.id).subscribe(
-      val => this.dataSource.loadEngagements("", "")
+      val => {
+        this.dataSource.loadEngagements("", "")
+        this.spinner.hide();
+      }
+
     )
-  
+
   }
 
   socialLink() {
     const dialogSpec = {
       height: '90vh',
       width: '90vw',
-     
+
     };
 
     let dialogRef: any;
@@ -105,7 +111,7 @@ export class EngageComponent implements OnInit {
     const dialogSpec = {
       height: '90vh',
       width: '90vw',
-     
+
     };
 
     let dialogRef: any;
@@ -121,12 +127,12 @@ export class EngageComponent implements OnInit {
 
   }
 
-  showMessage(engagement){
+  showMessage(engagement) {
     const dialogSpec = {
       height: '90vh',
       width: '90vw',
       data: engagement
-     
+
     };
 
     let dialogRef: any;

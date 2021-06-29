@@ -11,6 +11,8 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { MessageService } from 'app/message.service';
 import { Subscription } from 'rxjs';
 import { ThrowStmt } from '@angular/compiler';
+import { FormControl } from '@angular/forms';
+import { map, startWith } from 'rxjs/operators';
 
 
 
@@ -38,6 +40,9 @@ export class WeekComponent implements OnInit, AfterViewInit {
   isAuth;
   properties: any;
   calendar = [];
+  filteredFeed: any;
+  filterControl = new FormControl();
+  feedFilter: String;
   private subscription: Subscription;
 
   @ViewChild(CdkVirtualScrollViewport, { static: false }) viewport: CdkVirtualScrollViewport;
@@ -91,6 +96,7 @@ export class WeekComponent implements OnInit, AfterViewInit {
     if (!Array.isArray(props)) {
       return;
     }
+    this.filteredFeed = []
     this.properties = [];
     this.propertiesCount = 0;
 
@@ -132,11 +138,26 @@ export class WeekComponent implements OnInit, AfterViewInit {
     return datePipe.transform(property.added, 'EEE d/M');
   }
 
+
+  private _filterFeed(value: string): string[] {
+    console.log('filtering')
+    const filterValue = value.toLowerCase();
+    return this.properties.filter(option => {
+       return option.addr.toLowerCase().includes(filterValue)
+      });
+  }
+
   ngOnInit() {
     this.spinner.show();
     this.service.weekly(false).subscribe(
       value => {
         this.setProperties(value);
+        this.filteredFeed = this.filterControl.valueChanges
+        .pipe(
+          startWith(''),
+          map(value => this._filterFeed(value))
+        );
+
         this.spinner.hide();
         this.translate.get('Weekly listings updated').subscribe((res: string) => {
           this.snackBar.open(res, '', {

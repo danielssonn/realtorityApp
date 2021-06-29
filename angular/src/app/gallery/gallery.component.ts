@@ -69,7 +69,7 @@ export class GalleryComponent implements OnInit {
   unsoldCount: number;
   listToSale: number;
   averageDOM: string;
-  houseCondos: string[] = ['house', 'condo'];
+  houseCondos: string[] = ['house', 'condo', 'shop'];
   selectHouseCondo: string;
   itemsSize: number;
   propertiesPriorChunk: any;
@@ -938,7 +938,7 @@ export class GalleryComponent implements OnInit {
       alert("Sorry, Commnunity selection is only available for Toronto Municipality.\n "+this.municipality+" and "+this.community+ " is not a valid combination."); 
       return;
     }
-
+    
     this.accordion.closeAll();
     this.expanded = false;
     this.average = null;

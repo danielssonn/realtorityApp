@@ -36,14 +36,12 @@
   <button *ngIf="locations.length>0" color="accent" mat-fab (click)="removeMap()"><mat-icon>delete</mat-icon></button>
 </div> -->
 
-
-
-
       <div fxLayout="row" fxLayoutAlign="end center">
-        <br>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-between center">
+   
         <div fxLayout="column" fxLayoutAlign="space-around center">
+          <br><br>
           <button [disabled]="!isAuth" color="link" mat-mini-fab (click)="addLocation()">
             <mat-icon>add</mat-icon>
           </button>

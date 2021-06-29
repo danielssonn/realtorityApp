@@ -266,9 +266,9 @@ export class LocationComponent implements OnInit {
         public snackBar: MatSnackBar, private spinner: NgxSpinnerService, private formBuilder: FormBuilder) {
         this.lat = 43.6532;
         this.lon = -79.3832;
-        this.minZoom = 9;
+        this.minZoom = 7;
         this.zoom = 14;
-        this.maxZoom = 19;
+        this.maxZoom = 20;
         this.showMap = true;
         this.isAuth = this.userService.isAuthenticated();
 
