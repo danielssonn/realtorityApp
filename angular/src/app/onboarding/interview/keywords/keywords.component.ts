@@ -5,6 +5,8 @@ import { PropertiesService } from 'app/properties.service';
 import { UserService } from 'app/user.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Location } from '@angular/common';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { KeywordLegendComponent } from './keyword-legend/keyword-legend.component';
 
 
 @Component({
@@ -21,7 +23,7 @@ export class KeywordsComponent implements OnInit {
 
 
   constructor(private router: Router, private service: PropertiesService, private spinner: NgxSpinnerService,
-    userService: UserService, private messageService: MessageService) {
+    private dialog: MatDialog) {
 
 
       service.getUserPreferences().subscribe(val => {
@@ -71,6 +73,7 @@ export class KeywordsComponent implements OnInit {
 
     } else { this.router.navigate(['./interview/price']) }
   }
+  
   save() {
     if (this.hasChanged) {
       this.spinner.show();
@@ -82,5 +85,13 @@ export class KeywordsComponent implements OnInit {
       })
     }
   } 
+  showKeywordLegend(){
+    const dialogConfig = new MatDialogConfig();
+    this.dialog.open(KeywordLegendComponent, {
+      height: '90vh',
+      width: '80vw',
+      minWidth: '375px'
+    });
 
+  }
 }

@@ -135,6 +135,7 @@ import { ShazamComponent } from './shazam/shazam.component';
 import { HowToComponent } from './shazam/how-to/how-to.component';
 import { CoverageComponent } from './account/coverage/coverage.component';
 import { WhySignonComponent } from './account/why-signon/why-signon.component';
+import { KeywordLegendComponent } from './onboarding/interview/keywords/keyword-legend/keyword-legend.component';
 
 
 
@@ -401,7 +402,8 @@ export function createTranslateLoader(http: HttpClient) {
     HowToComponent,
     CoverageComponent,
     WhySignonComponent,
-    KeywordsComponent
+    KeywordsComponent,
+    KeywordLegendComponent
       
   
     

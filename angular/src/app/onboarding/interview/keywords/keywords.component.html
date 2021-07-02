@@ -4,43 +4,57 @@
     <mat-card-title></mat-card-title>
     <mat-card-content>
 
-    <div fxLayout="row" fxLayoutAlign="space-around center">
+        <div fxLayout="row" fxLayoutAlign="center center">
+            Three wishes? Will grant you extra four! <span class="material-icons" style="color:dimgray"  (click)="showKeywordLegend()">
+                help
+              </span>
+        </div>
+        <br><br><br>
+
+        <div fxLayout="row" fxLayoutAlign="space-around center">
 
             <mat-form-field>
-                <input matInput placeholder="Keyword (ravine, pool)" [(ngModel)]="keyword1" (change)="changed()" >
+                <input matInput placeholder="Keyword 1" [(ngModel)]="keyword1" (change)="changed()">
             </mat-form-field>
-      
-    </div>
-    <div fxLayout="row" fxLayoutAlign="space-around center">
 
-        <mat-form-field><input matInput placeholder="Keyword (ravine, pool)" [(ngModel)]="keyword2" (change)="changed()" >
-        </mat-form-field>
-  
-</div>
-<div fxLayout="row" fxLayoutAlign="space-around center">
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-around center">
 
-    <mat-form-field><input matInput placeholder="Keyword (ravine, pool)" [(ngModel)]="keyword3" (change)="changed()" >
-    </mat-form-field>
+            <mat-form-field><input matInput placeholder="Keyword 2" [(ngModel)]="keyword2"
+                    (change)="changed()">
+            </mat-form-field>
 
-</div>
-<div fxLayout="row" fxLayoutAlign="space-around center">
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-around center">
 
-    <mat-form-field><input matInput placeholder="Keyword (ravine, pool)" [(ngModel)]="keyword4" (change)="changed()" >
-    </mat-form-field>
+            <mat-form-field><input matInput placeholder="Keyword 3" [(ngModel)]="keyword3"
+                    (change)="changed()">
+            </mat-form-field>
 
-</div>
-<div fxLayout="row" fxLayoutAlign="space-between center">
-    <div fxLayout="column" fxLayoutAlign="space-around center">
-    <button mat-fab (click)="previous()"><mat-icon>navigate_before</mat-icon></button>
-    <small style="color: gray">Price</small>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-around center">
 
-    </div>
-    <div fxLayout="column" fxLayoutAlign="space-around center">
+            <mat-form-field><input matInput placeholder="Keyword 4" [(ngModel)]="keyword4"
+                    (change)="changed()">
+            </mat-form-field>
 
-    <button mat-fab (click)="next()"><mat-icon>navigate_next</mat-icon></button>
-    <small style="color: gray">Finish</small>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="column" fxLayoutAlign="space-around center">
+                <button mat-fab (click)="previous()">
+                    <mat-icon>navigate_before</mat-icon>
+                </button>
+                <small style="color: gray">Price</small>
 
-    </div> 
-  </div>
+            </div>
+            <div fxLayout="column" fxLayoutAlign="space-around center">
+
+                <button mat-fab (click)="next()">
+                    <mat-icon>navigate_next</mat-icon>
+                </button>
+                <small style="color: gray">Finish</small>
+
+            </div>
+        </div>
     </mat-card-content>
 </mat-card>
