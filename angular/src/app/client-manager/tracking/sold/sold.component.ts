@@ -11,7 +11,10 @@ import { SoldDetailsComponent } from './sold-details/sold-details.component';
 })
 export class SoldComponent implements OnInit, OnChanges {
 
-  clients:any;
+  clients: any;
+  sales: any;
+  clientsGo:any;
+  salesGo:any;
   @Input() days:any;
   constructor(private dialog:MatDialog, private service: ClientActivityTrackingService, private spinner: NgxSpinnerService) { }
 
@@ -36,12 +39,52 @@ export class SoldComponent implements OnInit, OnChanges {
   sold(){
     this.spinner.show();
     // get how many days
-    this.service.getClientsSold(this.days).subscribe(clients=>{
-      this.clients = clients;
+    this.service.getClientsSold(this.days).subscribe(stats=>{
+      let clientsBefore;
+      let soldBefore
+
+      if(stats[0]){
+        this.clients = stats[0].clks;
+      }
+
+      if(stats[1]){
+        this.sales = stats[1].clks;
+      }
+      if(stats[2]){
+        clientsBefore = stats[2].clks;
+      }
+      if(stats[3]){
+        soldBefore = stats[3].clks;
+      }
+
+      
+      if(this.clients - clientsBefore > 0){
+        this.clientsGo = 1
+      }
+      else if(this.clients  - clientsBefore < 0){
+        this.clientsGo = -1
+      }
+      else{
+        this.clientsGo = 0
+      }
+
+      if(this.sales  - soldBefore > 0){
+        this.salesGo = 1
+      }
+      else if(this.sales - soldBefore < 0){
+        this.salesGo = -1
+      }
+      else{
+        this.salesGo = 0
+      }
+
       this.spinner.hide();
 
     });
 
   }
+
+
+
 
 }

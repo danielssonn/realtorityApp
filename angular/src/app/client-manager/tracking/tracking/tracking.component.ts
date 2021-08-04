@@ -11,7 +11,11 @@ import { TrackingDetailsComponent } from './tracking-details/tracking-details.co
 })
 export class TrackingComponent implements OnInit, OnChanges {
 
-  clients:any;
+
+  clients: any;
+  tracks: any;
+  clientsGo:any;
+  tracksGo:any
   @Input() days;
   constructor(private dialog: MatDialog, private service:ClientActivityTrackingService,  private spinner: NgxSpinnerService) { }
 
@@ -37,11 +41,49 @@ export class TrackingComponent implements OnInit, OnChanges {
    
     this.spinner.show();
     // get how many days
-    this.service.getClientsTracking(this.days).subscribe(clients=>{
-      this.clients = clients;
+    this.service.getClientsTracking(this.days).subscribe(stats=>{
+      let clientsBefore;
+      let tracksBefore
+
+      if(stats[0]){
+        this.tracks = stats[0].clks;
+      }
+
+      if(stats[1]){
+        this.clients = stats[1].clks;
+      }
+      if(stats[2]){
+        tracksBefore = stats[2].clks;
+      }
+      if(stats[3]){
+        clientsBefore = stats[3].clks;
+      }
+
+      
+      if(this.clients - clientsBefore > 0){
+        this.clientsGo = 1
+      }
+      else if(this.clients  - clientsBefore < 0){
+        this.clientsGo = -1
+      }
+      else{
+        this.clientsGo = 0
+      }
+
+      if(this.tracks  - tracksBefore > 0){
+        this.tracksGo = 1
+      }
+      else if(this.tracks - tracksBefore < 0){
+        this.tracksGo = -1
+      }
+      else{
+        this.tracksGo = 0
+      }
+
       this.spinner.hide();
 
     });
+  
 
   }
 

@@ -7,22 +7,32 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top:5px; padding-bottom: 5px;"  (click)="showDetails()">
-            <span class="material-icons">
-                person
-                </span> 28
-                 <span class="material-icons">
-                    
-                    trending_up
-                    </span>     
+        <span class="material-icons">
+            maps_home_work
+            </span> {{clients}}
+             <span *ngIf="clientsGo==1" class="material-icons" >
+                trending_up
+                </span> 
+                <span  *ngIf="clientsGo==-1" class="material-icons">
+                    trending_down
+                    </span>  
+                    <span  *ngIf="clientsGo==0" class="material-icons">
+                        trending_flat
+                        </span>         
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between center"  style="padding-top:5px; padding-bottom: 5px;"  (click)="showDetails()">
         <span class="material-icons">
-            maps_home_work
-            </span> 65
-             <span class="material-icons">
-                
+            person
+            </span> {{sales}}
+             <span *ngIf="salesGo==1" class="material-icons">
                 trending_up
-                </span>     
+                </span> 
+                <span *ngIf="salesGo==-1" class="material-icons">
+                    trending_down
+                    </span>   
+                    <span *ngIf="salesGo==0" class="material-icons">
+                        trending_flat
+                        </span>     
 </div>
 
  

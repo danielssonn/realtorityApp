@@ -7,18 +7,20 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 22px; padding-bottom: 22px;"  (click)="showDetails()">
-            <span class="material-icons">
-                person
-                </span> 30
-                 <span class="material-icons">
-                    
+        <span class="material-icons">
+            person
+            </span> {{clients}}
+             <span *ngIf="clientsGo==1" class="material-icons">
+                trending_up
+                </span> 
+                <span *ngIf="clientsGo==-1" class="material-icons">
                     trending_down
-                    </span>     
+                    </span>   
+                    <span *ngIf="clientsGo==0" class="material-icons">
+                        trending_flat
+                        </span>        
     </div>
     
-
- 
-
     <div fxLayout="row" fxLayoutAlign="center center" style="padding-top: 5px;"> <button mat-raised-button color="primary">View Clients</button>
     </div>
 </mat-card>

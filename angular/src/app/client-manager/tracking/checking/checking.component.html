@@ -8,21 +8,31 @@
 
     <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top:5px; padding-bottom: 5px;"  (click)="showDetails()">
             <span class="material-icons">
-                person
-                </span> 169
-                 <span class="material-icons">
-                    
+                ads_click
+                </span> {{clients}}
+                 <span *ngIf="clientsGo==1" class="material-icons" >
                     trending_up
-                    </span>     
+                    </span> 
+                    <span  *ngIf="clientsGo==-1" class="material-icons">
+                        trending_down
+                        </span>  
+                        <span  *ngIf="clientsGo==0" class="material-icons">
+                            trending_flat
+                            </span>      
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top:5px; padding-bottom: 5px;"   (click)="showDetails()">
         <span class="material-icons">
-            ads_click
-            </span> 99,999
-             <span class="material-icons">
-                
+            person
+            </span> {{clicks}}
+             <span *ngIf="clicksGo==1" class="material-icons">
                 trending_up
-                </span>     
+                </span> 
+                <span *ngIf="clicksGo==-1" class="material-icons">
+                    trending_down
+                    </span>   
+                    <span *ngIf="clicksGo==0" class="material-icons">
+                        trending_flat
+                        </span>       
 </div>
 
  

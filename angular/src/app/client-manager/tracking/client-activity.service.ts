@@ -37,7 +37,7 @@ export class ClientActivityTrackingService {
     this.options.params = params; 
 
     return this.http.get(this.clientsCheckingUrl, this.options).pipe(map(response => {
-      return observableOf(response);
+      return response;
     }))
 
   }
@@ -48,7 +48,7 @@ export class ClientActivityTrackingService {
     this.options.params = params; 
 
     return this.http.get(this.clientsTrackingUrl, this.options).pipe(map(response => {
-      return observableOf(response);
+      return response;
     }))
 
   }
@@ -58,7 +58,7 @@ export class ClientActivityTrackingService {
 
     this.options.params = params; 
     return this.http.get(this.clientsSoldUrl, this.options).pipe(map(response => {
-      return observableOf(response);
+      return response;
     }))
 
   }
@@ -67,7 +67,7 @@ export class ClientActivityTrackingService {
       days:days};
     this.options.params = params; 
     return this.http.get(this.clientsEngagingUrl, this.options).pipe(map(response => {
-      return observableOf(response);
+      return response;
     }))
 
   }

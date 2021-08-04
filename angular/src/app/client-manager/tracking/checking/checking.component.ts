@@ -12,11 +12,14 @@ import { CheckingDetailsComponent } from './checking-details/checking-details.co
 export class CheckingComponent implements OnInit, OnChanges {
 
   clients: any;
+  clicks: any;
+  clientsGo:any;
+  clicksGo:any
   @Input() days;
   constructor(private dialog: MatDialog, private service:ClientActivityTrackingService,  private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-    this.checking();
+    
   }
   ngOnChanges(changes: SimpleChanges) {
    
@@ -35,8 +38,46 @@ export class CheckingComponent implements OnInit, OnChanges {
   checking(){
    this.spinner.show();
     // get how many days
-    this.service.getClientsClicking(this.days).subscribe(clients=>{
-      this.clients = clients;
+    this.service.getClientsClicking(this.days).subscribe(stats=>{
+      
+      let clientsBefore;
+      let clicksBefore
+
+      if(stats[0]){
+        this.clients = stats[0].clks;
+      }
+
+      if(stats[1]){
+        this.clicks = stats[1].clks;
+      }
+      if(stats[2]){
+        clientsBefore = stats[2].clks;
+      }
+      if(stats[3]){
+        clicksBefore = stats[3].clks;
+      }
+
+      
+      if(this.clients - clientsBefore > 0){
+        this.clientsGo = 1
+      }
+      else if(this.clients  - clientsBefore < 0){
+        this.clientsGo = -1
+      }
+      else{
+        this.clientsGo = 0
+      }
+
+      if(this.clicks  - clicksBefore > 0){
+        this.clicksGo = 1
+      }
+      else if(this.clicks - clicksBefore < 0){
+        this.clicksGo = -1
+      }
+      else{
+        this.clicksGo = 0
+      }
+
       this.spinner.hide();
 
     });
