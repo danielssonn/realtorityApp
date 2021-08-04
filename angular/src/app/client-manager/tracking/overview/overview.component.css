@@ -1,0 +1,17 @@
+#checking {
+    background-color: crimson;
+}
+#tracking{
+    background-color: darkcyan;
+}
+#engaging{
+    background-color: darkorange;
+}
+#sold{
+    background-color: darkslategray;
+}
+.mat-radio-group{
+    display:flex ;
+    width:100%;
+    justify-content: space-around;
+  }

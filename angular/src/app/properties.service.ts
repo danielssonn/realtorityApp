@@ -121,6 +121,7 @@ export class PropertiesService {
     this.schoolsDistricts = environment.serverURL + '/schoolsDistricts'
     this.propertiesRadarUrl = environment.serverURL + '/propertiesRadar'
     this.communityMatchURL = environment.serverURL + '/communitymatch';
+
      
     this.geocodeURL = environment.serverURL + '/address';
      
@@ -335,7 +336,7 @@ export class PropertiesService {
       return observableOf(response);
     }))
 
-  }
+  }   
 
 
   getUserPreferences(): Observable<any> {

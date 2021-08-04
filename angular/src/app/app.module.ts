@@ -58,6 +58,7 @@ import { MatIconModule} from '@angular/material/icon';
 import { MatCheckboxModule} from '@angular/material/checkbox';
 import { MatRadioModule} from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 
 
@@ -83,6 +84,7 @@ import { AccountComponent } from './account/account.component';
 import { PropertyCardComponent } from './property-card/property-card.component';
 import { ShortCurrencyPipe } from './short-currency.pipe';
 import { PropertiesService } from './properties.service';
+import { ClientActivityTrackingService} from './client-manager/tracking/client-activity.service'
 import { UserService } from './user.service';
 import { LocationsComponent } from './onboarding/interview/locations/locations.component';
 import { MapComponent } from './map/map.component';
@@ -136,6 +138,15 @@ import { HowToComponent } from './shazam/how-to/how-to.component';
 import { CoverageComponent } from './account/coverage/coverage.component';
 import { WhySignonComponent } from './account/why-signon/why-signon.component';
 import { KeywordLegendComponent } from './onboarding/interview/keywords/keyword-legend/keyword-legend.component';
+import { TrackingComponent } from './client-manager/tracking/tracking/tracking.component';
+import { CheckingComponent } from './client-manager/tracking/checking/checking.component';
+import { EngagingComponent } from './client-manager/tracking/engaging/engaging.component';
+import { OverviewComponent } from './client-manager/tracking/overview/overview.component';
+import { SoldComponent } from './client-manager/tracking/sold/sold.component';
+import { TrackingDetailsComponent } from './client-manager/tracking/tracking/tracking-details/tracking-details.component';
+import { CheckingDetailsComponent } from './client-manager/tracking/checking/checking-details/checking-details.component';
+import { SoldDetailsComponent } from './client-manager/tracking/sold/sold-details/sold-details.component';
+import { EngagingDetailsComponent } from './client-manager/tracking/engaging/engaging-details/engaging-details.component';
 
 
 
@@ -207,6 +218,12 @@ export const routerConfig: Routes = [
     component: ClientManagerComponent,
     canActivate: [AuthGuard],
     data: { title: 'Manage' }
+  },
+  {
+    path: 'activity',
+    component: OverviewComponent,
+    canActivate: [AuthGuard],
+    data: { title: 'Activity' }
   },
   {
     path: 'radar',
@@ -403,7 +420,16 @@ export function createTranslateLoader(http: HttpClient) {
     CoverageComponent,
     WhySignonComponent,
     KeywordsComponent,
-    KeywordLegendComponent
+    KeywordLegendComponent,
+    TrackingComponent,
+    CheckingComponent,
+    EngagingComponent,
+    OverviewComponent,
+    SoldComponent,
+    TrackingDetailsComponent,
+    CheckingDetailsComponent,
+    SoldDetailsComponent,
+    EngagingDetailsComponent
       
   
     
@@ -439,6 +465,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatSnackBarModule,
     MatMenuModule,
     MatRippleModule,
+    MatGridListModule,
     MatDatepickerModule,
     MatNativeDateModule,
     AgmJsMarkerClustererModule,
@@ -484,6 +511,7 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true },
     PropertiesService,
     UserService,
+    ClientActivityTrackingService,
     GoogleMapsAPIWrapper,
     { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig },
     MatDatepickerModule

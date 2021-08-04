@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { ThrowStmt } from '@angular/compiler';
 import { FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
+import { GridColumnStyleBuilder } from '@angular/flex-layout/grid/typings/column/column';
 
 
 
@@ -96,6 +97,7 @@ export class WeekComponent implements OnInit, AfterViewInit {
     if (!Array.isArray(props)) {
       return;
     }
+    console.log('got props')
     this.filteredFeed = []
     this.properties = [];
     this.propertiesCount = 0;
@@ -106,6 +108,7 @@ export class WeekComponent implements OnInit, AfterViewInit {
       return +d - +c;
     })
     if (!props || !props[0]) {
+      console.log('!got props')
 
       return;
     }
@@ -126,8 +129,13 @@ export class WeekComponent implements OnInit, AfterViewInit {
 
 
     });
+    console.log(this.properties.length);
     this.propertiesCount = this.properties.length;
-
+    this.filteredFeed = this.filterControl.valueChanges
+        .pipe(
+          startWith(''),
+          map(value => this._filterFeed(value))
+        );
 
   }
 
@@ -152,11 +160,6 @@ export class WeekComponent implements OnInit, AfterViewInit {
     this.service.weekly(false).subscribe(
       value => {
         this.setProperties(value);
-        this.filteredFeed = this.filterControl.valueChanges
-        .pipe(
-          startWith(''),
-          map(value => this._filterFeed(value))
-        );
 
         this.spinner.hide();
         this.translate.get('Weekly listings updated').subscribe((res: string) => {

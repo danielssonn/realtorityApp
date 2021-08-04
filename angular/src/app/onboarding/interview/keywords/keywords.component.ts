@@ -88,7 +88,7 @@ export class KeywordsComponent implements OnInit {
   showKeywordLegend(){
     const dialogConfig = new MatDialogConfig();
     this.dialog.open(KeywordLegendComponent, {
-      height: '90vh',
+      height: '80vh',
       width: '80vw',
       minWidth: '375px'
     });
