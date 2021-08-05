@@ -16,6 +16,7 @@ export class CheckingComponent implements OnInit, OnChanges {
   clientsGo:any;
   clicksGo:any
   @Input() days;
+  buttonDisabled: boolean 
   activity:any;
 
   constructor(private dialog: MatDialog, private service:ClientActivityTrackingService,  private spinner: NgxSpinnerService) { 
@@ -23,6 +24,7 @@ export class CheckingComponent implements OnInit, OnChanges {
     this.service.activityChangeAnnounced.subscribe(
       activity => {
        console.log('Copy activity from Checking ', activity)
+       this.buttonDisabled = false; 
       });
 
   }
@@ -45,6 +47,7 @@ export class CheckingComponent implements OnInit, OnChanges {
   }
   setActivity(){
    this.service.announceActivity({activity:'checking', days: this.days});
+   this.buttonDisabled = true;
   }
   checking(){
     this.spinner.show('checkingSpinner');

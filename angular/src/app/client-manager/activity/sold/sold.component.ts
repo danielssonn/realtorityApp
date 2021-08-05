@@ -16,10 +16,11 @@ export class SoldComponent implements OnInit, OnChanges {
   clientsGo:any;
   salesGo:any;
   @Input() days:any;
+  buttonDisabled:any;
   constructor(private dialog:MatDialog, private service: ClientActivityTrackingService, private spinner: NgxSpinnerService) { 
     this.service.activityChangeAnnounced.subscribe(
       activity => {
-       console.log('Copy activity from Sold ', activity)
+        this.buttonDisabled = false; 
       });
 
   }
@@ -42,6 +43,7 @@ export class SoldComponent implements OnInit, OnChanges {
   }
   setActivity(){
     this.service.announceActivity({activity:'trackingSold', days: this.days});
+    this.buttonDisabled = true; 
    }
   sold(){
     this.spinner.show('soldSpinner');

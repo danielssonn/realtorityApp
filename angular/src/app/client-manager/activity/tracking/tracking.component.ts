@@ -17,10 +17,11 @@ export class TrackingComponent implements OnInit, OnChanges {
   clientsGo:any;
   tracksGo:any
   @Input() days;
+  buttonDisabled:any;
   constructor(private dialog: MatDialog, private service:ClientActivityTrackingService,  private spinner: NgxSpinnerService) {
     this.service.activityChangeAnnounced.subscribe(
       activity => {
-       console.log('Copy activity from Tracking ', activity)
+       this.buttonDisabled = false;
       });
 
    }
@@ -44,6 +45,7 @@ export class TrackingComponent implements OnInit, OnChanges {
   }
   setActivity(){
     this.service.announceActivity({activity:'tracking', days: this.days});
+    this.buttonDisabled=true;
    }
   tracking(){
    

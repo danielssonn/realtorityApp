@@ -55,6 +55,6 @@
 
 
     <div fxLayout="row" fxLayoutAlign="center center" style="padding-top: 5px;"> <button mat-raised-button
-            color="primary" (click)='setActivity()'>View Clients</button>
+            color="primary" (click)='setActivity()' [disabled]="!clients">View Clients</button>
     </div>
 </mat-card>

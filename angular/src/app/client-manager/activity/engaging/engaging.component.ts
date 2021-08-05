@@ -10,29 +10,31 @@ import { EngagingDetailsComponent } from './engaging-details/engaging-details.co
   styleUrls: ['./engaging.component.css']
 })
 export class EngagingComponent implements OnInit, OnChanges {
-  clients:any;
-  clientsGo:any
+  clients: any;
+  clientsGo: any
   @Input() days;
-  constructor(private dialog:MatDialog, private service:ClientActivityTrackingService, private spinner: NgxSpinnerService) { 
+  buttonDisabled:any; 
+  constructor(private dialog: MatDialog, private service: ClientActivityTrackingService, private spinner: NgxSpinnerService) {
     this.service.activityChangeAnnounced.subscribe(
       activity => {
-       console.log('Copy activity from Engaging ', activity)
+        this.buttonDisabled = false;
       });
 
   }
 
   ngOnInit(): void {
-  
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
-   
+
     this.engaging();
   }
-  setActivity(){
-    this.service.announceActivity({activity:'engaging', days: this.days});
-   }
-  showDetails(){
+  setActivity() {
+    this.service.announceActivity({ activity: 'engaging', days: this.days });
+    this.buttonDisabled = true;
+  }
+  showDetails() {
     const dialogConfig = new MatDialogConfig();
     this.dialog.open(EngagingDetailsComponent, {
       height: '90vh',
@@ -41,30 +43,30 @@ export class EngagingComponent implements OnInit, OnChanges {
     });
   }
 
-  engaging(){
-   
+  engaging() {
+
     this.spinner.show('engagingSpinner');
     // get how many days
-    this.service.getClientsEngaging(this.days).subscribe(stats=>{
+    this.service.getClientsEngaging(this.days).subscribe(stats => {
 
-      let clientsBefore=0
-      if(stats[0]){
+      let clientsBefore = 0
+      if (stats[0]) {
         this.clients = stats[0].clks;
       }
-      if(stats[1]){
+      if (stats[1]) {
         clientsBefore = stats[1].clks;
       }
 
-      if(this.clients-clientsBefore> 0){
+      if (this.clients - clientsBefore > 0) {
         this.clientsGo = 1
       }
-      else if(this.clients-clientsBefore < 0){
+      else if (this.clients - clientsBefore < 0) {
         this.clientsGo = -1
       }
-      else{
+      else {
         this.clientsGo = 0
       }
-       this.spinner.hide('engagingSpinner');
+      this.spinner.hide('engagingSpinner');
 
     });
 
