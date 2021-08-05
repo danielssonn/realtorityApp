@@ -1,0 +1,21 @@
+<br>
+<div fxLayout="row" fxLayoutAlign="end center" style="padding: 10px;">
+  <mat-radio-group name="opList" [(ngModel)]="days">
+    <mat-radio-button *ngFor="let day of dayList" [value]="day.value" name="opList">{{ day.name}}</mat-radio-button>
+  </mat-radio-group>
+</div>
+<mat-grid-list *ngIf="salesPersonId" [cols]="breakpoint" rowHeight="1:1" (window:resize)="onResize($event)">
+  <mat-grid-tile id="checking">
+    <app-checking [days]='days'></app-checking>
+  </mat-grid-tile>
+  <mat-grid-tile id="tracking">
+    <app-tracking [days]='days'></app-tracking>
+  </mat-grid-tile>
+  <mat-grid-tile id="sold">
+    <app-sold [days]='days'></app-sold>
+  </mat-grid-tile>
+  <mat-grid-tile id="engaging">
+    <app-engaging [days]='days'></app-engaging>
+  </mat-grid-tile>
+</mat-grid-list>
+<app-client-manager></app-client-manager>

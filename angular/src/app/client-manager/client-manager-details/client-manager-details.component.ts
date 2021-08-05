@@ -33,10 +33,6 @@ export class ClientManagerDetailsComponent implements OnInit {
       phone: [this.client.dataKey.phone, Validators.required],
       created: [this.client.dataKey.created],
       userId: [this.client.dataKey.userId],
-
-
-
-
     });
     console.log(this.client.dataKey)
 

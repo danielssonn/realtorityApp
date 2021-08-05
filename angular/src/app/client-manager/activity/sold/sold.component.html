@@ -1,39 +1,15 @@
-<mat-card id='tracking'>
+<mat-card id='sold'>
     <div fxLayout="row" fxLayoutAlign="space-between center" (click)="showDetails()">
-        Tracking:
+        Sold:
         <span class="material-icons" style="color:gold; font-size: 1em; padding-left: 5px;" (click)="showDetails()">
             tips_and_updates
         </span>
     </div>
 
-    <div *ngIf="clients" fxLayout="row" fxLayoutAlign="space-between center" style="padding:5px" (click)="showDetails()">
-
+    <div  *ngIf="clients"  fxLayout="row" fxLayoutAlign="space-between center" style="padding-top:5px; padding-bottom: 5px;"
+        (click)="showDetails()">
         <span class="material-icons">
-            thumb_up
-        </span> {{tracks}}
-        <span *ngIf="tracksGo==1" class="material-icons">
-            trending_up
-        </span>
-        <span *ngIf="tracksGo==-1" class="material-icons">
-            trending_down
-        </span>
-        <span *ngIf="tracksGo==0" class="material-icons">
-            trending_flat
-        </span>
-
-    </div>
-    <div *ngIf="!clients" fxLayout="row" fxLayoutAlign="space-between center"
-        style="padding-top:5px; padding-bottom: 5px;">
-        <span class="material-icons">
-            person
-        </span> <span>...</span><span>...</span>
-    </div>
-    
-    <ngx-spinner name="trackingSpinner" [fullScreen]="false" type="ball-spin-clockwise" size="medium"></ngx-spinner>
-
-    <div *ngIf="clients" fxLayout="row" fxLayoutAlign="space-between center" style="padding:5px" (click)="showDetails()">
-        <span class="material-icons">
-            person
+            maps_home_work
         </span> {{clients}}
         <span *ngIf="clientsGo==1" class="material-icons">
             trending_up
@@ -42,6 +18,30 @@
             trending_down
         </span>
         <span *ngIf="clientsGo==0" class="material-icons">
+            trending_flat
+        </span>
+    </div>
+
+    <div *ngIf="!clients" fxLayout="row" fxLayoutAlign="space-between center"
+        style="padding-top:5px; padding-bottom: 5px;">
+        <span class="material-icons">
+            person
+        </span> <span>...</span><span>...</span>
+    </div>
+    <ngx-spinner name="soldSpinner" [fullScreen]="false" type="ball-spin-clockwise" size="medium"></ngx-spinner>
+
+    <div *ngIf="clients"  fxLayout="row" fxLayoutAlign="space-between center" style="padding-top:5px; padding-bottom: 5px;"
+        (click)="showDetails()">
+        <span class="material-icons">
+            person
+        </span> {{sales}}
+        <span *ngIf="salesGo==1" class="material-icons">
+            trending_up
+        </span>
+        <span *ngIf="salesGo==-1" class="material-icons">
+            trending_down
+        </span>
+        <span *ngIf="salesGo==0" class="material-icons">
             trending_flat
         </span>
     </div>
@@ -55,6 +55,6 @@
 
 
     <div fxLayout="row" fxLayoutAlign="center center" style="padding-top: 5px;"> <button mat-raised-button
-            color="primary">View Clients</button>
+            color="primary" (click)='setActivity()'>View Clients</button>
     </div>
 </mat-card>

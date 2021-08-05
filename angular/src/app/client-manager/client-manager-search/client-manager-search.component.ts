@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CoolLocalStorage } from '@angular-cool/storage';
 import { Client } from 'app/client-manager/client-manager-search/client';
 import { MatPaginator} from '@angular/material/paginator';
@@ -16,6 +16,7 @@ import { ClientManagerSearchService } from './client-manager-search.service';
 import { ClientManagerDetailsComponent } from '../client-manager-details/client-manager-details.component';
 import { ClientOverviewComponent } from '../client-overview/client-overview.component';
 import { group } from '@angular/animations';
+import { ClientActivityTrackingService } from '../activity/client-activity.service';
 
 
 
@@ -34,8 +35,7 @@ export class ClientManagerSearchComponent implements OnInit {
   selectedClientId: Client;
   noClient: Client;
   clientName: string;
-
-
+  
   displayedColumns = ['select', 'name', 'email'];
 
   @ViewChild(MatPaginator,  {static:false}) clientSearchPaginator: MatPaginator;
@@ -44,13 +44,13 @@ export class ClientManagerSearchComponent implements OnInit {
 
   @ViewChild('clientSearchInput',  {static:false}) clientSearchInput: ElementRef;
 
-  @ViewChild('sortByGroup',  {static:false}) sortOn: MatButtonToggle;
+  activity:any;
 
 
 
 
   constructor(private session: CoolLocalStorage, private clientsService: ClientManagerSearchService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,  private activityService:ClientActivityTrackingService) {
     this.salesPersonId = this.session.getItem('salesPersonId');
     this.noClient = {userId:'-1', email:'', name: '', phone: '', firstName: ''};
     this.selectedClientId = this.noClient;
@@ -58,22 +58,39 @@ export class ClientManagerSearchComponent implements OnInit {
     this.dataSource = new ClientManagerSearchDataSource(this.clientsService);
     this.clientName = '';
 
+    this.activityService.activityChangeAnnounced.subscribe(
+      act => {
+       console.log('Copy activity from CSM ', act)
+       this.activity = act;
+
+       this.loadClients();
+     
+      });
+
+
   }
 
   ngOnInit() {
    
     
+   
+    
+  }
+
+  loadClients(){
+
     this.clientsService.getActiveClient().subscribe(
       val => {
 
         this.selectedClientId = val;
         this.clientName = val.name;
-        this.dataSource.loadClients(this.salesPersonId, this.selectedClientId.email, this.sortOn.value);
+        this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days);
 
       }
     )
-    
+
   }
+
 
   // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
@@ -100,12 +117,11 @@ export class ClientManagerSearchComponent implements OnInit {
     }
   }
   loadClientsPage() {
-    console.log('client name',this.clientName);
+    console.log('Loading ', this.activity);
     this.dataSource.loadClients(
-      this.salesPersonId,
       this.clientName,
-      this.sortOn.value,
-      this.clientSearchSort.direction,
+      this.activity.activity,
+      this.activity.days,
       this.clientSearchPaginator.pageIndex,
       this.clientSearchPaginator.pageSize,
     );
@@ -121,13 +137,13 @@ export class ClientManagerSearchComponent implements OnInit {
       this.selectedClientId = row;
       this.clientName=this.selectedClientId.name;
       this.clientsService.setActiveClient(this.selectedClientId).subscribe();
-      this.dataSource.loadClients(this.salesPersonId, this.selectedClientId.email, this.sortOn.value);
+      this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days);
 
     } else {
       this.clientName='';
       this.selectedClientId = this.noClient; 
       this.clientsService.setActiveClient(this.selectedClientId).subscribe();
-      this.dataSource.loadClients(this.salesPersonId, this.selectedClientId.email, this.sortOn.value);
+      this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days);
     }
 
   }
@@ -135,7 +151,7 @@ export class ClientManagerSearchComponent implements OnInit {
     this.clientName='';
     this.selectedClientId = this.noClient;
     this.clientsService.setActiveClient(this.selectedClientId).subscribe();
-    this.dataSource.loadClients(this.salesPersonId, this.selectedClientId.email, this.sortOn.value);
+    this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days);
 
   }
   openDetails(client) {

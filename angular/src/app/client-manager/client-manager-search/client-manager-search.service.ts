@@ -49,16 +49,17 @@ export class ClientManagerSearchService {
   }
 
 
-  getClients(filter = '', sortOrder = 'asc', sortOn: string,
+  getClients(filter = '', activity: string, days:string,
     pageNumber = 0, pageSize = 3 ): Observable<Client[]> {
 
     return this.http.get(this.clientsForSalesperson, {
       params: new HttpParams()
         .set('filter', filter)
-        .set('sortOrder', sortOrder)
+        .set('activity', activity)
+        .set('days', days)
         .set('pageNumber', pageNumber.toString())
         .set('pageSize', pageSize.toString())
-        .set('sortOn', sortOn)
+
       // tslint:disable-next-line:quotemark
     }).pipe(
       map(res => {

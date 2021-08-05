@@ -17,7 +17,13 @@ export class TrackingComponent implements OnInit, OnChanges {
   clientsGo:any;
   tracksGo:any
   @Input() days;
-  constructor(private dialog: MatDialog, private service:ClientActivityTrackingService,  private spinner: NgxSpinnerService) { }
+  constructor(private dialog: MatDialog, private service:ClientActivityTrackingService,  private spinner: NgxSpinnerService) {
+    this.service.activityChangeAnnounced.subscribe(
+      activity => {
+       console.log('Copy activity from Tracking ', activity)
+      });
+
+   }
 
   ngOnInit(): void {
     this.tracking();
@@ -36,7 +42,9 @@ export class TrackingComponent implements OnInit, OnChanges {
       minWidth: '375px'
     });
   }
-
+  setActivity(){
+    this.service.announceActivity({activity:'tracking', days: this.days});
+   }
   tracking(){
    
     this.spinner.show('trackingSpinner');

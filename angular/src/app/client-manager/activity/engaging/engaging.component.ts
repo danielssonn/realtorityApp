@@ -13,7 +13,13 @@ export class EngagingComponent implements OnInit, OnChanges {
   clients:any;
   clientsGo:any
   @Input() days;
-  constructor(private dialog:MatDialog, private service:ClientActivityTrackingService, private spinner: NgxSpinnerService) { }
+  constructor(private dialog:MatDialog, private service:ClientActivityTrackingService, private spinner: NgxSpinnerService) { 
+    this.service.activityChangeAnnounced.subscribe(
+      activity => {
+       console.log('Copy activity from Engaging ', activity)
+      });
+
+  }
 
   ngOnInit(): void {
   
@@ -23,7 +29,9 @@ export class EngagingComponent implements OnInit, OnChanges {
    
     this.engaging();
   }
-
+  setActivity(){
+    this.service.announceActivity({activity:'engaging', days: this.days});
+   }
   showDetails(){
     const dialogConfig = new MatDialogConfig();
     this.dialog.open(EngagingDetailsComponent, {

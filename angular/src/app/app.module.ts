@@ -84,7 +84,7 @@ import { AccountComponent } from './account/account.component';
 import { PropertyCardComponent } from './property-card/property-card.component';
 import { ShortCurrencyPipe } from './short-currency.pipe';
 import { PropertiesService } from './properties.service';
-import { ClientActivityTrackingService} from './client-manager/tracking/client-activity.service'
+import { ClientActivityTrackingService} from './client-manager/activity/client-activity.service'
 import { UserService } from './user.service';
 import { LocationsComponent } from './onboarding/interview/locations/locations.component';
 import { MapComponent } from './map/map.component';
@@ -138,15 +138,15 @@ import { HowToComponent } from './shazam/how-to/how-to.component';
 import { CoverageComponent } from './account/coverage/coverage.component';
 import { WhySignonComponent } from './account/why-signon/why-signon.component';
 import { KeywordLegendComponent } from './onboarding/interview/keywords/keyword-legend/keyword-legend.component';
-import { TrackingComponent } from './client-manager/tracking/tracking/tracking.component';
-import { CheckingComponent } from './client-manager/tracking/checking/checking.component';
-import { EngagingComponent } from './client-manager/tracking/engaging/engaging.component';
-import { OverviewComponent } from './client-manager/tracking/overview/overview.component';
-import { SoldComponent } from './client-manager/tracking/sold/sold.component';
-import { TrackingDetailsComponent } from './client-manager/tracking/tracking/tracking-details/tracking-details.component';
-import { CheckingDetailsComponent } from './client-manager/tracking/checking/checking-details/checking-details.component';
-import { SoldDetailsComponent } from './client-manager/tracking/sold/sold-details/sold-details.component';
-import { EngagingDetailsComponent } from './client-manager/tracking/engaging/engaging-details/engaging-details.component';
+import { TrackingComponent } from './client-manager/activity/tracking/tracking.component';
+import { CheckingComponent } from './client-manager/activity/checking/checking.component';
+import { EngagingComponent } from './client-manager/activity/engaging/engaging.component';
+import { OverviewComponent } from './client-manager/activity/overview/overview.component';
+import { SoldComponent } from './client-manager/activity/sold/sold.component';
+import { TrackingDetailsComponent } from './client-manager/activity/tracking/tracking-details/tracking-details.component';
+import { CheckingDetailsComponent } from './client-manager/activity/checking/checking-details/checking-details.component';
+import { SoldDetailsComponent } from './client-manager/activity/sold/sold-details/sold-details.component';
+import { EngagingDetailsComponent } from './client-manager/activity/engaging/engaging-details/engaging-details.component';
 
 
 

@@ -16,7 +16,16 @@ export class CheckingComponent implements OnInit, OnChanges {
   clientsGo:any;
   clicksGo:any
   @Input() days;
-  constructor(private dialog: MatDialog, private service:ClientActivityTrackingService,  private spinner: NgxSpinnerService) { }
+  activity:any;
+
+  constructor(private dialog: MatDialog, private service:ClientActivityTrackingService,  private spinner: NgxSpinnerService) { 
+
+    this.service.activityChangeAnnounced.subscribe(
+      activity => {
+       console.log('Copy activity from Checking ', activity)
+      });
+
+  }
 
   ngOnInit(): void {
     this.spinner.show('checkingSpinner');
@@ -34,7 +43,9 @@ export class CheckingComponent implements OnInit, OnChanges {
       minWidth: '375px'
     });
   }
-
+  setActivity(){
+   this.service.announceActivity({activity:'checking', days: this.days});
+  }
   checking(){
     this.spinner.show('checkingSpinner');
     // get how many days

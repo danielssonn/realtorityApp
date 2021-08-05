@@ -14,18 +14,6 @@
       </mat-form-field>
   </div>
   <div fxLayout="row" fxLayoutAlign="center center">
-      <mat-button-toggle-group #sortByGroup = "matButtonToggleGroup" (change)="sortChange()" value='recent'>
-          <mat-button-toggle  color="primary" value="active">{{"Most Active"|translate}}
-              <i class="material-icons">
-                trending_up
-                </i></mat-button-toggle>
-          <mat-button-toggle  color="primary" value="recent">{{"Most Recent"|translate}}
-              <i class="material-icons">
-                date_range
-                </i></mat-button-toggle>
-       </mat-button-toggle-group>
-</div>
-  <div fxLayout="row" fxLayoutAlign="center center">
 
       <div class="spinner-container" *ngIf="dataSource.loading$ | async">
           <mat-spinner></mat-spinner>

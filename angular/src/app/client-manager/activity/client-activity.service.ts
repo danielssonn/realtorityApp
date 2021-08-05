@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { of as observableOf, Subscription } from 'rxjs';
+import { of as observableOf, Subject, Subscription } from 'rxjs';
 
 import { map, reduce } from 'rxjs/operators';
 import { RequestOptions, Headers } from '@angular/http';
@@ -18,6 +18,11 @@ export class ClientActivityTrackingService {
   private clientsEngagingUrl;
   private options;
 
+
+  private activityChangeSource = new Subject<string>();
+  activityChangeAnnounced = this.activityChangeSource.asObservable();
+
+
   constructor(private http: HttpClient) {
     this.clientsCheckingUrl = environment.serverURL + '/clientsClicking';
     this.clientsTrackingUrl = environment.serverURL + '/clientsTracking';
@@ -31,6 +36,11 @@ export class ClientActivityTrackingService {
 
 
   }
+
+  announceActivity(activity:any) {
+    this.activityChangeSource.next(activity);
+  }
+
   getClientsClicking(days): Observable<any> {
     let params = {
       days:days};

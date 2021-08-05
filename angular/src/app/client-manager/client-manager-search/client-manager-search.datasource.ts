@@ -23,12 +23,12 @@ export class ClientManagerSearchDataSource implements DataSource<Client> {
         this.loadingSubject.complete();
     }
 
-    loadClients(salespersonId: string, filter: string, sortOn: string,
-        sortDirection = 'asc', pageIndex = 0, pageSize = 10) {
+    loadClients(filter: string, activity: string, days:string,
+        pageIndex = 0, pageSize = 10) {
 
         this.loadingSubject.next(true);
 
-        this.clientManagerService.getClients(filter,sortDirection, sortOn,
+        this.clientManagerService.getClients(filter, activity, days,
             pageIndex, pageSize).pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))

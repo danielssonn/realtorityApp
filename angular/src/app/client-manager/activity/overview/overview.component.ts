@@ -18,9 +18,7 @@ days = this.dayList[0].value;
   
   constructor(private session: CoolLocalStorage) {
     this.salesPersonId = this.session.getItem('salesPersonId');
-    console.log("Salesperson ",this.salesPersonId)
     
-
    }
 
  breakpoint:any;
