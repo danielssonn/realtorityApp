@@ -19,7 +19,6 @@ export class SoldComponent implements OnInit, OnChanges {
   constructor(private dialog:MatDialog, private service: ClientActivityTrackingService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-    this.sold();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -37,7 +36,7 @@ export class SoldComponent implements OnInit, OnChanges {
   }
 
   sold(){
-    this.spinner.show();
+    this.spinner.show('soldSpinner');
     // get how many days
     this.service.getClientsSold(this.days).subscribe(stats=>{
       let clientsBefore;
@@ -78,7 +77,7 @@ export class SoldComponent implements OnInit, OnChanges {
         this.salesGo = 0
       }
 
-      this.spinner.hide();
+      this.spinner.hide('soldSpinner');
 
     });
 

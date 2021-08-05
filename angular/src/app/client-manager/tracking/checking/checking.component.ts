@@ -19,10 +19,10 @@ export class CheckingComponent implements OnInit, OnChanges {
   constructor(private dialog: MatDialog, private service:ClientActivityTrackingService,  private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
+    this.spinner.show('checkingSpinner');
     
   }
   ngOnChanges(changes: SimpleChanges) {
-   
     this.checking();
   }
 
@@ -36,7 +36,7 @@ export class CheckingComponent implements OnInit, OnChanges {
   }
 
   checking(){
-   this.spinner.show();
+    this.spinner.show('checkingSpinner');
     // get how many days
     this.service.getClientsClicking(this.days).subscribe(stats=>{
       
@@ -78,7 +78,7 @@ export class CheckingComponent implements OnInit, OnChanges {
         this.clicksGo = 0
       }
 
-      this.spinner.hide();
+      this.spinner.hide('checkingSpinner');
 
     });
 

@@ -35,10 +35,10 @@ export class EngagingComponent implements OnInit, OnChanges {
 
   engaging(){
    
-    this.spinner.show();
+    this.spinner.show('engagingSpinner');
     // get how many days
     this.service.getClientsEngaging(this.days).subscribe(stats=>{
-      
+
       let clientsBefore=0
       if(stats[0]){
         this.clients = stats[0].clks;
@@ -56,7 +56,7 @@ export class EngagingComponent implements OnInit, OnChanges {
       else{
         this.clientsGo = 0
       }
-      this.spinner.hide();
+       this.spinner.hide('engagingSpinner');
 
     });
 

@@ -39,7 +39,7 @@ export class TrackingComponent implements OnInit, OnChanges {
 
   tracking(){
    
-    this.spinner.show();
+    this.spinner.show('trackingSpinner');
     // get how many days
     this.service.getClientsTracking(this.days).subscribe(stats=>{
       let clientsBefore;
@@ -80,7 +80,7 @@ export class TrackingComponent implements OnInit, OnChanges {
         this.tracksGo = 0
       }
 
-      this.spinner.hide();
+      this.spinner.hide('trackingSpinner');
 
     });
   

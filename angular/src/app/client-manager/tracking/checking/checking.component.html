@@ -1,42 +1,63 @@
 <mat-card id='checking'>
-    <div fxLayout="row" fxLayoutAlign="space-between center"  (click)="showDetails()">
+    <div fxLayout="row" fxLayoutAlign="space-between center" (click)="showDetails()">
         Clicking:
-        <span class="material-icons" style="color:gold; font-size: 1em; padding-left: 5px;"  (click)="showDetails()">
+        <span class="material-icons" style="color:gold; font-size: 1em; padding-left: 5px;" (click)="showDetails()">
             tips_and_updates
-          </span>
+        </span>
     </div>
-
-    <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top:5px; padding-bottom: 5px;"  (click)="showDetails()">
+    
+        <div  *ngIf="clients" fxLayout="row" fxLayoutAlign="space-between center" style="padding-top:5px; padding-bottom: 5px;"
+            (click)="showDetails()">
+            
             <span class="material-icons">
                 ads_click
-                </span> {{clients}}
-                 <span *ngIf="clientsGo==1" class="material-icons" >
-                    trending_up
-                    </span> 
-                    <span  *ngIf="clientsGo==-1" class="material-icons">
-                        trending_down
-                        </span>  
-                        <span  *ngIf="clientsGo==0" class="material-icons">
-                            trending_flat
-                            </span>      
-    </div>
-    <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top:5px; padding-bottom: 5px;"   (click)="showDetails()">
-        <span class="material-icons">
-            person
-            </span> {{clicks}}
-             <span *ngIf="clicksGo==1" class="material-icons">
+            </span> {{clients}}
+            <span *ngIf="clientsGo==1" class="material-icons">
                 trending_up
-                </span> 
-                <span *ngIf="clicksGo==-1" class="material-icons">
-                    trending_down
-                    </span>   
-                    <span *ngIf="clicksGo==0" class="material-icons">
-                        trending_flat
-                        </span>       
-</div>
+            </span>
+            <span *ngIf="clientsGo==-1" class="material-icons">
+                trending_down
+            </span>
+            <span *ngIf="clientsGo==0" class="material-icons">
+                trending_flat
+            </span>
+        
+        </div>
+        <div *ngIf="!clients" fxLayout="row" fxLayoutAlign="space-between center" style="padding-top:5px; padding-bottom: 5px;">
+            <span class="material-icons">
+                ads_click
+            </span> <span>...</span><span>...</span>
+        
+        </div>
 
- 
+        <ngx-spinner name="checkingSpinner" [fullScreen]="false" type="ball-spin-clockwise" size="medium">
 
-    <div fxLayout="row" fxLayoutAlign="center center" style="padding-top: 5px;"> <button mat-raised-button color="primary">View Clients</button>
-    </div>
+        </ngx-spinner>
+
+        <div  *ngIf="clients"  fxLayout="row" fxLayoutAlign="space-between center" style="padding-top:5px; padding-bottom: 5px;"
+            (click)="showDetails()">
+            <span class="material-icons">
+                person
+            </span> {{clicks}}
+            <span *ngIf="clicksGo==1" class="material-icons">
+                trending_up
+            </span>
+            <span *ngIf="clicksGo==-1" class="material-icons">
+                trending_down
+            </span>
+            <span *ngIf="clicksGo==0" class="material-icons">
+                trending_flat
+            </span>
+        </div>
+        <div *ngIf="!clients" fxLayout="row" fxLayoutAlign="space-between center" style="padding-top:5px; padding-bottom: 5px;">
+            <span class="material-icons">
+                person
+            </span>  <span>...</span><span>...</span>
+        </div>
+
+
+        <div fxLayout="row" fxLayoutAlign="center center" style="padding-top: 5px;"> <button mat-raised-button
+                color="primary">View Clients</button>
+        </div>
+
 </mat-card>
