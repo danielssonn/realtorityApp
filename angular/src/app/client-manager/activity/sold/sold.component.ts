@@ -15,8 +15,11 @@ export class SoldComponent implements OnInit, OnChanges {
   sales: any;
   clientsGo:any;
   salesGo:any;
+  stats:any;
   @Input() days:any;
   buttonDisabled:any;
+  clientsBefore:any;
+  soldBefore:any;
   constructor(private dialog:MatDialog, private service: ClientActivityTrackingService, private spinner: NgxSpinnerService) { 
     this.service.activityChangeAnnounced.subscribe(
       activity => {
@@ -38,7 +41,11 @@ export class SoldComponent implements OnInit, OnChanges {
     this.dialog.open(SoldDetailsComponent, {
       height: '90vh',
       width: '80vw',
-      minWidth: '375px'
+      minWidth: '375px',
+      data: {
+        dataKey: {clientsNow: this.clients, clientsBefore:this.clientsBefore, clientsGo:this.clientsGo,
+          soldNow: this.sales, soldBefore:this.soldBefore, salesGo:this.salesGo, days:this.days}
+        } 
     });
   }
   setActivity(){
@@ -46,51 +53,56 @@ export class SoldComponent implements OnInit, OnChanges {
     this.buttonDisabled = true; 
    }
   sold(){
-    this.spinner.show('soldSpinner');
-    // get how many days
-    this.service.getClientsSold(this.days).subscribe(stats=>{
-      let clientsBefore;
-      let soldBefore
 
-      if(stats[0]){
-        this.clients = stats[0].clks;
-      }
-
-      if(stats[1]){
-        this.sales = stats[1].clks;
-      }
-      if(stats[2]){
-        clientsBefore = stats[2].clks;
-      }
-      if(stats[3]){
-        soldBefore = stats[3].clks;
-      }
-
+    if(this.days){
       
-      if(this.clients - clientsBefore > 0){
-        this.clientsGo = 1
-      }
-      else if(this.clients  - clientsBefore < 0){
-        this.clientsGo = -1
-      }
-      else{
-        this.clientsGo = 0
-      }
+      this.spinner.show('soldSpinner'); 
+      this.service.getClientsSold(this.days).subscribe(stats=>{
 
-      if(this.sales  - soldBefore > 0){
-        this.salesGo = 1
-      }
-      else if(this.sales - soldBefore < 0){
-        this.salesGo = -1
-      }
-      else{
-        this.salesGo = 0
-      }
+        this.stats = stats;
 
-      this.spinner.hide('soldSpinner');
-
-    });
-
+  
+        if(this.stats[0]){
+          this.clients = this.stats[0].clks;
+        }
+  
+        if(this.stats[1]){
+          this.sales = this.stats[1].clks;
+        }
+        if(this.stats[2]){
+          this.clientsBefore = this.stats[2].clks;
+        }
+        if(this.stats[3]){
+          this.soldBefore = this.stats[3].clks;
+        }
+  
+        
+        if(this.clients - this.clientsBefore > 0){
+          this.clientsGo = 1
+        }
+        else if(this.clients  - this.clientsBefore < 0){
+          this.clientsGo = -1
+        }
+        else{
+          this.clientsGo = 0
+        }
+  
+        if(this.sales  - this.soldBefore > 0){
+          this.salesGo = 1
+        }
+        else if(this.sales -this.soldBefore < 0){
+          this.salesGo = -1
+        }
+        else{
+          this.salesGo = 0
+        }
+  
+        this.spinner.hide('soldSpinner');
+  
+      });
+  
+    
+    }
   }
 
 

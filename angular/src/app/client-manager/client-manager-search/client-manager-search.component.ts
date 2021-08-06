@@ -62,7 +62,7 @@ export class ClientManagerSearchComponent implements OnInit {
       act => {
        console.log('Copy activity from CSM ', act)
        this.activity = act;
-
+       this.clientSearchPaginator.firstPage(); 
        this.loadClients();
      
       });
@@ -82,6 +82,7 @@ export class ClientManagerSearchComponent implements OnInit {
     this.clientsService.getActiveClient().subscribe(
       val => {
 
+      
         this.selectedClientId = val;
         this.clientName = val.name;
         this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days);
@@ -155,7 +156,7 @@ export class ClientManagerSearchComponent implements OnInit {
 
   }
   openDetails(client) {
-
+    console.log('client ', client)
 
     const dialogSpec = {
       height: '90vh',
@@ -193,9 +194,9 @@ export class ClientManagerSearchComponent implements OnInit {
 
     dialogRef = this.dialog.open(ClientOverviewComponent, dialogSpec);
     dialogRef.afterClosed().subscribe(result => {
-
+   
       if (result !== 'close') {
-        this.loadClientsPage();
+       
 
       }
     });

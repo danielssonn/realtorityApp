@@ -15,22 +15,24 @@ export class CheckingComponent implements OnInit, OnChanges {
   clicks: any;
   clientsGo:any;
   clicksGo:any
+  stats: any;
   @Input() days;
   buttonDisabled: boolean 
   activity:any;
+  clientsBefore:any;
+  clicksBefore:any;
 
   constructor(private dialog: MatDialog, private service:ClientActivityTrackingService,  private spinner: NgxSpinnerService) { 
 
     this.service.activityChangeAnnounced.subscribe(
       activity => {
-       console.log('Copy activity from Checking ', activity)
        this.buttonDisabled = false; 
       });
 
   }
 
   ngOnInit(): void {
-    this.spinner.show('checkingSpinner');
+  
     
   }
   ngOnChanges(changes: SimpleChanges) {
@@ -42,7 +44,11 @@ export class CheckingComponent implements OnInit, OnChanges {
     this.dialog.open(CheckingDetailsComponent, {
       height: '90vh',
       width: '80vw',
-      minWidth: '375px'
+      minWidth: '375px',
+      data: {
+        dataKey: {clientsNow: this.clients, clientsBefore:this.clientsBefore, clientsGo:this.clientsGo,
+                  clicksNow: this.clicks, clicksBefore:this.clicksBefore, clicksGo:this.clicksGo, days:this.days}
+      }
     });
   }
   setActivity(){
@@ -50,42 +56,43 @@ export class CheckingComponent implements OnInit, OnChanges {
    this.buttonDisabled = true;
   }
   checking(){
+
+    if(this.days){
     this.spinner.show('checkingSpinner');
     // get how many days
     this.service.getClientsClicking(this.days).subscribe(stats=>{
-      
-      let clientsBefore;
-      let clicksBefore
+      this.stats = stats;
 
-      if(stats[0]){
-        this.clients = stats[0].clks;
+
+      if(this.stats[0]){
+        this.clients = this.stats[0].clks;
       }
 
-      if(stats[1]){
-        this.clicks = stats[1].clks;
+      if(this.stats[1]){
+        this.clicks = this.stats[1].clks;
       }
-      if(stats[2]){
-        clientsBefore = stats[2].clks;
+      if(this.stats[2]){
+        this.clientsBefore = this.stats[2].clks;
       }
       if(stats[3]){
-        clicksBefore = stats[3].clks;
+        this.clicksBefore = this.stats[3].clks;
       }
 
       
-      if(this.clients - clientsBefore > 0){
+      if(this.clients - this.clientsBefore > 0){
         this.clientsGo = 1
       }
-      else if(this.clients  - clientsBefore < 0){
+      else if(this.clients  - this.clientsBefore < 0){
         this.clientsGo = -1
       }
       else{
         this.clientsGo = 0
       }
 
-      if(this.clicks  - clicksBefore > 0){
+      if(this.clicks  - this.clicksBefore > 0){
         this.clicksGo = 1
       }
-      else if(this.clicks - clicksBefore < 0){
+      else if(this.clicks - this.clicksBefore < 0){
         this.clicksGo = -1
       }
       else{
@@ -95,7 +102,7 @@ export class CheckingComponent implements OnInit, OnChanges {
       this.spinner.hide('checkingSpinner');
 
     });
-
+  }
   }
 
 }

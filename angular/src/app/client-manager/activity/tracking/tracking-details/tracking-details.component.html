@@ -1,1 +1,54 @@
-<p>tracking-details works!</p>
+
+<mat-card>
+    <mat-card-title>Check</mat-card-title>
+    
+    
+    <p>Clients, who tracked on listings, in last {{trackingStats.days}} days.</p>
+    
+    <span style="font-size: 0.8em;"> <span class="material-icons"  style="font-size: 0.8em; color: grey;">
+        info
+        </span> ...</span>
+    
+    <br><br>
+    <b>Activity in the last {{trackingStats.days}} days:</b><br>
+    <p style="padding:5px">Clients: {{trackingStats.clientsNow}}</p>
+    <p style="padding:5px">Listings sold: {{trackingStats.tracksNow}} </p>
+    
+    <br>
+    <br>
+    <b>Activity in the previous {{trackingStats.days}} days:</b><br>
+    
+    <p style="padding:5px">Clients: {{trackingStats.clientsBefore}}</p> 
+    <p style="padding:5px">Listings sold: {{trackingStats.tracksBefore}}</p>
+    
+    <br>
+    <br>
+    
+    <b>Trend in the last two {{trackingStats.days}} days periods :</b><br>
+    
+    Clients trend:  <span *ngIf="trackingStats.clientsGo==1" class="material-icons">
+        trending_up
+    </span>
+    <span *ngIf="trackingStats.clientsGo==-1" class="material-icons">
+        trending_down
+    </span>
+    <span *ngIf="trackingStats.clientsGo==0" class="material-icons">
+        trending_flat
+    </span>
+    <br>
+    Listings trend: <span *ngIf="trackingStats.tracksGo==1" class="material-icons">
+        trending_up
+    </span>
+    <span *ngIf="trackingStats.tracksGo==-1" class="material-icons">
+        trending_down
+    </span>
+    <span *ngIf="trackingStats.tracksGo==0" class="material-icons">
+        trending_flat
+    </span>
+    <br><span style="font-size: 0.8em;"> <span class="material-icons"  style="font-size: 0.8em; color: grey;">
+        info
+        </span> This might be an indicator of your marketing effectivness in the given period.</span>
+        
+    </mat-card>
+    
+    

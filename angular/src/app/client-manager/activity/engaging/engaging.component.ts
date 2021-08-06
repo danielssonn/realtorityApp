@@ -12,6 +12,7 @@ import { EngagingDetailsComponent } from './engaging-details/engaging-details.co
 export class EngagingComponent implements OnInit, OnChanges {
   clients: any;
   clientsGo: any
+  clientsBefore:any;
   @Input() days;
   buttonDisabled:any; 
   constructor(private dialog: MatDialog, private service: ClientActivityTrackingService, private spinner: NgxSpinnerService) {
@@ -39,37 +40,44 @@ export class EngagingComponent implements OnInit, OnChanges {
     this.dialog.open(EngagingDetailsComponent, {
       height: '90vh',
       width: '80vw',
-      minWidth: '375px'
+      minWidth: '375px',
+      data: {
+        dataKey: {clientsNow: this.clients, clientsBefore:this.clientsBefore, clientsGo:this.clientsGo, days:this.days}
+      }
     });
   }
 
   engaging() {
-
+    if(this.days){
     this.spinner.show('engagingSpinner');
     // get how many days
     this.service.getClientsEngaging(this.days).subscribe(stats => {
-
-      let clientsBefore = 0
+      
+      this.clientsBefore = 0
+      
       if (stats[0]) {
         this.clients = stats[0].clks;
+ 
       }
       if (stats[1]) {
-        clientsBefore = stats[1].clks;
+        this.clientsBefore = stats[1].clks;
+      
       }
 
-      if (this.clients - clientsBefore > 0) {
+      if (this.clients - this.clientsBefore > 0) {
         this.clientsGo = 1
       }
-      else if (this.clients - clientsBefore < 0) {
+      else if (this.clients - this.clientsBefore < 0) {
         this.clientsGo = -1
       }
       else {
         this.clientsGo = 0
       }
+     
       this.spinner.hide('engagingSpinner');
 
     });
-
+  }
   }
 
 }

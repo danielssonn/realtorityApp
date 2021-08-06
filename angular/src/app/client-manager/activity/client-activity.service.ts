@@ -45,10 +45,11 @@ export class ClientActivityTrackingService {
     let params = {
       days:days};
     this.options.params = params; 
-
+    if(days){
     return this.http.get(this.clientsCheckingUrl, this.options).pipe(map(response => {
       return response;
     }))
+  }
 
   }
 
@@ -56,10 +57,13 @@ export class ClientActivityTrackingService {
     let params = {
       days:days};
     this.options.params = params; 
+    
+    if(days){
+      return this.http.get(this.clientsTrackingUrl, this.options).pipe(map(response => {
+        return response;
+      }))
+    }
 
-    return this.http.get(this.clientsTrackingUrl, this.options).pipe(map(response => {
-      return response;
-    }))
 
   }
   getClientsSold(days): Observable<any> {
@@ -67,18 +71,20 @@ export class ClientActivityTrackingService {
       days:days};
 
     this.options.params = params; 
+    if(days){
     return this.http.get(this.clientsSoldUrl, this.options).pipe(map(response => {
       return response;
     }))
-
+  }
   }
   getClientsEngaging(days): Observable<any> {
     let params = {
       days:days};
+      if(days){
     this.options.params = params; 
     return this.http.get(this.clientsEngagingUrl, this.options).pipe(map(response => {
       return response;
     }))
-
+  }
   }
 }

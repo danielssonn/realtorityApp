@@ -20,7 +20,8 @@ export class ClientOverviewComponent implements OnInit {
 
   ngOnInit() {
     this.device = "mobi"
-    this.profile = { client: this.client, activity: {}, engagement: { level: '', color: '' }, preferences: { 
+    console.log(' ... ', this.client)
+    this.profile = { client: this.client, activity: this.client.checked, engagement: { level: '', color: '' }, preferences: { 
       
     }, visits: { next: {} } }
     this.setClientProfile();

@@ -1,1 +1,53 @@
-<p>sold-details works!</p>
+
+
+<mat-card>
+<mat-card-title>Track + Sold</mat-card-title>
+
+
+<p>Clients, who track listings, which sold in the last {{trackingSoldStats.days}} days.</p>
+
+<span style="font-size: 0.8em;"> <span class="material-icons"  style="font-size: 0.8em; color: grey;">
+    info
+    </span> Reaching out to these clients might provide significant opportunity to convert.</span>
+
+<br><br>
+<b>Activity in the last {{trackingSoldStats.days}} days:</b><br>
+<p style="padding:5px">Clients: {{trackingSoldStats.soldNow}}</p>
+<p style="padding:5px">Listings sold:  {{trackingSoldStats.clientsNow}}</p>
+
+<br>
+<br>
+<b>Activity in the previous {{trackingSoldStats.days}} days:</b><br>
+
+<p style="padding:5px">Clients: {{trackingSoldStats.soldBefore}}</p> 
+<p style="padding:5px">Listings sold: {{trackingSoldStats.clientsBefore}}</p>
+
+<br>
+<br>
+
+<b>Trend in the last two {{trackingSoldStats.days}} days periods :</b><br>
+
+Clients trend:  <span *ngIf="trackingSoldStats.clientsGo==1" class="material-icons">
+    trending_up
+</span>
+<span *ngIf="trackingSoldStats.clientsGo==-1" class="material-icons">
+    trending_down
+</span>
+<span *ngIf="trackingSoldStats.clientsGo==0" class="material-icons">
+    trending_flat
+</span>
+<br>
+Listings trend: <span *ngIf="trackingSoldStats.salesGo==1" class="material-icons">
+    trending_up
+</span>
+<span *ngIf="trackingSoldStats.salesGo==-1" class="material-icons">
+    trending_down
+</span>
+<span *ngIf="trackingSoldStats.salesGo==0" class="material-icons">
+    trending_flat
+</span>
+<br><span style="font-size: 0.8em;"> <span class="material-icons"  style="font-size: 0.8em; color: grey;">
+    info
+    </span> This might be an indicator of your marketing effectivness in the given period.</span>
+</mat-card>
+

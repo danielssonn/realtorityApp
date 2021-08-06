@@ -1,1 +1,47 @@
-<p>engaging-details works!</p>
+
+
+
+<mat-card>
+    <mat-card-title>Sign ups</mat-card-title>
+    
+    
+    <p>Clients, who signed up, in last {{engagingStats.days}} days.</p>
+    
+    <span style="font-size: 0.8em;"> <span class="material-icons"  style="font-size: 0.8em; color: grey;">
+        info
+        </span> Let's make sure we welcome the new clients!</span>
+    
+    <br><br>
+    <b>Activity in the last {{engagingStats.days}} days:</b><br>
+    <p style="padding:5px">New Clients: {{engagingStats.clientsNow}}</p>
+    
+    <br>
+    <br>
+    <b>Activity in the previous {{engagingStats.days}} days:</b><br>
+    
+    <p style="padding:5px">New Clients: {{engagingStats.clientsBefore}}</p> 
+    
+    
+    <br>
+    <br>
+    
+    <b>Trend in the last two {{engagingStats.days}} days periods :</b><br>
+    
+    Clients trend:  <span *ngIf="engagingStats.clientsGo==1" class="material-icons">
+        trending_up
+    </span>
+    <span *ngIf="engagingStats.clientsGo==-1" class="material-icons">
+        trending_down
+    </span>
+    <span *ngIf="engagingStats.clientsGo==0" class="material-icons">
+        trending_flat
+    </span>
+    <br>
+   
+    <br><span style="font-size: 0.8em;"> <span class="material-icons"  style="font-size: 0.8em; color: grey;">
+        info
+        </span> This might be an indicator of your marketing effectivness in the given period.</span>
+        
+    </mat-card>
+    
+    

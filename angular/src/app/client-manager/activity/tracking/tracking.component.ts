@@ -16,8 +16,12 @@ export class TrackingComponent implements OnInit, OnChanges {
   tracks: any;
   clientsGo:any;
   tracksGo:any
+  stats:any;
   @Input() days;
   buttonDisabled:any;
+  clientsBefore:any;
+  tracksBefore:any;
+
   constructor(private dialog: MatDialog, private service:ClientActivityTrackingService,  private spinner: NgxSpinnerService) {
     this.service.activityChangeAnnounced.subscribe(
       activity => {
@@ -40,7 +44,11 @@ export class TrackingComponent implements OnInit, OnChanges {
     this.dialog.open(TrackingDetailsComponent, {
       height: '90vh',
       width: '80vw',
-      minWidth: '375px'
+      minWidth: '375px',
+      data: {
+        dataKey: {clientsNow: this.clients, clientsBefore:this.clientsBefore, clientsGo:this.clientsGo,
+          tracksNow: this.tracks, tracksBefore:this.tracksBefore, tracksGo:this.tracksGo, days:this.days}
+        } 
     });
   }
   setActivity(){
@@ -48,42 +56,42 @@ export class TrackingComponent implements OnInit, OnChanges {
     this.buttonDisabled=true;
    }
   tracking(){
-   
+    if(this.days){
     this.spinner.show('trackingSpinner');
     // get how many days
     this.service.getClientsTracking(this.days).subscribe(stats=>{
-      let clientsBefore;
-      let tracksBefore
+      this.stats = stats;
+     
 
-      if(stats[0]){
-        this.tracks = stats[0].clks;
+      if(this.stats[0]){
+        this.tracks = this.stats[0].clks;
       }
 
-      if(stats[1]){
-        this.clients = stats[1].clks;
+      if(this.stats[1]){
+        this.clients = this.stats[1].clks;
       }
-      if(stats[2]){
-        tracksBefore = stats[2].clks;
+      if(this.stats[2]){
+        this.tracksBefore = this.stats[2].clks;
       }
-      if(stats[3]){
-        clientsBefore = stats[3].clks;
+      if(this.stats[3]){
+        this.clientsBefore = this.stats[3].clks;
       }
 
       
-      if(this.clients - clientsBefore > 0){
+      if(this.clients - this.clientsBefore > 0){
         this.clientsGo = 1
       }
-      else if(this.clients  - clientsBefore < 0){
+      else if(this.clients  - this.clientsBefore < 0){
         this.clientsGo = -1
       }
       else{
         this.clientsGo = 0
       }
 
-      if(this.tracks  - tracksBefore > 0){
+      if(this.tracks  - this.tracksBefore > 0){
         this.tracksGo = 1
       }
-      else if(this.tracks - tracksBefore < 0){
+      else if(this.tracks - this.tracksBefore < 0){
         this.tracksGo = -1
       }
       else{
@@ -94,7 +102,7 @@ export class TrackingComponent implements OnInit, OnChanges {
 
     });
   
-
+  }
   }
 
 }

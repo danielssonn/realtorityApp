@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-engaging-details',
@@ -7,7 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EngagingDetailsComponent implements OnInit {
 
-  constructor() { }
+  engagingStats: any
+  constructor(@Inject(MAT_DIALOG_DATA) public stats: any) { 
+    this.engagingStats = stats.dataKey;
+    console.log('!11',this.engagingStats)
+   
+  }
+
 
   ngOnInit(): void {
   }

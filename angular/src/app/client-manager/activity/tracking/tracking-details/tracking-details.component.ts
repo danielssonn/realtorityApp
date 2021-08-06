@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-tracking-details',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TrackingDetailsComponent implements OnInit {
 
-  constructor() { }
+  trackingStats: any
+  constructor(@Inject(MAT_DIALOG_DATA) public stats: any) { 
+    this.trackingStats = stats.dataKey;
+    console.log(this.trackingStats);
+  }
 
   ngOnInit(): void {
   }
