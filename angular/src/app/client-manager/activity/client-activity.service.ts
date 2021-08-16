@@ -16,6 +16,8 @@ export class ClientActivityTrackingService {
   private clientsTrackingUrl;
   private clientsSoldUrl;
   private clientsEngagingUrl;
+  private clientSegmentsUrl;
+  private activityDatesUrl;
   private options;
 
 
@@ -28,37 +30,49 @@ export class ClientActivityTrackingService {
     this.clientsTrackingUrl = environment.serverURL + '/clientsTracking';
     this.clientsSoldUrl = environment.serverURL + '/clientsTrackingSold';
     this.clientsEngagingUrl = environment.serverURL + '/clientsEngaging';
-
+    this.clientSegmentsUrl = environment.serverURL + '/clientSegments';
+    this.activityDatesUrl = environment.serverURL + '/activityDates';
     const headers = new Headers();
-
-
     this.options = new RequestOptions({ headers: headers, withCredentials: true });
 
 
   }
 
-  announceActivity(activity:any) {
+  announceActivity(activity: any) {
     this.activityChangeSource.next(activity);
   }
 
-  getClientsClicking(days): Observable<any> {
+  getClientsClicking(days, segment): Observable<any> {
     let params = {
-      days:days};
-    this.options.params = params; 
-    if(days){
-    return this.http.get(this.clientsCheckingUrl, this.options).pipe(map(response => {
-      return response;
-    }))
-  }
+      days: days,
+      segment: segment
+    };
 
-  }
-
-  getClientsTracking(days): Observable<any> {
-    let params = {
-      days:days};
-    this.options.params = params; 
+    if(segment==undefined){
+      return;
+    }
     
-    if(days){
+    this.options.params = params;
+    if (days) {
+      return this.http.get(this.clientsCheckingUrl, this.options).pipe(map(response => {
+        return response;
+      }))
+    }
+
+  }
+
+  getClientsTracking(days, segment): Observable<any> {
+    let params = {
+      days: days,
+      segment: segment
+    };
+    this.options.params = params;
+
+    if(segment==undefined){
+      return;
+    }
+
+    if (days) {
       return this.http.get(this.clientsTrackingUrl, this.options).pipe(map(response => {
         return response;
       }))
@@ -66,25 +80,48 @@ export class ClientActivityTrackingService {
 
 
   }
-  getClientsSold(days): Observable<any> {
+  getClientsSold(days, segment): Observable<any> {
     let params = {
-      days:days};
+      days: days,
+      segment: segment
+    };
 
-    this.options.params = params; 
-    if(days){
-    return this.http.get(this.clientsSoldUrl, this.options).pipe(map(response => {
-      return response;
-    }))
+    if(segment==undefined){
+      return;
+    }
+
+    this.options.params = params;
+    if (days) {
+      return this.http.get(this.clientsSoldUrl, this.options).pipe(map(response => {
+        return response;
+      }))
+    }
   }
-  }
-  getClientsEngaging(days): Observable<any> {
+  getClientsEngaging(days, segment): Observable<any> {
     let params = {
-      days:days};
-      if(days){
-    this.options.params = params; 
-    return this.http.get(this.clientsEngagingUrl, this.options).pipe(map(response => {
+      days: days,
+      segment: segment
+    };
+
+    if(segment==undefined){
+      return;
+    }
+    
+    if (days) {
+      this.options.params = params;
+      return this.http.get(this.clientsEngagingUrl, this.options).pipe(map(response => {
+        return response;
+      }))
+    }
+  }
+  getClientSegments(): Observable<any> {
+    return this.http.get(this.clientSegmentsUrl, this.options).pipe(map(response => {
       return response;
     }))
   }
+  getActivityDates(): Observable<any> {
+    return this.http.get(this.activityDatesUrl, this.options).pipe(map(response => {
+      return response;
+    }))
   }
 }

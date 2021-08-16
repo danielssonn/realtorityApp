@@ -2,7 +2,7 @@
 
 
 <mat-card>
-    <mat-card-title>Sign ups</mat-card-title>
+    <mat-card-title>Sign ups comparison</mat-card-title>
     
     
     <p>Clients, who signed up, in last {{engagingStats.days}} days.</p>
@@ -11,15 +11,16 @@
         info
         </span> Let's make sure we welcome the new clients!</span>
     
-    <br><br>
-    <b>Activity in the last {{engagingStats.days}} days:</b><br>
-    <p style="padding:5px">New Clients: {{engagingStats.clientsNow}}</p>
+    <br><br><br>
+
+    <b>New Sign ups in current {{engagingStats.days}} days:</b><br>
+    <p style="padding:5px">New Clients: <span style='font-size:1.2em'>{{engagingStats.clientsNow}}</span></p>
     
     <br>
     <br>
-    <b>Activity in the previous {{engagingStats.days}} days:</b><br>
+    <b>New Sign ups in previous {{engagingStats.days}} days:</b><br>
     
-    <p style="padding:5px">New Clients: {{engagingStats.clientsBefore}}</p> 
+    <p style="padding:5px">New Clients: <span style='font-size:1.2em'>{{engagingStats.clientsBefore}}</span></p> 
     
     
     <br>
@@ -42,6 +43,8 @@
         info
         </span> This might be an indicator of your marketing effectivness in the given period.</span>
         
+    <img src="/assets/compare_periods.png" width="100%"/><br>
+   
     </mat-card>
     
     

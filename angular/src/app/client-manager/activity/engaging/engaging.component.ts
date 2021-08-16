@@ -14,6 +14,7 @@ export class EngagingComponent implements OnInit, OnChanges {
   clientsGo: any
   clientsBefore:any;
   @Input() days;
+  @Input() segment = 0;
   buttonDisabled:any; 
   constructor(private dialog: MatDialog, private service: ClientActivityTrackingService, private spinner: NgxSpinnerService) {
     this.service.activityChangeAnnounced.subscribe(
@@ -28,11 +29,10 @@ export class EngagingComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-
     this.engaging();
   }
   setActivity() {
-    this.service.announceActivity({ activity: 'engaging', days: this.days });
+    this.service.announceActivity({ activity: 'engaging', days: this.days,segment: this.segment });
     this.buttonDisabled = true;
   }
   showDetails() {
@@ -51,7 +51,7 @@ export class EngagingComponent implements OnInit, OnChanges {
     if(this.days){
     this.spinner.show('engagingSpinner');
     // get how many days
-    this.service.getClientsEngaging(this.days).subscribe(stats => {
+    this.service.getClientsEngaging(this.days, this.segment).subscribe(stats => {
       
       this.clientsBefore = 0
       

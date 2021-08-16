@@ -85,7 +85,7 @@ export class ClientManagerSearchComponent implements OnInit {
       
         this.selectedClientId = val;
         this.clientName = val.name;
-        this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days);
+        this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days, this.activity.segment);
 
       }
     )
@@ -123,6 +123,7 @@ export class ClientManagerSearchComponent implements OnInit {
       this.clientName,
       this.activity.activity,
       this.activity.days,
+      this.activity.segment,
       this.clientSearchPaginator.pageIndex,
       this.clientSearchPaginator.pageSize,
     );
@@ -138,13 +139,13 @@ export class ClientManagerSearchComponent implements OnInit {
       this.selectedClientId = row;
       this.clientName=this.selectedClientId.name;
       this.clientsService.setActiveClient(this.selectedClientId).subscribe();
-      this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days);
+      this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days, this.activity.segment);
 
     } else {
       this.clientName='';
       this.selectedClientId = this.noClient; 
       this.clientsService.setActiveClient(this.selectedClientId).subscribe();
-      this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days);
+      this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days, this.activity.segment);
     }
 
   }
@@ -152,7 +153,7 @@ export class ClientManagerSearchComponent implements OnInit {
     this.clientName='';
     this.selectedClientId = this.noClient;
     this.clientsService.setActiveClient(this.selectedClientId).subscribe();
-    this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days);
+    this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days, this.activity.segment);
 
   }
   openDetails(client) {

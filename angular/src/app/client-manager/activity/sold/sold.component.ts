@@ -17,6 +17,7 @@ export class SoldComponent implements OnInit, OnChanges {
   salesGo:any;
   stats:any;
   @Input() days:any;
+  @Input() segment = 0;
   buttonDisabled:any;
   clientsBefore:any;
   soldBefore:any;
@@ -32,8 +33,7 @@ export class SoldComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-   
-    this.sold();
+     this.sold();
   }
 
   showDetails(){
@@ -49,7 +49,7 @@ export class SoldComponent implements OnInit, OnChanges {
     });
   }
   setActivity(){
-    this.service.announceActivity({activity:'trackingSold', days: this.days});
+    this.service.announceActivity({activity:'trackingSold', days: this.days, segment: this.segment});
     this.buttonDisabled = true; 
    }
   sold(){
@@ -57,7 +57,7 @@ export class SoldComponent implements OnInit, OnChanges {
     if(this.days){
       
       this.spinner.show('soldSpinner'); 
-      this.service.getClientsSold(this.days).subscribe(stats=>{
+      this.service.getClientsSold(this.days, this.segment).subscribe(stats=>{
 
         this.stats = stats;
 

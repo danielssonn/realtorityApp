@@ -18,6 +18,8 @@ export class TrackingComponent implements OnInit, OnChanges {
   tracksGo:any
   stats:any;
   @Input() days;
+  @Input() segment = 0;
+
   buttonDisabled:any;
   clientsBefore:any;
   tracksBefore:any;
@@ -36,7 +38,7 @@ export class TrackingComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
    
-    this.tracking();
+      this.tracking();
   }
 
   showDetails(){
@@ -52,14 +54,14 @@ export class TrackingComponent implements OnInit, OnChanges {
     });
   }
   setActivity(){
-    this.service.announceActivity({activity:'tracking', days: this.days});
+    this.service.announceActivity({activity:'tracking', days: this.days, segment: this.segment});
     this.buttonDisabled=true;
    }
   tracking(){
     if(this.days){
     this.spinner.show('trackingSpinner');
     // get how many days
-    this.service.getClientsTracking(this.days).subscribe(stats=>{
+    this.service.getClientsTracking(this.days, this.segment).subscribe(stats=>{
       this.stats = stats;
      
 

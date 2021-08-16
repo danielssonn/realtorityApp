@@ -1,13 +1,12 @@
 <div *ngIf="salesPersonId && salesPersonId!=='null'">
 
-  <br>
 
 <div *ngIf="true">
 
   <div *ngIf="selectedClientId && selectedClientId.userId!=-1" fxLayout="row" fxLayoutAlign="space-around center" >
     <button color="warn" (click)='release()' mat-raised-button>{{"Reset Client"|translate}}</button>
   </div>
-<br>
+
   <div fxLayout="row" fxLayoutAlign="center center">
       <mat-form-field>
           <input matInput [(ngModel)]="clientName"  placeholder="Your Clients" #clientSearchInput>

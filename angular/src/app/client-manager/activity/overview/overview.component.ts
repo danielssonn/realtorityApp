@@ -1,5 +1,7 @@
 import { CoolLocalStorage } from '@angular-cool/storage';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ClientActivityTrackingService } from '../client-activity.service';
 
 @Component({
   selector: 'app-overview',
@@ -8,26 +10,38 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 })
 export class OverviewComponent implements OnInit, AfterViewInit {
   salesPersonId: any;
-  dayList = [
-    { "name": "7 Days", "value": "7" },
-    { "name": "60 Days", "value": "60" },
-    { "name": "90 Days", "value": "90" }
-
-  ]
+  dayList: any;
+  segmentsList: any;
 
   days: any;
-  constructor(private session: CoolLocalStorage) {
+  segment: any;
+  constructor(private session: CoolLocalStorage, private service: ClientActivityTrackingService, private spinner: NgxSpinnerService) {
     this.salesPersonId = this.session.getItem('salesPersonId');
 
   }
   ngAfterViewInit(): void {
-    this.days = this.dayList[0].value;
+
   }
 
   breakpoint: any;
   ngOnInit() {
+    this.spinner.show();
     this.breakpoint = (window.innerWidth <= 480) ? 2 : 4;
+    this.service.getActivityDates().subscribe(
+      activityDates => {
+        this.dayList = activityDates;
+        this.days = this.dayList[0].dateCount;
 
+        this.service.getClientSegments().subscribe(
+          clientSegments => {
+            this.segmentsList = clientSegments;
+            console.log('selected segement', this.segmentsList[0].userSegementID)
+            this.segment = this.segmentsList[0].userSegementID;
+            this.spinner.hide();
+          }
+        )
+      }
+    )
   }
 
 

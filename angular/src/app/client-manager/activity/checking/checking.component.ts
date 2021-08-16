@@ -17,6 +17,7 @@ export class CheckingComponent implements OnInit, OnChanges {
   clicksGo:any
   stats: any;
   @Input() days;
+  @Input() segment =0;
   buttonDisabled: boolean 
   activity:any;
   clientsBefore:any;
@@ -52,7 +53,7 @@ export class CheckingComponent implements OnInit, OnChanges {
     });
   }
   setActivity(){
-   this.service.announceActivity({activity:'checking', days: this.days});
+   this.service.announceActivity({activity:'checking', days: this.days, segment: this.segment});
    this.buttonDisabled = true;
   }
   checking(){
@@ -60,7 +61,7 @@ export class CheckingComponent implements OnInit, OnChanges {
     if(this.days){
     this.spinner.show('checkingSpinner');
     // get how many days
-    this.service.getClientsClicking(this.days).subscribe(stats=>{
+    this.service.getClientsClicking(this.days, this.segment).subscribe(stats=>{
       this.stats = stats;
 
 

@@ -49,7 +49,7 @@ export class ClientManagerSearchService {
   }
 
 
-  getClients(filter = '', activity: string, days:string,
+  getClients(filter = '', activity: string, days:string, segment:string,
     pageNumber = 0, pageSize = 3 ): Observable<Client[]> {
 
     return this.http.get(this.clientsForSalesperson, {
@@ -57,6 +57,7 @@ export class ClientManagerSearchService {
         .set('filter', filter)
         .set('activity', activity)
         .set('days', days)
+        .set('segment', segment)
         .set('pageNumber', pageNumber.toString())
         .set('pageSize', pageSize.toString())
 
