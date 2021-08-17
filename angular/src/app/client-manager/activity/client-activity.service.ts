@@ -48,10 +48,8 @@ export class ClientActivityTrackingService {
       segment: segment
     };
 
-    if(segment==undefined){
-      return;
-    }
-    
+
+
     this.options.params = params;
     if (days) {
       return this.http.get(this.clientsCheckingUrl, this.options).pipe(map(response => {
@@ -68,9 +66,7 @@ export class ClientActivityTrackingService {
     };
     this.options.params = params;
 
-    if(segment==undefined){
-      return;
-    }
+ 
 
     if (days) {
       return this.http.get(this.clientsTrackingUrl, this.options).pipe(map(response => {
@@ -86,9 +82,6 @@ export class ClientActivityTrackingService {
       segment: segment
     };
 
-    if(segment==undefined){
-      return;
-    }
 
     this.options.params = params;
     if (days) {
@@ -103,9 +96,6 @@ export class ClientActivityTrackingService {
       segment: segment
     };
 
-    if(segment==undefined){
-      return;
-    }
     
     if (days) {
       this.options.params = params;

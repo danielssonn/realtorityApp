@@ -1,32 +1,31 @@
-
 <mat-card>
     <mat-card-title>Tracking comparison</mat-card-title>
-    
-    
+
+
     <p>Clients, who tracked listings.</p>
-    
-    <span style="font-size: 0.8em;"> <span class="material-icons"  style="font-size: 0.8em; color: grey;">
-        info
+
+    <span style="font-size: 0.8em;"> <span class="material-icons" style="font-size: 0.8em; color: grey;">
+            info
         </span> ...</span>
-    
+
     <br><br>
 
     <b>In the current {{trackingStats.days}} days:</b><br>
     <p style="padding:5px">Clients: <span style='font-size:1.2em'>{{trackingStats.clientsNow}}</span> </p>
     <p style="padding:5px">Listings tracked: <span style='font-size:1.2em'>{{trackingStats.tracksNow}} </span> </p>
-    
+
     <br>
     <br>
     <b>In the previous {{trackingStats.days}} days:</b>
-    <p style="padding:5px">Clients: <span style='font-size:1.2em'>{{trackingStats.clientsBefore}}</span></p> 
+    <p style="padding:5px">Clients: <span style='font-size:1.2em'>{{trackingStats.clientsBefore}}</span></p>
     <p style="padding:5px">Listings tracked: <span style='font-size:1.2em'>{{trackingStats.tracksBefore}}</span></p>
-    
+
     <br>
     <br>
-    
+
     <b>Trend in the last two {{trackingStats.days}} days periods :</b><br>
-    
-    Clients trend:  <span *ngIf="trackingStats.clientsGo==1" class="material-icons">
+
+    Clients trend: <span *ngIf="trackingStats.clientsGo==1" class="material-icons">
         trending_up
     </span>
     <span *ngIf="trackingStats.clientsGo==-1" class="material-icons">
@@ -45,12 +44,10 @@
     <span *ngIf="trackingStats.tracksGo==0" class="material-icons">
         trending_flat
     </span>
-    <br><span style="font-size: 0.8em;"> <span class="material-icons"  style="font-size: 0.8em; color: grey;">
-        info
+    <br><span style="font-size: 0.8em;"> <span class="material-icons" style="font-size: 0.8em; color: grey;">
+            info
         </span> This might be an indicator of your marketing effectivness in the given period.</span>
-    <b>In the previous {{trackingStats.days}} days:</b><br>
-    <img src="/assets/compare_periods.png" width="100%"/><br>
+    <br>
+    <img src="/assets/compare_periods.png" width="100%" /><br>
 
-    </mat-card>
-    
-    
+</mat-card>

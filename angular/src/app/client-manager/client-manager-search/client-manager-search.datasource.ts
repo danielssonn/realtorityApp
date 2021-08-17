@@ -41,4 +41,9 @@ export class ClientManagerSearchDataSource implements DataSource<Client> {
             
             });
     }
+    reset(){
+        this.clientCount = 0;
+        this.clientsSubject.next([]);
+    
+    }
 }

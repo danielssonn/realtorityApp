@@ -3,7 +3,7 @@
     {{client.dataKey.name}}
 </div>
 <br><br>
-
+<div fxLayout="row" fxLayoutAlign="space-around center" >
 
 <form (ngSubmit)='update()' class="client-form"  [formGroup]="clientDetailsForm">
 
@@ -34,14 +34,16 @@
   </div>
 
 </form>
+</div>
 <br>
 <div fxLayout="row" fxLayoutAlign="space-around center" >
   <button color="warn" (click)='cancel()' mat-raised-button>{{"Cancel"|translate}}</button>
 </div>
 <br>
 <div fxLayout="row" fxLayoutAlign="space-around center" >
-    Created: {{client.dataKey.created|date}}<br>
+    Since: {{client.dataKey.ad|date}}<br>
 </div>
+<br><br><br>
 <div fxLayout="row" fxLayoutAlign="space-around center" >
    <!-- <small>{{client.dataKey.userId}}</small><br> -->
 </div>

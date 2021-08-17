@@ -1,88 +1,86 @@
 <div (swipe)="swipe($event)">
-<div fxLayout="row" fxLayoutAlign="space-around center" style="background-color: #bf1e2d; color:white" >
+  <div fxLayout="row" fxLayoutAlign="space-around center" style="background-color: #bf1e2d; color:white">
     {{client.dataKey.name}}
-</div>
-<br>
+  </div>
+  <br>
 
+  <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 10px;">
+    <span>Activity in period: </span>{{client.dataKey.checked}}
+
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center"  style="padding-top: 10px;">
+    <span>Client since </span>{{client.dataKey.ad|date}}
+
+  </div>
+  <div div *ngIf="profile">
+    <div fxLayout="row" fxLayoutAlign="space-between center"  style="padding-top: 10px;">
+      <span>Overall: </span>C: {{profile.activity.clicked}} T: {{profile.activity.tracked}}
+      S:{{profile.activity.sold}}
+
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between center"  style="padding-top: 10px;">
+      <span>Search Criteria: </span>{{searchDefinition}}
+
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between center"  style="padding-top: 10px;">
+      <span>Budget: </span>{{profile.preferences.priceFrom|shortCurrency}} -
+      {{profile.preferences.priceTo|shortCurrency}}
+
+    </div>
+  </div>
+
+  <br>
   
+  <mat-expansion-panel *ngIf="profile" hideToggle>
 
-  <div fxLayout="row" fxLayoutAlign="space-between center"  style="padding-bottom: 12px;">
-    Engagement Level:  <span  [ngStyle]="{'background-color': profile.engagement.color}" style="color:white;line-height: 20px;"> {{profile.engagement.level}}</span>
-  </div>
-
-  <div fxLayout="row" fxLayoutAlign="space-between center"  style="padding-bottom: 12px;">
-    Last Interaction:  <span  style="color: white;background-color: hotpink;line-height: 20px;"> {{profile.lastInteraction|date}}</span>
-  </div> 
-  <div fxLayout="row" fxLayoutAlign="space-between center"  style="padding-bottom: 12px;">
-    Number of Clicked: <span>{{client.dataKey.checked}}</span>
-   </div>
-  <div fxLayout="row" fxLayoutAlign="space-between center"  style="padding-bottom: 12px;">
-    Number of Tracked: <span>{{profile.activity.trackedTotal}}</span>
-   </div>
-
-
-   <div fxLayout="row" fxLayoutAlign="space-between center center"  style="padding-bottom: 12px;">
-     Number of Recos: <span>{{profile.activity.recos}}</span>
-    </div>
-
-    <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-bottom: 12px;" >
-        Since: <span>{{client.dataKey.created|date}}</span>
-    </div>
-
-    <div fxLayout="row" fxLayoutAlign="space-between center center"  style="padding-bottom: 12px;">
-      Profile
-     </div>
-     <div fxLayout="row" fxLayoutAlign="space-between center center" >
-      <span *ngIf="profile.preferences.detached">Detached</span>
-      <span *ngIf="profile.preferences.semi">Semi</span>
-      <span *ngIf="profile.preferences.condo">Condo</span>
-      <span *ngIf="profile.preferences.townhouse">Townhouse</span>
-
-     </div>
-     <div fxLayout="row" fxLayoutAlign="space-between center center" >
-      <span>From:</span>{{profile.preferences.priceFrom|currency:'':'symbol':'1.0-0'}}
-     </div>
-     <div fxLayout="row" fxLayoutAlign="space-between center center" >
-      <span>To:</span>{{profile.preferences.priceTo|currency:'':'symbol':'1.0-0'}}
-     </div>
+    <mat-expansion-panel-header >
+      <mat-panel-title>
+        Last {{profile.activity.highlights.length}} listings:
+      </mat-panel-title>
+      <mat-panel-description>
+      
+      </mat-panel-description>
+      <mat-icon>home</mat-icon>
+    </mat-expansion-panel-header>
     
+    <div style="font-size: 0.8em;" fxLayout="row" fxLayoutAlign="space-between center"
+      *ngFor="let property of profile.activity.highlights">
+      {{property.addr}}, {{property.lp_dol|shortCurrency}}, {{property.ml_num}} <br> <img [src]="getIcon(property)" width="15px">
+    </div>
 
-      <div fxLayout="row" fxLayoutAlign="space-between center center" >
-       <span></span>{{profile.preferences.beds}} : {{profile.preferences.baths}}
-      </div>
-   <br>
+  </mat-expansion-panel>
+  <ngx-spinner name="detailSpinner" [fullScreen]="false" type="ball-spin-clockwise" size="medium"></ngx-spinner>
 
-  <div fxLayout="row" fxLayoutAlign="space-between center center"  style="padding-bottom: 12px;">
-   Top Neighbourhoods
+  <br><br>
+  <div fxLayout="row" fxLayoutAlign="space-around center">
+    <mat-form-field appearance="fill">
+      <mat-label>Set Segment</mat-label>
+      <mat-select [(value)]="segment" (selectionChange)="segmentChange(ev)">
+        <mat-option *ngFor="let segment of segmentsList" [value]="segment.userSegementID">
+          {{segment.segmentDescription}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
-  <div  *ngIf="profile.preferences.hoods" fxLayout="row" fxLayoutAlign="space-between center center" >
-   <span></span>{{profile.preferences.hoods[0]}}
-  </div>
-  <div  *ngIf="profile.preferences.hoods" fxLayout="row" fxLayoutAlign="space-between center center" >
-    <span></span>{{profile.preferences.hoods[1]}}
-   </div>
-   <div  *ngIf="profile.preferences.hoods" fxLayout="row" fxLayoutAlign="space-between center center" >
-    <span></span>{{profile.preferences.hoods[2]}}
-   </div>
-<br>
 
 
-    <br>
-    <div fxLayout="row" fxLayoutAlign="space-between center"  >
-        <button mat-raised-button color="primary" >    <i class="material-icons">
-            email
-            </i>
-        </button>
-    <span>  </span>
-    <button mat-raised-button color="primary" >    <i class="material-icons">
+
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <button mat-raised-button color="primary"> <i class="material-icons">
+        email
+      </i>
+    </button>
+    <span> </span>
+    <button mat-raised-button color="primary"> <i class="material-icons">
         textsms
-        </i>
-        
-        
+      </i>
+
+
     </button>
   </div>
   <br>
-    <div fxLayout="row" fxLayoutAlign="space-around center" >
-      <button color="warn" (click)='cancel()' mat-raised-button>{{"Close"|translate}}</button>
-    </div>
+  <div fxLayout="row" fxLayoutAlign="space-around center">
+    <button color="warn" (click)='cancel()' mat-raised-button>{{"Close"|translate}}</button>
   </div>
+</div>

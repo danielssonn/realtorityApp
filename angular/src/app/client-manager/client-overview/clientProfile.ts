@@ -29,10 +29,11 @@ export interface ClientPreferences {
     condo?: String,
     townhouse?: String
 
-    priceFrom?: string;
-    priceTo?: string;
+    priceFrom?: number;
+    priceTo?: number;
     beds?: [];
     baths?: [];
+    userId: String;
 
 }
 

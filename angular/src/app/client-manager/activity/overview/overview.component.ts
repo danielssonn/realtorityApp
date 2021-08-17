@@ -30,13 +30,14 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     this.service.getActivityDates().subscribe(
       activityDates => {
         this.dayList = activityDates;
-        this.days = this.dayList[0].dateCount;
+       
 
         this.service.getClientSegments().subscribe(
           clientSegments => {
             this.segmentsList = clientSegments;
             console.log('selected segement', this.segmentsList[0].userSegementID)
             this.segment = this.segmentsList[0].userSegementID;
+            this.days = this.dayList[0].dateCount;
             this.spinner.hide();
           }
         )
@@ -44,6 +45,9 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     )
   }
 
+  segmentOrDayChange(){
+    this.service.announceActivity({activity:'segmentOrDayChange'});
+  }
 
   onResize(event) {
     this.breakpoint = (event.target.innerWidth <= 480) ? 2 : 4;

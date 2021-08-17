@@ -57,4 +57,6 @@ export class ClientManagerDetailsComponent implements OnInit {
   onSwipe(ev){
     this.dialogRef.close('close')
   }
+
+  
 }

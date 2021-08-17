@@ -1,0 +1,9 @@
+.mat-expansion-panel-header {
+    padding: 0 5px !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+.mat-expansion-panel-body {
+    padding: 0 5px !important;
+  }
+
