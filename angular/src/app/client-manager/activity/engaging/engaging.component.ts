@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Subscription } from 'rxjs';
 import { ClientActivityTrackingService } from '../client-activity.service';
 import { EngagingDetailsComponent } from './engaging-details/engaging-details.component';
 
@@ -16,8 +17,9 @@ export class EngagingComponent implements OnInit, OnChanges {
   @Input() days;
   @Input() segment = 0;
   buttonDisabled:any; 
+  private subscription: Subscription;
   constructor(private dialog: MatDialog, private service: ClientActivityTrackingService, private spinner: NgxSpinnerService) {
-    this.service.activityChangeAnnounced.subscribe(
+   this.subscription =  this.service.activityChangeAnnounced.subscribe(
       activity => {
         this.buttonDisabled = false;
       });
@@ -26,6 +28,9 @@ export class EngagingComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
 
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges) {

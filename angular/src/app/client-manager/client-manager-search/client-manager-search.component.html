@@ -1,54 +1,73 @@
 <div *ngIf="salesPersonId && salesPersonId!=='null'">
 
 
-<div *ngIf="true">
+  <div>
+<br>
+    <div *ngIf="selectedClientId && selectedClientId.userId!=-1" fxLayout="row" fxLayoutAlign="space-around center">
+      <button color="warn" (click)='release()' mat-raised-button>{{"Release Client"|translate}}</button>
+    </div>
+    <br>
+    <div *ngIf="activityLabel" fxLayout="row" fxLayoutAlign="space-between center"
+      style='line-height: 3; background-color: ghostwhite'>
+      <span class="material-icons" style="color: grey;">
+        format_align_left
+      </span>{{activityLabel}}<span class="material-icons"  style="color: grey;">
+        format_align_right
+      </span>
+    </div>
 
-  <div *ngIf="selectedClientId && selectedClientId.userId!=-1" fxLayout="row" fxLayoutAlign="space-around center" >
-    <button color="warn" (click)='release()' mat-raised-button>{{"Reset Client"|translate}}</button>
-  </div>
+    <div>
 
-  <div fxLayout="row" fxLayoutAlign="center center">
-      <mat-form-field>
-          <input matInput [(ngModel)]="clientName"  [placeholder]="activityLabel" #clientSearchInput>
-      </mat-form-field>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="center center">
-
-      <div class="spinner-container" *ngIf="dataSource.loading$ | async">
-          <mat-spinner></mat-spinner>
+      <div fxLayout="row" fxLayoutAlign="center center" [hidden]="!activityLabel">
+        <mat-form-field>
+          <input matInput [(ngModel)]="clientName" placeholder="Name" #clientSearchInput>
+        </mat-form-field>
       </div>
-  </div>
-  <table mat-table class="client-table mat-elevation-z8" [dataSource]="dataSource" matSort matSortActive="seqNo"
-      matSortDirection="asc" matSortDisableClear>
-      
-      <ng-container matColumnDef="select">
+      <div fxLayout="row" fxLayoutAlign="center center">
+
+        <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+          <mat-spinner></mat-spinner>
+        </div>
+      </div>
+
+
+      <table mat-table class="client-table mat-elevation-z8" [dataSource]="dataSource" matSort matSortActive="seqNo"
+        matSortDirection="asc" matSortDisableClear [hidden]="!activityLabel">
+
+
+
+
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>View</mat-header-cell>
+          <mat-cell (click)='openDetails(client)' class="name-cell" *matCellDef="let client">
+            {{client.name|shortText:40}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <mat-header-cell *matHeaderCellDef>Edit</mat-header-cell>
+          <mat-cell (click)='openOverview(client)' class="email-cell" *matCellDef="let client">
+            {{client.email|shortText:30}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="select">
           <mat-header-cell *matHeaderCellDef>
            Select
           </mat-header-cell>
-          <mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation()"
-                          (change)="toggle(row, $event)"
-                          [checked]="row.userId==selectedClientId.userId">
+          
+          <mat-cell *matCellDef="let row" class="check-cell">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="toggle(row, $event)"
+              [checked]="row.userId==selectedClientId.userId">
             </mat-checkbox>
           </mat-cell>
         </ng-container>
 
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
-      <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-          <mat-cell (click)='openDetails(client)' class="description-cell" *matCellDef="let client">{{client.name|shortText:40}}</mat-cell>
-      </ng-container>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 
-      <ng-container matColumnDef="email">
-          <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
-          <mat-cell (click)='openOverview(client)' class="duration-cell" *matCellDef="let client">{{client.email|shortText:40}}</mat-cell>
-      </ng-container>
-
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-
-  </table>
-  <mat-paginator [length]="dataSource.clientCount" [pageSize]="10" [pageSizeOptions]="[3, 5, 10]" #clientSearchPaginator ></mat-paginator>
+      </table>
+      <mat-paginator  [hidden]="!activityLabel" [length]="dataSource.clientCount" [pageSize]="10" [pageSizeOptions]="[3, 5, 10]"
+        #clientSearchPaginator></mat-paginator>
+    </div>
+  </div>
 </div>
-</div>
+<br>

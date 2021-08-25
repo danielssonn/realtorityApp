@@ -16,6 +16,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ControlPosition } from '@agm/core'
 import { Subscription } from 'rxjs';
 import { ClientManagerSearchService } from 'app/client-manager/client-manager-search/client-manager-search.service';
+import { AppConfig} from 'app/app-config'
 
 declare var sms: any;
 
@@ -570,13 +571,7 @@ export class PropertyDetailComponent implements OnInit {
             });
         });
         // CONFIGURATION
-        const options = {
-            replaceLineBreaks: false, // true to replace \n by a new line, false by default
-            android: {
-                intent: 'INTENT'  // send SMS with the native android SMS messaging
-                // intent: '' // send SMS without open any other app
-            }
-        };
+        
 
         const success = function () {
 
@@ -589,9 +584,9 @@ export class PropertyDetailComponent implements OnInit {
             this.translate.get('SMS schedule').subscribe((scheduleVisit: string) => {
                 if (!property.marketingMessage) {
                     // tslint:disable-next-line:max-line-length
-                    sms.send(phoneNumber, greet + property.addr + ' (' + property.ml_num + ')' + scheduleVisit, options, success, error);
+                    sms.send(phoneNumber, greet + property.addr + ' (' + property.ml_num + ')' + scheduleVisit, AppConfig.SMS_OPTIONS, success, error);
                 } else {
-                    sms.send(phoneNumber, '...', options, success, error);
+                    sms.send(phoneNumber, '...', AppConfig.SMS_OPTIONS, success, error);
 
                 }
             })

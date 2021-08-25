@@ -4,60 +4,99 @@
   </div>
   <br>
 
-  <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 10px;">
-    <span>Activity in period: </span>{{client.dataKey.checked}}
-
-  </div>
-
-  <div fxLayout="row" fxLayoutAlign="space-between center"  style="padding-top: 10px;">
-    <span>Client since </span>{{client.dataKey.ad|date}}
-
-  </div>
   <div div *ngIf="profile">
-    <div fxLayout="row" fxLayoutAlign="space-between center"  style="padding-top: 10px;">
-      <span>Overall: </span>C: {{profile.activity.clicked}} T: {{profile.activity.tracked}}
-      S:{{profile.activity.sold}}
-
+    <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 10px;">
+      <span>Overall: </span> <span ><span class="material-icons">
+          visibility
+        </span> {{profile.activity.clicked|number}} <span><span class="material-icons">
+          thumb_up
+        </span> {{profile.activity.tracked|number}} </span>
+      <span>
+        <span class="material-icons" >request_quote </span>{{profile.activity.sold|number}}
+      </span>
+    </span> 
     </div>
-    <div fxLayout="row" fxLayoutAlign="space-between center"  style="padding-top: 10px;">
-      <span>Search Criteria: </span>{{searchDefinition}}
 
-    </div>
-    <div fxLayout="row" fxLayoutAlign="space-between center"  style="padding-top: 10px;">
+  <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 10px;">
+    <span>{{client.dataKey.activity}} in period: </span>{{client.dataKey.checked}}
+
+  </div>
+
+    <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 10px;">
       <span>Budget: </span>{{profile.preferences.priceFrom|shortCurrency}} -
       {{profile.preferences.priceTo|shortCurrency}}
 
     </div>
   </div>
 
-  <br>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center" style="padding-top: 10px;">
+    <span>Client since </span>{{client.dataKey.created|date}}
+
+  </div>
   
+
+
+  <br>
+
   <mat-expansion-panel *ngIf="profile" hideToggle>
 
-    <mat-expansion-panel-header >
+    <mat-expansion-panel-header>
       <mat-panel-title>
-        Last {{profile.activity.highlights.length}} listings:
+        Last {{profile.activity.highlights.length}} listing(s):
       </mat-panel-title>
       <mat-panel-description>
-      
+
       </mat-panel-description>
       <mat-icon>home</mat-icon>
     </mat-expansion-panel-header>
-    
-    <div style="font-size: 0.8em;" fxLayout="row" fxLayoutAlign="space-between center"
-      *ngFor="let property of profile.activity.highlights">
-      {{property.addr}}, {{property.lp_dol|shortCurrency}}, {{property.ml_num}} <br> <img [src]="getIcon(property)" width="15px">
-    </div>
 
+    <div class="accordion" fxLayout="row" fxLayoutAlign="space-between center"
+      *ngFor="let property of profile.activity.highlights">
+      {{property.addr}}, {{property.lp_dol|shortCurrency}}, {{property.ml_num}} <br> <img [src]="getIcon(property)"
+        width="15px">
+    </div>
+   
+  </mat-expansion-panel>
+
+  <mat-expansion-panel *ngIf="profile" hideToggle>
+
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Interaction Stats
+      </mat-panel-title>
+      <mat-panel-description>
+
+      </mat-panel-description>
+      <mat-icon>visibility</mat-icon>
+    </mat-expansion-panel-header>
+
+    <div class="accordion" fxLayout="row" fxLayoutAlign="space-between center"
+      *ngFor="let stat of profile.stats[0]">
+      {{stat.year}} {{stat.month}}:  {{stat.ct}}
+    </div>
+   
   </mat-expansion-panel>
   <ngx-spinner name="detailSpinner" [fullScreen]="false" type="ball-spin-clockwise" size="medium"></ngx-spinner>
 
+  <br>
+  <!-- <div fxLayout="row" fxLayoutAlign="space-around center">
+    <span>
+    <mat-form-field >
+      <mat-label>Last Reachout: </mat-label>
+      <input matInput [matDatepicker]="picker" [value]="lastInteractionDate.value">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </span>
+  </div> -->
   <br><br>
+
   <div fxLayout="row" fxLayoutAlign="space-around center">
     <mat-form-field appearance="fill">
       <mat-label>Set Segment</mat-label>
-      <mat-select [(value)]="segment" (selectionChange)="segmentChange(ev)">
-        <mat-option *ngFor="let segment of segmentsList" [value]="segment.userSegementID">
+      <mat-select [(value)]="segment" (selectionChange)="segmentChange()">
+        <mat-option *ngFor="let segment of segmentsList" [value]="segment.userSegmentId">
           {{segment.segmentDescription}}
         </mat-option>
       </mat-select>
@@ -66,21 +105,27 @@
 
 
 
-  <div fxLayout="row" fxLayoutAlign="space-between center">
-    <button mat-raised-button color="primary"> <i class="material-icons">
-        email
-      </i>
-    </button>
-    <span> </span>
-    <button mat-raised-button color="primary"> <i class="material-icons">
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <a *ngIf="device==='browser'" href={{composeMessage()}} class="float" target="_blank">
+      <button mat-raised-button color="primary"> <i class="material-icons">
+          email
+        </i>
+      </button>
+    </a>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <button mat-raised-button color="primary"> <i class="material-icons" (click)="sendSMS(client.dataKey.phone)"
+        *ngIf="device!=='browser'">
         textsms
       </i>
-
-
     </button>
+
   </div>
   <br>
   <div fxLayout="row" fxLayoutAlign="space-around center">
     <button color="warn" (click)='cancel()' mat-raised-button>{{"Close"|translate}}</button>
   </div>
+
+
 </div>

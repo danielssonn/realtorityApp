@@ -4,27 +4,32 @@
 <mat-card-title>Track + Sold comparison</mat-card-title>
 
 
-<p>Clients, who tracked listings, which sold or left the market.</p>
+<p>Clients, who tracked listings, which sold or left the market in  in last {{trackingSoldStats.days}} days.</p>
 
 <span style="font-size: 0.8em;"> <span class="material-icons"  style="font-size: 0.8em; color: grey;">
     info
     </span> Reaching out to these clients might provide significant opportunity to convert.</span>
 
 <br><br>
+<div style="background-color:coral; color:white; padding: 10px;">  
 
 <b>In the current {{trackingSoldStats.days}} days:</b><br>
 <p style="padding:5px">Clients: <span style='font-size:1.2em'>{{trackingSoldStats.soldNow}}</span></p>
 <p style="padding:5px">Listings sold:  <span style='font-size:1.2em'>{{trackingSoldStats.clientsNow}}</span></p>
 
+</div>
 <br>
-<br>
+<div style="background-color:chocolate; color:white; padding: 10px;">  
+
 <b>In the previous {{trackingSoldStats.days}} days:</b><br>
 
 <p style="padding:5px">Clients: <span style='font-size:1.2em'>{{trackingSoldStats.soldBefore}}</span></p> 
 <p style="padding:5px">Listings sold: <span style='font-size:1.2em'>{{trackingSoldStats.clientsBefore}}</span></p>
 
+</div>
 <br>
-<br>
+<div style="background-color:black; color:white; padding: 10px;">  
+
 
 <b>Trend in the last two {{trackingSoldStats.days}} days periods :</b><br>
 
@@ -47,11 +52,11 @@ Listings trend: <span *ngIf="trackingSoldStats.salesGo==1" class="material-icons
 <span *ngIf="trackingSoldStats.salesGo==0" class="material-icons">
     trending_flat
 </span>
+</div>
 <br><span style="font-size: 0.8em;"> <span class="material-icons"  style="font-size: 0.8em; color: grey;">
     info
     </span> This might be an indicator of your marketing effectivness in the given period.</span>
 
-<img src="/assets/compare_periods.png" width="100%"/><br>
 
 </mat-card>
 

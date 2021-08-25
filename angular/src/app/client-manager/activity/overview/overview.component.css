@@ -1,14 +1,14 @@
 #checking {
-    background-color: crimson;
+    background-color: #20639b;
 }
 #tracking{
-    background-color: darkcyan;
+    background-color: #3caea3;
 }
 #engaging{
-    background-color: darkorange;
+    background-color: #ed553b;
 }
 #sold{
-    background-color: darkslategray;
+    background-color: #f6d55c;
 }
 .mat-radio-group{
     display:flex ;

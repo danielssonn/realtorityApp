@@ -41,6 +41,23 @@ export class ClientManagerSearchDataSource implements DataSource<Client> {
             
             });
     }
+    loadClient(userId: string) {
+
+        this.loadingSubject.next(true);
+
+        this.clientManagerService.getClient(userId, ).pipe(
+                catchError(() => of([])),
+                finalize(() => this.loadingSubject.next(false))
+            )
+            .subscribe(client => {
+               if(client[0]){
+                this.clientCount = client[0].outOf;
+                return this.clientsSubject.next(client.splice(1, client.length ));
+               } 
+            
+            });
+    }
+
     reset(){
         this.clientCount = 0;
         this.clientsSubject.next([]);

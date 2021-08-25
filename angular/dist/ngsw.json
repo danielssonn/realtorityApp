@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1625267533757,
+  "timestamp": 1629830377136,
   "index": "./index.html",
   "assetGroups": [
     {
@@ -13,12 +13,12 @@
       "urls": [
         "./favicon.ico",
         "./index.html",
-        "./main.2d6116d982c2f149cfa3.js",
+        "./main.8aeec02a42b0be3b8993.js",
         "./polyfills-es5.90fb6c0267f2aa3e38b5.js",
         "./polyfills.d9057c1a327742fc53cf.js",
         "./runtime.d4ae669daa85185b77e0.js",
         "./scripts.c397a902683ec5c07019.js",
-        "./styles.5fc9540e0fd02f565e51.css"
+        "./styles.6f52e43a62ed4a4dd1db.css"
       ],
       "patterns": []
     },
@@ -70,6 +70,7 @@
         "./assets/clusters/2.png",
         "./assets/clusters/3.png",
         "./assets/coming.png",
+        "./assets/compare_periods.png",
         "./assets/condRotated.jpg",
         "./assets/condRotated.svg",
         "./assets/condo_marker.png",
@@ -249,9 +250,10 @@
     "./assets/clusters/2.png": "c3ead3bc927345c0907c119184045a2f887a643f",
     "./assets/clusters/3.png": "c3ead3bc927345c0907c119184045a2f887a643f",
     "./assets/coming.png": "b7c2995f320addfa89b57180b6fefd3cf503569d",
+    "./assets/compare_periods.png": "0f6f0b22a9325e176160865e18d438ba9ec622c6",
     "./assets/condRotated.jpg": "4aeef5ad3b4dfb170fbaf43545a88098f1e67f43",
     "./assets/condRotated.svg": "10edd4898483f9b64dbd5826cc1e61088e15d3ab",
-    "./assets/condo_marker.png": "a512fd0ee8fd6bcc3a447004deb1fc8c1e1bddd4",
+    "./assets/condo_marker.png": "773e023e9c9e2e2511881d17dec21036c2e58524",
     "./assets/day.svg": "ef2e4f41cfd84da00f9ab4bf25323fc6c01054b4",
     "./assets/expRotated.jpg": "b0095d9f6eda4ef863206b297ece9d9065257b56",
     "./assets/expRotated.svg": "74eba243b2093e035bdec0f1a937ccf383d6ad12",
@@ -264,7 +266,7 @@
     "./assets/handup.svg": "faf5c58873896072b37eeeae355750416b896b3d",
     "./assets/heat-map-icon-24.jpg": "26b2ce858085fff409fc089c5b3f99756810bdb2",
     "./assets/house.png": "8394205d2aaca0d7c0ae1b1f625c19b6d604143e",
-    "./assets/house_marker.png": "0801e329315559f370b416806b3004e462b8a2cb",
+    "./assets/house_marker.png": "59babf58edef39c85414927f08b0918704d50136",
     "./assets/howitworks.svg": "3b5ed9ed103608c85b1a22f2b5fbe9f5f5422a65",
     "./assets/howitworks.svg.png": "8902ad689c4448fc37f5a62000f8003579054573",
     "./assets/howitworksen.png": "a4c12762d4ad171677766298a3903b0a33a18b1e",
@@ -360,7 +362,7 @@
     "./assets/rss.svg": "c3ded9e147f1d292c0f7aa73eb0c1d8a8763fcff",
     "./assets/sample_polygon.png": "f9fa7e4b751e9b7489b54cfa962e8e1ddc58f2be",
     "./assets/search.svg": "50ce9455f3d6268caf95429108ac2fc2031891c7",
-    "./assets/semi_marker.png": "408450f54a55b89cadd8bf43bb2c0306fe0b48f8",
+    "./assets/semi_marker.png": "ad06d12c7445f02bea5133c7ac35c0575bf1422d",
     "./assets/shower.png": "cd7d0f3c9cf64707ffbaf98ffc99ce7738ab5c16",
     "./assets/signinapple.png": "044a0b6581e4cda71033d8f2ef700e99d1a69daa",
     "./assets/sold.png": "0db320ef873aa22efbb82b3f8b87bbcb270a4b26",
@@ -376,20 +378,20 @@
     "./assets/termRotated.jpg": "358af51dec540ee10bb10ccbbef9b86136bf5364",
     "./assets/termRotated.svg": "1b9436e4ed937fc06bac29ad98451e675df1bb23",
     "./assets/today.png": "3cb218dde32514ca83ecf10b37762bb91dcd5d9b",
-    "./assets/townhouse_marker.png": "365f99b0acd24e429b7297d20a66b044579ef76d",
+    "./assets/townhouse_marker.png": "37f3d0830cf1a673181c0fa94395a5ee671f320c",
     "./assets/trashbin.png": "77a6490d25456beca7c5f0c122353f158aeb126a",
     "./assets/trebcoverage.png": "60a1b68422ab8a0bda00ba1848d3b27ded00ed5b",
     "./assets/week.png": "d21abbe0099c2969a9302f4722613d9c5c175e18",
     "./assets/weekly-preview.png": "9b6bff10cdd55f8168ee0264859847997c683528",
     "./assets/whylike.png": "557bc9ffc5ed9e7942cc51c4488767152d6dc3f1",
     "./favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "./index.html": "2e400dcc084e42b84a60e9d8bc453da398182270",
-    "./main.2d6116d982c2f149cfa3.js": "2387bfc939d221589a9fa28dc56b2bcca0d93162",
+    "./index.html": "780d6fe2bc50e615bccb393156c78a51cd051678",
+    "./main.8aeec02a42b0be3b8993.js": "2ededcbf7eade8da0fdffbd6a561c3e09a3a89b4",
     "./polyfills-es5.90fb6c0267f2aa3e38b5.js": "2c76bc49277ea41e8ffb4a99392a8f47f4d3b01f",
     "./polyfills.d9057c1a327742fc53cf.js": "a0852f371de1dda2dcdc5f88e9a0c70dac5ad9a6",
     "./runtime.d4ae669daa85185b77e0.js": "8fa0f1104722967d17ff31db8a086e9967381682",
     "./scripts.c397a902683ec5c07019.js": "58fe17f3e544ec83940912edeaa490da5cad3001",
-    "./styles.5fc9540e0fd02f565e51.css": "529d7ce1680abc609b689e41f28c55befd72ce46"
+    "./styles.6f52e43a62ed4a4dd1db.css": "529d7ce1680abc609b689e41f28c55befd72ce46"
   },
   "navigationUrls": [
     {

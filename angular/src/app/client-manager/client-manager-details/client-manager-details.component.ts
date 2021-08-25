@@ -2,6 +2,10 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { UserService } from 'app/user.service';
+import { AppConfig } from 'app/app-config';
+
+declare var sms: any;
+
 
 @Component({
   selector: 'app-client-manager-details',
@@ -57,6 +61,8 @@ export class ClientManagerDetailsComponent implements OnInit {
   onSwipe(ev){
     this.dialogRef.close('close')
   }
+
+
 
   
 }

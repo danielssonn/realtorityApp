@@ -156,11 +156,12 @@ export class AppComponent implements OnInit {
     }
     )
     this.isSalesPerson = false;
-    if (this.session.getItem('salesPersonId')) {
+    let salePersonFromSession = this.session.getItem('salesPersonId');
+    if (salePersonFromSession && salePersonFromSession!=='null') {
       this.isSalesPerson = true;
     }
     this.user = this.userService.isAuthenticated();
-    console.log(this.user)
+    
     console.log("SPP", this.isSalesPerson)
     // this language will be used as a fallback when a translation isn't found in the current language
     translate.setDefaultLang('en_CA')
@@ -388,10 +389,13 @@ export class AppComponent implements OnInit {
 
   }
   manage() {
-    this.router.navigate(['./manage']);
+    this.router.navigate(['./activity']);
   }
   radar() {
     this.router.navigate(['./radar']);
+  }
+  activity() {
+    this.router.navigate(['./activity']);
   }
 
   onClack() {

@@ -9,6 +9,7 @@ export interface ClientActivity {
     trackedTotal?: number;
     trackedActive?: number;
     recos?: number;
+    highlights?:[];
 
 
 }

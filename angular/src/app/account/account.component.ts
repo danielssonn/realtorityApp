@@ -26,7 +26,7 @@ export class AccountComponent implements OnInit {
 
   user: any;
   userName: String;
-  salesPersonId: String;
+  salesPersonId: number;
   clients: any;
   loginOn = false;
   lang: any;
@@ -38,7 +38,7 @@ export class AccountComponent implements OnInit {
     private clientManagerSearchService: ClientManagerSearchService, private deviceService: DeviceService, private dialog: MatDialog) {
     this.user = this.service.isAuthenticated();
     this.userName = this.session.getItem('userName');
-    this.salesPersonId = this.session.getItem('salesPersonId');
+    this.salesPersonId = +this.session.getItem('salesPersonId');
 
     this.dvs.platform.subscribe(val=> {
       if (val.platform == 'iOS') {

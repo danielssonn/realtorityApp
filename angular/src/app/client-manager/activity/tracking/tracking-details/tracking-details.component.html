@@ -2,26 +2,28 @@
     <mat-card-title>Tracking comparison</mat-card-title>
 
 
-    <p>Clients, who tracked listings.</p>
+    <p>Clients, who tracked listings in the last {{trackingStats.days}} days.</p>
 
     <span style="font-size: 0.8em;"> <span class="material-icons" style="font-size: 0.8em; color: grey;">
             info
         </span> ...</span>
 
     <br><br>
-
+    <div style="background-color:coral; color:white; padding: 10px;">  
     <b>In the current {{trackingStats.days}} days:</b><br>
     <p style="padding:5px">Clients: <span style='font-size:1.2em'>{{trackingStats.clientsNow}}</span> </p>
     <p style="padding:5px">Listings tracked: <span style='font-size:1.2em'>{{trackingStats.tracksNow}} </span> </p>
 
+    </div>  
     <br>
-    <br>
+    <div style="background-color:chocolate; color:white; padding: 10px;">  
     <b>In the previous {{trackingStats.days}} days:</b>
     <p style="padding:5px">Clients: <span style='font-size:1.2em'>{{trackingStats.clientsBefore}}</span></p>
     <p style="padding:5px">Listings tracked: <span style='font-size:1.2em'>{{trackingStats.tracksBefore}}</span></p>
-
+    </div>
     <br>
-    <br>
+    
+    <div style="background-color:black; color:white; padding: 10px;">  
 
     <b>Trend in the last two {{trackingStats.days}} days periods :</b><br>
 
@@ -44,10 +46,10 @@
     <span *ngIf="trackingStats.tracksGo==0" class="material-icons">
         trending_flat
     </span>
+    </div>
     <br><span style="font-size: 0.8em;"> <span class="material-icons" style="font-size: 0.8em; color: grey;">
             info
         </span> This might be an indicator of your marketing effectivness in the given period.</span>
     <br>
-    <img src="/assets/compare_periods.png" width="100%" /><br>
 
 </mat-card>

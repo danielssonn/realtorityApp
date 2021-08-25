@@ -8,7 +8,7 @@ import { ClientActivityTrackingService } from '../client-activity.service';
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.css']
 })
-export class OverviewComponent implements OnInit, AfterViewInit {
+export class OverviewComponent implements OnInit {
   salesPersonId: any;
   dayList: any;
   segmentsList: any;
@@ -19,9 +19,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     this.salesPersonId = this.session.getItem('salesPersonId');
 
   }
-  ngAfterViewInit(): void {
 
-  }
 
   breakpoint: any;
   ngOnInit() {
@@ -35,9 +33,21 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         this.service.getClientSegments().subscribe(
           clientSegments => {
             this.segmentsList = clientSegments;
-            console.log('selected segement', this.segmentsList[0].userSegementID)
-            this.segment = this.segmentsList[0].userSegementID;
-            this.days = this.dayList[0].dateCount;
+            let segmentFromSession = +this.session.getItem('segment');
+            if(segmentFromSession){
+              console.log('seg from sesh', this.session.getItem('segment') )
+              this.segment = segmentFromSession;
+            } else{
+              this.segment = this.segmentsList[0].userSegmentId;
+            }
+
+            let daysFromSession = +this.session.getItem('days');
+            if(daysFromSession){
+              this.days = daysFromSession;
+            } else{
+              this.days = this.dayList[0].dateCount;
+            }
+
             this.spinner.hide();
           }
         )
@@ -46,6 +56,7 @@ export class OverviewComponent implements OnInit, AfterViewInit {
   }
 
   segmentOrDayChange(){
+
     this.service.announceActivity({activity:'segmentOrDayChange'});
   }
 

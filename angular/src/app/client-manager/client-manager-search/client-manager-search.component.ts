@@ -9,7 +9,7 @@ import { MatButtonToggle } from '@angular/material/button-toggle';
 
 
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { fromEvent, merge } from 'rxjs';
+import { fromEvent, merge, Subscription } from 'rxjs';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ClientManagerSearchDataSource } from './client-manager-search.datasource';
 import { ClientManagerSearchService } from './client-manager-search.service';
@@ -17,6 +17,9 @@ import { ClientManagerDetailsComponent } from '../client-manager-details/client-
 import { ClientOverviewComponent } from '../client-overview/client-overview.component';
 import { group } from '@angular/animations';
 import { ClientActivityTrackingService } from '../activity/client-activity.service';
+import { ClientReleaseDialogComponent } from './client-release-dialog/client-release-dialog.component';
+import { ClientSelectionDialogComponent } from './client-selection-dialog/client-selection-dialog.component';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 
 
@@ -36,7 +39,7 @@ export class ClientManagerSearchComponent implements OnInit {
   noClient: Client;
   clientName: string;
 
-  displayedColumns = ['select', 'name', 'email'];
+  displayedColumns = ['name', 'email', 'select'];
 
   @ViewChild(MatPaginator, { static: false }) clientSearchPaginator: MatPaginator;
 
@@ -46,7 +49,9 @@ export class ClientManagerSearchComponent implements OnInit {
 
   activity: any;
   activityLabel = "";
-
+  activityLabelShort = "";
+  segmentList: any;
+  private subscription: Subscription;
 
 
 
@@ -59,49 +64,123 @@ export class ClientManagerSearchComponent implements OnInit {
     this.dataSource = new ClientManagerSearchDataSource(this.clientsService);
     this.clientName = '';
 
-    this.activityService.activityChangeAnnounced.subscribe(
-      act => {
-
-        this.activity = act;
-        if(this.activity.activity =="checking"){
-          this.activityLabel = "Click Clients"
-        }
-        if(this.activity.activity =="tracking"){
-          this.activityLabel = "Track Clients"
-        }
-        if(this.activity.activity =="trackingSold"){
-          this.activityLabel = "Track + Sold Clients"
-        }
-        if(this.activity.activity =="engaging"){
-          this.activityLabel = "Sign Ups"
-        }
-        if(this.activity.activity =="segmentOrDayChange"){
-          this.activityLabel = ""
-        }
-        this.clientSearchPaginator.firstPage();
-        this.loadClients();
-
-      });
 
 
   }
 
   ngOnInit() {
-    
+
+    this.activityService.getClientSegments().subscribe(
+      segList =>{
+        this.segmentList = segList;
+      }
+    );
+
+    this.subscription = this.activityService.activityChangeAnnounced.subscribe(
+      act => {
+
+        this.activity = act;
+        if (this.activity.activity == "checking") {
+          this.activityLabel = this.segmentList[this.activity.segment].segmentDescription+" Viewing: "+ this.activity.days+" days";
+          this.activityLabelShort = "Views";
+          this.session.setItem('activity', this.activity.activity);
+          this.session.setItem('activityLabel', this.activityLabel);
+          this.session.setItem('days', this.activity.days);
+          this.session.setItem('segment', this.activity.segment);
+        }
+        if (this.activity.activity == "tracking") {
+          this.activityLabel = this.segmentList[this.activity.segment].segmentDescription+" Tracking: "+ this.activity.days+" days";
+          this.activityLabelShort = "Tracks";
+          this.session.setItem('activity', this.activity.activity);
+          this.session.setItem('activityLabel', this.activityLabel);
+          this.session.setItem('days', this.activity.days);
+          this.session.setItem('segment', this.activity.segment);
+        }
+        if (this.activity.activity == "trackingSold") {
+          this.activityLabel = this.segmentList[this.activity.segment].segmentDescription+" w. Track + Sold: "+ this.activity.days+" days";
+          this.activityLabelShort = "Tracks + Sold";
+          this.session.setItem('activity', this.activity.activity);
+          this.session.setItem('activityLabel', this.activityLabel);
+          this.session.setItem('days', this.activity.days);
+          this.session.setItem('segment', this.activity.segment);
+        }
+        if (this.activity.activity == "engaging") {
+          this.activityLabel = this.segmentList[this.activity.segment].segmentDescription+" Sign Ups: "+ this.activity.days+" days";
+          this.activityLabelShort = "Sign Ups";
+          this.session.setItem('activity', this.activity.activity);
+          this.session.setItem('activityLabel', this.activityLabel);
+          this.session.setItem('days', this.activity.days);
+
+
+        }
+        if (this.activity.activity == "segmentOrDayChange") {
+          this.activityLabel = "";
+          this.session.setItem('activityLabel', this.activityLabel);
+          this.session.setItem('activity', 'null');
+          this.session.setItem('days', 'null');
+
+        }
+
+        if( this.clientSearchPaginator){
+          this.clientSearchPaginator.firstPage();
+
+        }
+
+
+
+        if (this.selectedClientId.userId != "-1") {
+          // this.openReleaseDialog();
+          // this.release();
+          this.loadClients();
+
+        }
+        else {
+          this.loadClients();
+        }
+
+
+      });
+
+    if (!this.activity) {
+      console.log('should get activity from session')
+      this.activity = {};
+      this.activity.activity = this.session.getItem('activity');
+      this.activity.days = this.session.getItem('days');
+      this.activity.segment = this.session.getItem('segment');
+      this.activityLabel = this.session.getItem('activityLabel');
+      this.loadClients();
+    }
+
+
+    this.clientsService.getActiveClient().subscribe(
+      val => {
+        this.selectedClientId = val;
+        if (this.selectedClientId.userId != "-1") {
+          // this.dataSource.loadClient(this.selectedClientId.userId);
+
+        }
+      }
+    );
+
   }
 
- 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
 
   loadClients() {
     if (this.activity.activity == "segmentOrDayChange") {
       this.dataSource.reset();
     }
     else {
+      
+      this.dataSource.loadClients("", this.activity.activity, this.activity.days, this.activity.segment);
+
       this.clientsService.getActiveClient().subscribe(
         val => {
           this.selectedClientId = val;
-          this.clientName = val.name;
-          this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days, this.activity.segment);
+          // this.clientName = val.name;
 
         }
       )
@@ -133,8 +212,11 @@ export class ClientManagerSearchComponent implements OnInit {
 
     }
   }
+
+  
   loadClientsPage() {
-    if(this.activity){
+    if (this.activity) {
+
       this.dataSource.loadClients(
         this.clientName,
         this.activity.activity,
@@ -144,7 +226,7 @@ export class ClientManagerSearchComponent implements OnInit {
         this.clientSearchPaginator.pageSize,
       );
     }
-   
+
   }
 
   sortChange(ev) {
@@ -152,18 +234,19 @@ export class ClientManagerSearchComponent implements OnInit {
   }
 
   toggle(row, event) {
-    console.log('selected', row, event);
+
     if (event.checked) {
+      this.openClientSelectDialog();
       this.selectedClientId = row;
-      this.clientName = this.selectedClientId.name;
+      // this.clientName = this.selectedClientId.name;
       this.clientsService.setActiveClient(this.selectedClientId).subscribe();
-      this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days, this.activity.segment);
+      // this.dataSource.loadClients(this.selectedClientId.name, this.activity.activity, this.activity.days, this.activity.segment);
 
     } else {
       this.clientName = '';
       this.selectedClientId = this.noClient;
       this.clientsService.setActiveClient(this.selectedClientId).subscribe();
-      this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days, this.activity.segment);
+      // this.dataSource.loadClients(this.selectedClientId.name, this.activity.activity, this.activity.days, this.activity.segment);
     }
 
   }
@@ -171,10 +254,14 @@ export class ClientManagerSearchComponent implements OnInit {
     this.clientName = '';
     this.selectedClientId = this.noClient;
     this.clientsService.setActiveClient(this.selectedClientId).subscribe();
-    this.dataSource.loadClients(this.selectedClientId.email, this.activity.activity, this.activity.days, this.activity.segment);
+
+    if (this.activity) {
+      this.dataSource.loadClients(this.selectedClientId.name, this.activity.activity, this.activity.days, this.activity.segment);
+    }
+    this.dataSource.reset();
 
   }
-  openDetails(client) {
+  openOverview(client) {
     console.log('client ', client)
 
     const dialogSpec = {
@@ -199,9 +286,9 @@ export class ClientManagerSearchComponent implements OnInit {
 
   }
 
-  openOverview(client) {
+  openDetails(client) {
 
-    
+    client.activity = this.activityLabelShort;
     const dialogSpec = {
       height: '100vh',
       width: '100vw',
@@ -216,11 +303,50 @@ export class ClientManagerSearchComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 
       if (result && result !== 'close') {
+
         this.loadClientsPage();
 
       }
     });
 
+  }
+
+  openClientSelectDialog() {
+    const dialogSpec = {
+      height: '28vh',
+      width: '100vw',
+
+    };
+
+    let dialogRef: any;
+
+    dialogRef = this.dialog.open(ClientSelectionDialogComponent, dialogSpec);
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result && result !== 'close') {
+         result;
+
+      }
+    });
+  }
+
+  openReleaseDialog() {
+    const dialogSpec = {
+      height: '25vh',
+      width: '100vw',
+
+    };
+
+    let dialogRef: any;
+
+    dialogRef = this.dialog.open(ClientReleaseDialogComponent, dialogSpec);
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result && result !== 'close') {
+
+
+      }
+    });
   }
 
 

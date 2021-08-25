@@ -151,6 +151,9 @@ export class WeekComponent implements OnInit, AfterViewInit {
     console.log('filtering')
     const filterValue = value.toLowerCase();
     return this.properties.filter(option => {
+        if(!option.addr){
+          return true;
+        }
        return option.addr.toLowerCase().includes(filterValue)
       });
   }

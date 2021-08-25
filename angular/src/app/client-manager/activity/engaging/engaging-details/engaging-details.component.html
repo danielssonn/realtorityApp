@@ -4,28 +4,32 @@
 <mat-card>
     <mat-card-title>Sign ups comparison</mat-card-title>
     
-    
-    <p>Clients, who signed up, in last {{engagingStats.days}} days.</p>
+
+    <p>Clients who signed up, in last {{engagingStats.days}} days.</p>
     
     <span style="font-size: 0.8em;"> <span class="material-icons"  style="font-size: 0.8em; color: grey;">
         info
         </span> Let's make sure we welcome the new clients!</span>
     
     <br><br><br>
+    <div style="background-color:coral; color:white; padding: 10px;">  
 
     <b>New Sign ups in current {{engagingStats.days}} days:</b><br>
-    <p style="padding:5px">New Clients: <span style='font-size:1.2em'>{{engagingStats.clientsNow}}</span></p>
+    <p style="padding:5px">New Clients: <span style='font-size:1.2em'>{{engagingStats.clientsNow|number}}</span></p>
     
+    </div>
     <br>
-    <br>
+    <div style="background-color:chocolate; color:white; padding: 10px;">  
+
     <b>New Sign ups in previous {{engagingStats.days}} days:</b><br>
     
-    <p style="padding:5px">New Clients: <span style='font-size:1.2em'>{{engagingStats.clientsBefore}}</span></p> 
+    <p style="padding:5px">New Clients: <span style='font-size:1.2em'>{{engagingStats.clientsBefore|number}}</span></p> 
     
     
+    </div>
     <br>
-    <br>
-    
+    <div style="background-color:black; color:white; padding: 10px;">  
+
     <b>Trend in the last two {{engagingStats.days}} days periods :</b><br>
     
    Sign ups:  <span *ngIf="engagingStats.clientsGo==1" class="material-icons">
@@ -38,12 +42,11 @@
         trending_flat
     </span>
     <br>
-   
+   </div>
     <br><span style="font-size: 0.8em;"> <span class="material-icons"  style="font-size: 0.8em; color: grey;">
         info
         </span> This might be an indicator of your marketing effectivness in the given period.</span>
         
-    <img src="/assets/compare_periods.png" width="100%"/><br>
    
     </mat-card>
     

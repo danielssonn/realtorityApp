@@ -22,6 +22,7 @@ export class UserService {
   private signupUrl;
   private resetUrl;
   private updateUrl;
+  private updateSegmentUrl;
   private appleSigninUrl;
   private auditUrl;
 
@@ -50,6 +51,7 @@ export class UserService {
     this.updateUrl = environment.serverURL + '/updateUserDetails';
     this.appleSigninUrl = environment.serverURL + '/appleSignin';
     this.auditUrl = environment.serverURL + '/audit';
+    this.updateSegmentUrl = environment.serverURL + '/updateClientSegment'
   }
 
   public isAuthenticated(): boolean {
@@ -111,8 +113,14 @@ export class UserService {
   }
 
   update(user): Observable<any> {
-    console.log('svc lets update the client details', user );
     return this.http.post(this.updateUrl, JSON.stringify(user)).pipe(map(response => {
+      return response;
+
+    }))
+   }
+
+   updateSegment(segment): Observable<any> {
+    return this.http.post(this.updateSegmentUrl, JSON.stringify(segment)).pipe(map(response => {
       return response;
 
     }))

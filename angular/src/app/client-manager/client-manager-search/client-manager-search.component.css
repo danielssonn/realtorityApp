@@ -12,3 +12,17 @@
 table {
     width: 100%;
 }
+/* .name-cell{
+   
+} */
+.check-cell{
+    flex: 0 0 6% !important;
+    padding-left: 10px;
+   
+}
+[hidden] { display: none !important;}
+
+.mat-paginator-icon {
+    width: 40px !important;
+    fill: currentColor;
+}

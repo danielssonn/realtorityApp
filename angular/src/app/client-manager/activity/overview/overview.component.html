@@ -1,13 +1,27 @@
 <br>
-<div fxLayout="row" fxLayoutAlign="end end" style="padding: 10px;">
-<mat-radio-group name="opList" [(ngModel)]="days" (change)="segmentOrDayChange()">
-    <mat-radio-button *ngFor="let day of dayList" [value]="day.dateCount" name="opList">{{day.name}}</mat-radio-button>
-  </mat-radio-group>
-</div>
+<mat-card style="margin-bottom: 5px;">
+  <div fxLayout="row" fxLayoutAlign="end end" style="padding: 10px;">
+    <mat-radio-group name="opList" [(ngModel)]="days" (change)="segmentOrDayChange()">
+      <mat-radio-button *ngFor="let day of dayList" [value]="day.dateCount" name="opList">{{day.name}}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
 
 
 
-<mat-grid-list *ngIf="salesPersonId" [cols]="breakpoint" rowHeight="1:1" (window:resize)="onResize($event)" >
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <mat-form-field appearance="fill" style="width:90vw;">
+      <mat-label>Client Segments</mat-label>
+      <mat-select [(value)]="segment" (selectionChange)="segmentOrDayChange()">
+        <mat-option *ngFor="let segment of segmentsList" [value]="segment.userSegmentId">
+          {{segment.segmentDescription}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</mat-card>
+
+<mat-grid-list *ngIf="salesPersonId" [cols]="breakpoint" rowHeight="1:1" (window:resize)="onResize($event)">
   <mat-grid-tile id="checking">
     <app-checking [days]='days' [segment]='segment'></app-checking>
   </mat-grid-tile>
@@ -23,15 +37,6 @@
 </mat-grid-list>
 
 
-<div fxLayout="row" fxLayoutAlign="end end" >
-  <mat-form-field appearance="fill">
-    <mat-label>Segments</mat-label>
-    <mat-select [(value)]="segment" (selectionChange)="segmentOrDayChange()">
-      <mat-option *ngFor="let segment of segmentsList" [value]="segment.userSegementID">
-        {{segment.segmentDescription}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
+
 
 <app-client-manager></app-client-manager>

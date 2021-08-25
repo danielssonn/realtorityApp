@@ -18,6 +18,7 @@ import { PropertiesService } from 'app/properties.service';
 
 export class ClientManagerSearchService {
   clientsForSalesperson: string;
+
   myActiveClient: string;
   workingOnBehalfClient: Client;
   salesPersonUrl
@@ -69,6 +70,20 @@ export class ClientManagerSearchService {
       })
     );
   }
+  getClient(userId): Observable<Client[]> {
+
+  return this.http.get(this.clientsForSalesperson, {
+    params: new HttpParams()
+      .set('userId', userId)
+
+    // tslint:disable-next-line:quotemark
+  }).pipe(
+    map(res => {
+      res['payload'] = res;
+      return res['payload'];
+    })
+  );
+}
 
   setActiveClient(user) {
     console.log("active user set", user)

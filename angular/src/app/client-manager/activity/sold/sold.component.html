@@ -2,15 +2,15 @@
     <div fxLayout="row" fxLayoutAlign="space-between center" (click)="showDetails()">
         Track + Sold:
         <span class="material-icons" style="color:gold; font-size: 1em; padding-left: 5px;" (click)="showDetails()">
-            tips_and_updates
+            lightbulb
         </span>
     </div>
 
     <div  *ngIf="clients"  fxLayout="row" fxLayoutAlign="space-between center" style="padding-top:5px; padding-bottom: 5px;"
         (click)="showDetails()">
         <span class="material-icons">
-            maps_home_work
-        </span> {{clients}}
+            request_quote 
+        </span> {{clients|number}}
         <span *ngIf="clientsGo==1" class="material-icons">
             trending_up
         </span>
@@ -34,7 +34,7 @@
         (click)="showDetails()">
         <span class="material-icons">
             person
-        </span> {{sales}}
+        </span> {{sales|number}}
         <span *ngIf="salesGo==1" class="material-icons">
             trending_up
         </span>

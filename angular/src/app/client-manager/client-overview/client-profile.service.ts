@@ -17,10 +17,11 @@ export class ClientProfileService {
   }
 
 
-  getClientProfile(clientId): Observable<any> {
+  getClientProfile(clientId, salesPersonId): Observable<any> {
     return this.http.get(this.clientProfileUrl, {
       params: new HttpParams()
         .set('client', clientId)
+        .set('salesPersonId', salesPersonId)
       // tslint:disable-next-line:quotemark
     }).pipe(map(response => {
       const clientProfile = response as ClientProfile;

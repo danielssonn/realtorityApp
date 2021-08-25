@@ -147,6 +147,8 @@ import { TrackingDetailsComponent } from './client-manager/activity/tracking/tra
 import { CheckingDetailsComponent } from './client-manager/activity/checking/checking-details/checking-details.component';
 import { SoldDetailsComponent } from './client-manager/activity/sold/sold-details/sold-details.component';
 import { EngagingDetailsComponent } from './client-manager/activity/engaging/engaging-details/engaging-details.component';
+import { ClientReleaseDialogComponent } from './client-manager/client-manager-search/client-release-dialog/client-release-dialog.component';
+import { ClientSelectionDialogComponent } from './client-manager/client-manager-search/client-selection-dialog/client-selection-dialog.component';
 
 
 
@@ -223,7 +225,7 @@ export const routerConfig: Routes = [
     path: 'activity',
     component: OverviewComponent,
     canActivate: [AuthGuard],
-    data: { title: 'Activity' }
+    data: { title: 'Client Activity' }
   },
   {
     path: 'radar',
@@ -429,7 +431,9 @@ export function createTranslateLoader(http: HttpClient) {
     TrackingDetailsComponent,
     CheckingDetailsComponent,
     SoldDetailsComponent,
-    EngagingDetailsComponent
+    EngagingDetailsComponent,
+    ClientReleaseDialogComponent,
+    ClientSelectionDialogComponent
       
   
     
