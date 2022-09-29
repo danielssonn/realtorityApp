@@ -13,7 +13,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { DeviceService } from 'app/device.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ControlPosition } from '@agm/core'
 import { Subscription } from 'rxjs';
 import { ClientManagerSearchService } from 'app/client-manager/client-manager-search/client-manager-search.service';
 import { AppConfig} from 'app/app-config'
@@ -51,11 +50,6 @@ export class PropertyDetailComponent implements OnInit {
     schools: any;
     onBehalf: any;
     clientManagerSubscription: Subscription;
-
-
-    fullscreenControlOptions: {
-        position: ControlPosition.TOP_CENTER
-    }
 
 
     mapStyle =
@@ -298,9 +292,7 @@ export class PropertyDetailComponent implements OnInit {
     onMapReady(map) {
         map.setOptions({
             fullscreenControl: 'true',
-            fullscreenControlOptions: {
-                position: ControlPosition.TOP_LEFT
-            }
+
         });
     }
     ngOnInit() {

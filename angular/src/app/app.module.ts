@@ -23,7 +23,7 @@ import { MyHttpInterceptor } from './my-http-interceptor';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule, Routes, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-import { HammerModule, HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 declare var Hammer;
 import { MatButtonModule} from '@angular/material/button';
 import { MatDialogModule} from '@angular/material/dialog';
@@ -451,7 +451,6 @@ export function createTranslateLoader(http: HttpClient) {
 
     }),
     CoolStorageModule,
-    HammerModule,
     MatSliderModule,
     MatSelectModule,
     MatRadioModule,
