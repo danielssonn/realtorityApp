@@ -8,7 +8,6 @@
   </div>
 
 
-
   <div fxLayout="row" fxLayoutAlign="center center">
     <mat-form-field appearance="fill" style="width:90vw;">
       <mat-label>Client Segments</mat-label>
@@ -21,7 +20,7 @@
   </div>
 </mat-card>
 
-<mat-grid-list *ngIf="salesPersonId" [cols]="breakpoint" rowHeight="1:1" (window:resize)="onResize($event)">
+<mat-grid-list  [cols]="breakpoint" rowHeight="1:1" (window:resize)="onResize($event)">
   <mat-grid-tile id="checking">
     <app-checking [days]='days' [segment]='segment'></app-checking>
   </mat-grid-tile>

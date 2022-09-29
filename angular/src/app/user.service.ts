@@ -10,6 +10,7 @@ import { environment } from '../environments/environment';
 
 import { Observable, Subject } from 'rxjs';
 import { DeviceService } from 'app/device.service';
+import { MockSessionService } from './mock-session.service';
 
 
 
@@ -38,7 +39,7 @@ export class UserService {
 
 
   // tslint:disable-next-line:max-line-length
-  constructor(@Inject('windowObject') private window: Window, private http: HttpClient, private session: CoolLocalStorage, private deviceService: DeviceService) {
+  constructor(@Inject('windowObject') private window: Window, private http: HttpClient, private session: MockSessionService, private deviceService: DeviceService) {
 
     this.logonUrl = environment.serverURL + '/signin';
     this.signupUrl = environment.serverURL + '/signup';

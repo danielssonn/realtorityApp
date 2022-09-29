@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+// import { ControlPosition } from '@agm/core'
 import { PropertiesService } from 'app/properties.service';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { PropertyDetailComponent } from 'app/property-detail/property-detail.component';
@@ -22,6 +23,9 @@ export class MapRadarComponent implements OnInit {
   queryParams: any;
   polygons: any;
 
+  // fullscreenControlOptions: {
+  //   position: ControlPosition.TOP_CENTER
+  // }
   mapStyle =
     [
       {
@@ -245,6 +249,9 @@ export class MapRadarComponent implements OnInit {
     map.setOptions({
       fullscreenControl: 'true',
       
+      // fullscreenControlOptions: {
+      //   position: ControlPosition.TOP_LEFT
+      // }
     });
   }
 

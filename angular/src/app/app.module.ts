@@ -149,7 +149,7 @@ import { SoldDetailsComponent } from './client-manager/activity/sold/sold-detail
 import { EngagingDetailsComponent } from './client-manager/activity/engaging/engaging-details/engaging-details.component';
 import { ClientReleaseDialogComponent } from './client-manager/client-manager-search/client-release-dialog/client-release-dialog.component';
 import { ClientSelectionDialogComponent } from './client-manager/client-manager-search/client-selection-dialog/client-selection-dialog.component';
-
+import {MockSessionService} from './mock-session.service';
 
 
 
@@ -515,6 +515,7 @@ export function createTranslateLoader(http: HttpClient) {
     PropertiesService,
     UserService,
     ClientActivityTrackingService,
+    MockSessionService,
     GoogleMapsAPIWrapper,
     { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig },
     MatDatepickerModule
@@ -536,7 +537,9 @@ export function createTranslateLoader(http: HttpClient) {
     EngagementDetailsComponent,
     HowToComponent,
     CoverageComponent,
-    WhySignonComponent
+    WhySignonComponent,
+    CheckingDetailsComponent,
+    ClientSelectionDialogComponent
     
   ],
   bootstrap: [AppComponent]
