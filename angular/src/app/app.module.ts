@@ -115,6 +115,7 @@ import { ShazamComponent } from './shazam/shazam.component';
 import { HowToComponent } from './shazam/how-to/how-to.component';
 import { CoverageComponent } from './account/coverage/coverage.component';
 import { WhySignonComponent } from './account/why-signon/why-signon.component';
+import {MockSessionService} from './mock-session.service';
 
 
 
@@ -452,6 +453,7 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true },
     PropertiesService,
     UserService,
+    MockSessionService,
     GoogleMapsAPIWrapper,
     { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig },
     MatDatepickerModule

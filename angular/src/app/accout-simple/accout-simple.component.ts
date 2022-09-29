@@ -7,6 +7,7 @@ import { CoolLocalStorage } from '@angular-cool/storage';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DeviceService } from 'app/device.service';
 import { ClientManagerSearchService } from 'app/client-manager/client-manager-search/client-manager-search.service';
+import { MockSessionService } from 'app/mock-session.service';
 
 @Component({
   selector: 'app-accout-simple',
@@ -23,7 +24,7 @@ export class AccoutSimpleComponent implements OnInit {
   passwordFormControl = new FormControl('', [
     Validators.required]);
   // tslint:disable-next-line:max-line-length
-  constructor(private deviceService: DeviceService, private spinner: NgxSpinnerService, private formBuilder: FormBuilder, private router: Router, private service: UserService, private propService: PropertiesService, private session: CoolLocalStorage,
+  constructor(private deviceService: DeviceService, private spinner: NgxSpinnerService, private formBuilder: FormBuilder, private router: Router, private service: UserService, private propService: PropertiesService, private session: MockSessionService,
     private clientManagerSearchService: ClientManagerSearchService) { }
 
   ngOnInit() {

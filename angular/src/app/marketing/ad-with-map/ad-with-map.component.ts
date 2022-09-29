@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Marketing } from '../marketing';
-import { ControlPosition } from '@agm/core'
+// import { ControlPosition } from '@agm/core'
 import { PropertiesService } from 'app/properties.service';
 import { MarketingService } from '../marketing.service';
 
@@ -16,9 +16,9 @@ export class AdWithMapComponent implements Marketing, OnInit {
   lat: number;
   lon: number;
   zoom: number;
-  fullscreenControlOptions: {
-    position: ControlPosition.TOP_CENTER
-  };
+//   fullscreenControlOptions: {
+//     position: ControlPosition.TOP_CENTER
+//   };
   
   mapStyle =
   [
@@ -308,9 +308,9 @@ export class AdWithMapComponent implements Marketing, OnInit {
   onMapReady(map) {
     map.setOptions({
       fullscreenControl: 'true',
-      fullscreenControlOptions: {
-        position: ControlPosition.TOP_LEFT
-      }
+    //   fullscreenControlOptions: {
+    //     position: ControlPosition.TOP_LEFT
+    //   }
     });
   }
 
